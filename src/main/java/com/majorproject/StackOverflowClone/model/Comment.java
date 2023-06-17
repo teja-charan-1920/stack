@@ -13,5 +13,4 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentId;
     private String comment;
-
 }
