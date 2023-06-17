@@ -20,6 +20,7 @@ public class Question {
     @Column(unique = true,nullable = false)
     private String title;
     private String description;
+    private Long views;
     @CreationTimestamp
     private LocalDateTime creationDateTime;
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
