@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Entity
 @Table(name="tags")
 @Getter
@@ -11,6 +13,9 @@ import lombok.Setter;
 public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "tag_id")
     private Long tagId;
     private String name;
+    @ManyToMany(mappedBy = "tags")
+    private Set<Question> questions;
 }
