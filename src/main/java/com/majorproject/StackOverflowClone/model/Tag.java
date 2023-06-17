@@ -5,12 +5,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
+@Table(name="tags")
 @Getter
 @Setter
-@Table(name = "comments")
-public class Comment {
+public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long commentId;
-    private String comment;
+    private Long tagId;
+    private String name;
 }
