@@ -19,7 +19,7 @@ public class User {
     private Long userId;
     @Column(nullable = false)
     private String username;
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
     @Column(nullable = false)
     private String password;
@@ -27,11 +27,11 @@ public class User {
     private LocalDateTime createdAt;
     private Long reputation;
     private Long votes;
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JoinColumn(referencedColumnName = "user_id",name = "user_id")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(referencedColumnName = "user_id", name = "user_id")
     private Set<Question> questions;
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JoinColumn(referencedColumnName = "user_id",name = "user_id")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(referencedColumnName = "user_id", name = "user_id")
     private Set<Answer> answers;
     @ManyToMany(mappedBy = "votedUpByUsers")
     private Set<Answer> votedUpAnswers;
@@ -42,7 +42,9 @@ public class User {
     @ManyToMany(mappedBy = "votedDownByUsers")
     private Set<Question> votedDownQuestions;
     @ManyToMany
-    @JoinTable(name = "user_badges",
-    joinColumns = @JoinColumn(name = "user_id"),inverseJoinColumns = @JoinColumn(name = "badge_id"))
+    @JoinTable(
+            name = "user_badges",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "badge_id"))
     private Set<Badge> badges;
 }

@@ -31,7 +31,7 @@ public class Answer {
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private Set<User> votedDownByUsers;
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "answer_id",referencedColumnName = "answer_id")
     private Set<Comment> comments;
 }
