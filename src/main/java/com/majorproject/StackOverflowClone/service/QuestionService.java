@@ -28,4 +28,7 @@ public class QuestionService {
 
         questionRepository.save(previousQuestion);
     }
+
+    public void addQuestion(Question question, String tags) {
+    }
 }
