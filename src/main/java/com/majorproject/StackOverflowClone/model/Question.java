@@ -23,6 +23,9 @@ public class Question {
     private Long views;
     @CreationTimestamp
     private LocalDateTime creationDateTime;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(referencedColumnName = "question_id",name = "question_id")
     private Set<Answer> answers;

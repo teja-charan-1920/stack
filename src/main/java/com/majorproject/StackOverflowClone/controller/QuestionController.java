@@ -24,13 +24,17 @@ public class QuestionController {
         User user = userService.getUserById(1L);
         Question question = questionService.getQuestionById(questionId);
 
+        User questionOwner = question.getUser();
         if (question.getVotedDownByUsers().contains(user)) {
+            questionOwner.setReputation(questionOwner.getReputation()+5);
+            question.setUser(questionOwner);
             question.getVotedDownByUsers().remove(user);
-            questionService.updateQuestion(question);
         } else {
+            questionOwner.setReputation(questionOwner.getReputation()+10);
+            question.setUser(questionOwner);
             question.getVotedUpByUsers().add(user);
-            questionService.updateQuestion(question);
         }
+        questionService.updateQuestion(question);
         return "redirect:/viewQuestion?questionId=" + questionId;
     }
 
@@ -39,14 +43,18 @@ public class QuestionController {
         User user = userService.getUserById(1L);
         Question question = questionService.getQuestionById(questionId);
 
+        User questionOwner = question.getUser();
         if (question.getVotedUpByUsers().contains(user)) {
+            questionOwner.setReputation(questionOwner.getReputation()-10);
+            question.setUser(questionOwner);
             question.getVotedUpByUsers().remove(user);
-            questionService.updateQuestion(question);
 
         } else {
+            questionOwner.setReputation(questionOwner.getReputation()-5);
+            question.setUser(questionOwner);
             question.getVotedDownByUsers().add(user);
-            questionService.updateQuestion(question);
         }
+        questionService.updateQuestion(question);
         return "redirect:/viewQuestion?questionId=" + questionId;
     }
         @PostMapping("/questions/ask")
