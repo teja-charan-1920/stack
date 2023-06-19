@@ -1,6 +1,7 @@
 package com.majorproject.StackOverflowClone.model;
 
 import jakarta.persistence.*;
+import jdk.jshell.spi.ExecutionControl;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +18,9 @@ public class Answer {
     private Long answerId;
     private String answer;
     private boolean isAccepted;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
     @ManyToMany
     @JoinTable(
             name = "answers_votedup",

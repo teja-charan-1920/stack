@@ -27,11 +27,9 @@ public class User {
     private LocalDateTime createdAt;
     private Long reputation;
     private Long votes;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(referencedColumnName = "user_id", name = "user_id")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
     private Set<Question> questions;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(referencedColumnName = "user_id", name = "user_id")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
     private Set<Answer> answers;
     @ManyToMany(mappedBy = "votedUpByUsers")
     private Set<Answer> votedUpAnswers;
