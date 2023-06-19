@@ -16,6 +16,7 @@ public class Answer {
     @Column(name = "answer_id")
     private Long answerId;
     private String answer;
+    private boolean isAccepted;
     @ManyToMany
     @JoinTable(
             name = "answers_votedup",

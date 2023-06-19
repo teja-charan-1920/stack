@@ -31,7 +31,7 @@ public class QuestionController {
             question.getVotedUpByUsers().add(user);
             questionService.updateQuestion(question);
         }
-        return "redirect:questionId=" + questionId;
+        return "redirect:/viewQuestion?questionId=" + questionId;
     }
 
     @RequestMapping("/votedDown")
@@ -47,9 +47,8 @@ public class QuestionController {
             question.getVotedDownByUsers().add(user);
             questionService.updateQuestion(question);
         }
-        return "redirect:questionId=" + questionId;
+        return "redirect:/viewQuestion?questionId=" + questionId;
     }
-
     @PostMapping("/questions/ask")
     public String addQuestion(@ModelAttribute Question question, @RequestParam("tags") String tags) {
         questionService.addQuestion(question, tags);
