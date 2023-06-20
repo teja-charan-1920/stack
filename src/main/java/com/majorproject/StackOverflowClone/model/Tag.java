@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -21,5 +22,5 @@ public class Tag {
     @CreationTimestamp
     private LocalDateTime createdAt;
     @ManyToMany(mappedBy = "tags")
-    private Set<Question> questions;
+    private Set<Question> questions = new HashSet<>();
 }

@@ -1,10 +1,12 @@
 package com.majorproject.StackOverflowClone.model;
 
 import jakarta.persistence.*;
-import jdk.jshell.spi.ExecutionControl;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -19,9 +21,16 @@ public class Answer {
     private String answer;
     private boolean isAccepted;
     private Long votes;
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+    @ManyToOne
+    @JoinColumn(name = "question_id")
+    private Question question;
     @ManyToMany
     @JoinTable(
             name = "answers_votedup",
