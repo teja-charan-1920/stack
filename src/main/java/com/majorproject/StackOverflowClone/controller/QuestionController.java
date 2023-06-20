@@ -8,6 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Set;
+
 @Controller
 public class QuestionController {
     @Autowired
@@ -64,5 +68,12 @@ public class QuestionController {
     @GetMapping("/questions/ask")
     public String addNewQuestion() {
         return "ask_que_form";
+    }
+
+    @RequestMapping("/")
+    public String homePage(){
+        List<Question> allQuestions = questionService.getAllQuestions();
+
+        return "all-questions";
     }
 }

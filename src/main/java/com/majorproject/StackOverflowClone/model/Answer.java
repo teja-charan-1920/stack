@@ -18,6 +18,7 @@ public class Answer {
     private Long answerId;
     private String answer;
     private boolean isAccepted;
+    private Long votes;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -38,4 +39,6 @@ public class Answer {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "answer_id",referencedColumnName = "answer_id")
     private Set<Comment> comments;
+
+
 }
