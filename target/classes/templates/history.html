@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Timeline for answer to <span th:text="que">(que)</span></title>
-    <link rel="icon" href="./stackoverflowfavicon.png" type="image/x-icon">
+    <link rel="icon" th:href="@{/images/stackoverflowfavicon.png}" type="image/x-icon">
     <style>
         a {
             text-decoration: none;
@@ -335,7 +335,7 @@
     <nav id="navBar">
         <a href="./history.html">
             <div>
-                <img src="./stackoverflowfavicon.png" alt="Logo" />
+                <img th:src="@{/images/stackoverflowfavicon.png}" alt="Logo" />
                 <span>stack<b>overflow</b></span>
             </div>
         </a>
@@ -345,7 +345,7 @@
             <li><a href="#">For Teams</a></li>
         </ul>
         <form action="#" id="searchContainer">
-            <img src="./search-26234.png" />
+            <img th:src="@{/images/search-26234.png}" />
             <input type="search" placeholder="Search..."/>
             <button type="submit"></button>
         </form>
@@ -397,7 +397,7 @@
             <div id="perticularQuetion">
                 <section>
                     <div class="question">
-                        <p>What is Que? </p>
+                        <p th:text="${question.title}"></p>
                         <div class="signup-button" id="addQueBtn">
                             <a href="#" >Ask Questions?</a>
                         </div>
@@ -419,22 +419,20 @@
                             </button>
                             <br>
                             <a href="#">
-                                <img src="./icons8-history-32.png">
+                                <img th:src="@{/images/icons8-history-32.png}">
                             </a>
                         </div>
                         <br><br>
                         <div id="queDesciption">
-                            <p>
-                                I am yet to find a high-level definition of Spring beans that I can understand. I see them referenced often in Grails documentation and books, but I think that understanding what they are would be beneficial. So what are Spring beans? How can they be used? Do they have something to do with Dependency Injection?
-                            </p>
+                            <p th:text="${question.description}"> </p>
                             <br>
                             <form action="#">
-                                <button class="tag">java</button>
-                                <button class="tag">java</button>
-                                <button class="tag">java</button>
+                                <span th:each="tag: ${question.tags}">
+                                <button class="tag" th:each="${tag}"></button>
+                                </span>
                             </form>
                             <div id="askedBy">
-                                <code>asked on jun 19,2000 at</code>
+                                <code th:text="${question.createdAt}"></code>
                                 <br>
                                 <span>name bla bla</span>
                             </div>
@@ -442,12 +440,12 @@
                             <hr>
                             <br><br><br>
                             <div id="totalAns">
-                                <code><span>14</span>Answers</code>
+                                <code><span th:text="${#set.size(question.answers)}"></span>Answers</code>
                                 <form action="#">
-                                    <select>
-                                        <option selected>Highest score(default)</option>
-                                        <option>Date Modified(newest first)</option>
-                                        <option>Date Created(oldest first)</option>
+                                    <select type="" name="sort" onchange="this.form.submit()">
+                                        <option value="Highest score(default)" th:selected="${question.sortBy == 'votes'}"></option>
+                                        <option value="Date Modified(newest first)" th:selected="${question.sortBy == 'updatedAt'}"></option>
+                                        <option value="Date Created(oldest first)" th:selected="${question.sortBy == 'createdAt'}"></option>
                                     </select>
                                 </form>
                             </div>
@@ -517,7 +515,7 @@
                             </button>
                             <br>
                             <a href="#">
-                                <img src="./icons8-history-32.png">
+                                <img th:src="@{/images/icons8-history-32.png}">
                             </a>
                         </div>
                         <div id="ansContainer">
@@ -549,7 +547,7 @@
                             </button>
                             <br>
                             <a href="#">
-                                <img src="./icons8-history-32.png">
+                                <img th:src="@{/images/icons8-history-32.png}">
                             </a>
                         </div>
                         <div id="ansContainer">
@@ -581,7 +579,7 @@
                             </button>
                             <br>
                             <a href="#">
-                                <img src="./icons8-history-32.png">
+                                <img th:src="@{/images/icons8-history-32.png}">
                             </a>
                         </div>
                         <div id="ansContainer">
