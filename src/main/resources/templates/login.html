@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeline for answer to <span th:text="que">(que)</span></title>
+    <link rel="icon" th:href="@{/images/stackoverflowfavicon.png}" type="image/x-icon">
+    <style>
+        a {
+            text-decoration: none;
+        }
+        code {
+            font-size: medium;
+        }
+        #aboveNavBar {
+            background-color: rgb(235, 152, 0);
+            height: 3px;
+        }
+        #navBar {
+            border-style: none none solid none ;
+            border-width: 1px ;
+            border-color: rgb(169, 189, 207);
+            height: 44px;
+            align-items: center;
+            padding: 4px 20px 4px 46px;
+        }
+        #navBar a {
+            text-decoration: none;
+            width: fit-content;
+        }
+        #navBar a div img {
+            height: 41px;
+            width: 42px;
+        }
+        #navBar a div span {
+            margin: 4px 0px 0px -6px;
+            font-family: sans-serif;
+            font-size: 19px;
+            color: rgb(39, 39, 39);
+        }
+        #navBar div {
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s;
+            width: 200px;
+        }
+        .nav-links {
+            list-style: none;
+            display: flex;
+            margin: -25px 0px 0px 140px;
+        }
+        .nav-links li {
+            font-size: 13px;
+            font-family: sans-serif;
+            font-weight: 200px;
+            margin-right: 28px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #666;
+            width: fit-content;
+        }
+        .nav-links a:hover {
+            border-radius: 30%;
+            width: 200px;
+            height: 200px;
+            background-color: #b1b1b1;
+            color: black;
+        }
+        #searchContainer {
+            display: flex;
+            width: 710px;
+            height: 30px;
+            border: 1.5px solid #ccc;
+            border-radius: 2px;
+            margin: -25px 0px 0px 400px;
+        }
+        #searchContainer:hover {
+            position: static;
+            border: 1.5px solid #6584ac;
+        }
+        #searchContainer input {
+            flex-grow: 1;
+            border: none;
+            padding: 10px;
+            font-size: 14px;
+            outline: none;
+        }
+        #searchContainer button {
+            display: none;
+        }
+        #searchContainer img {
+            height: 17px;
+            width: 17px;
+            margin: 6px 0px 0px 9px;
+        }
+        #left-side-bar-btn {
+            margin: -24px 0px 0px -30px;
+        }
+        #left-side-bar-btn button {
+            border: none;
+            background-color: transparent;
+        }
+        #left-side-bar-btn button img {
+            height: 17px;
+            width: 17px;
+            cursor: pointer;
+        }
+        #left-side-bar {
+            position: absolute;
+            background-color: rgb(241, 240, 238);
+            display: none;
+            height: auto;
+            width: 220px;
+            margin: -1px 0px 0px -8px;
+            border: 1px solid rgb(133, 164, 165);
+        }
+        #left-side-bar-container {
+            padding: 19px 5px 0px 12px ;
+            width: auto;
+        }
+        #aside-nav-links {
+            list-style: none;
+        }
+        #aside-nav-links li {
+            font-size: 13px;
+            font-family: sans-serif;
+            font-weight: 200px;
+            list-style: none;
+            color: rgb(78, 74, 74);
+            height: 30px;
+        }
+
+        #aside-nav-links li a {
+            text-decoration: none;
+            color: rgb(78, 74, 74);
+        }
+        #aside-nav-links li a:hover {
+            color: black;
+        }
+        #aside-nav-links-innerList {
+            margin: 0px 0px 0px 28px;
+            height: 25px;
+        }
+
+
+
+
+
+ /* Center the box */
+  .formcontainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  /* Style the box */
+  .formbox {
+    width: 300px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f5f5f5;
+  }
+
+  /* Style the form */
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  label {
+    margin-bottom: 10px;
+  }
+
+  #forminput {
+    padding: 5px;
+    margin-bottom: 10px;
+  }
+
+  button {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+
+
+
+    </style>
+</head>
+<body>
+<main id="aboveNavBar">
+
+    <nav id="navBar">
+
+        <script>
+            function leftsidebar() {
+                var popup = document.getElementById("left-side-bar");
+                if(popup.style.display === "none")
+                {
+                    popup.style.display = "flex";
+                } else {
+                    popup.style.display = "none";
+                }
+            }
+        </script>
+        <a href="./history.html">
+            <div>
+                <img th:src="@{/images/stackoverflowfavicon.png}" alt="Logo" title="logo"/>
+                <span>stack<b>overflow</b></span>
+            </div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#">About</a></li>
+            <li><a href="#">Products</a></li>
+            <li><a href="#">For Teams</a></li>
+        </ul>
+        <form action="#" id="searchContainer">
+            <img th:src="@{/images/search-26234.png}" alt="Logo" title="logo"/>
+            <input type="search" placeholder="Search..."/>
+            <button type="submit"></button>
+        </form>
+        <div id="left-side-bar-btn">
+            <button onclick="leftsidebar()" ><img th:src="@{/images/menu-button-of-three-horizontal-lines.png}" alt="Logo" title="logo"></button>
+        </div>
+    </nav>
+
+    <div id="containers">
+        <aside id="left-side-bar">
+            <div id="left-side-bar-container">
+                <nav role="navigation">
+                    <ol id="aside-nav-links">
+                        <li>
+                            <a href="#">
+                                <span>Home</span>
+                            </a>
+                        </li>
+                    </ol>
+                    <ol id="aside-nav-links">
+                        <li>
+                            <span>PUBLIC</span>
+                        </li>
+                        <li id="aside-nav-links-innerList">
+                            <a href="#">
+                                <span>Questions</span>
+                            </a>
+                        </li>
+                        <li id="aside-nav-links-innerList">
+                            <a href="#">
+                                <span>Tags</span>
+                            </a>
+                        </li>
+                        <li id="aside-nav-links-innerList">
+                            <a href="#">
+                                <span>Users</span>
+                            </a>
+                        </li>
+                        <li id="aside-nav-links-innerList">
+                            <a href="#">
+                                <span>Companies</span>
+                            </a>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </aside>
+    </div>
+
+    <div class="formcontainer">
+        <div class="formbox">
+            <form th:action="@{/authenticateTheUser}" method="POST">
+                <div th:if="${param.error}">
+                    <i>Invalid Email/Password</i>
+                </div>
+                <div th:if="${param.logout}">
+                    <i>You have been logged out</i>
+                </div>
+                <div>
+                    <label for="email">Email:</label>
+                    <input id="forminput" type="email" id="email" name="username" required>
+                </div>
+                <div>
+                    <label for="password">Password:</label>
+                    <input id="forminput" type="password" id="password" name="password" required>
+                </div>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+</main>
+</body>
+
