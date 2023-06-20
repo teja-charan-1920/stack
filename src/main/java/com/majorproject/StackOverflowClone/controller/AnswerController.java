@@ -22,14 +22,18 @@ public class AnswerController {
     public String answerVotedUp(@RequestParam("answerId") Long answerId, @RequestParam("questionId") Long questionId) {
         User user = userService.getUserById(1L);
         Answer answer = answerService.getAnswerById(answerId);
+        User answerOwner = answer.getUser();
         if (answer.getVotedDownByUsers().contains(user)) {
+            answerOwner.setReputation(answerOwner.getReputation()+5);
+            answer.setUser(answerOwner);
             answer.getVotedDownByUsers().remove(user);
             answerService.updateAnswer(answer);
         } else {
+            answerOwner.setReputation(answerOwner.getReputation()+10);
+            answer.setUser(answerOwner);
             answer.getVotedUpByUsers().add(user);
             answerService.updateAnswer(answer);
         }
-
         return "redirect:/viewQuestion?questionId=" + questionId;
     }
 
@@ -37,10 +41,15 @@ public class AnswerController {
     public String answerVoteDown(@RequestParam("answerId") Long answerId, @RequestParam("questionId") Long questionId) {
         User user = userService.getUserById(1L);
         Answer answer = answerService.getAnswerById(answerId);
+        User answerOwner = answer.getUser();
         if (answer.getVotedUpByUsers().contains(user)) {
+            answerOwner.setReputation(answerOwner.getReputation()-10);
+            answer.setUser(answerOwner);
             answer.getVotedUpByUsers().remove(user);
             answerService.updateAnswer(answer);
         } else {
+            answerOwner.setReputation(answerOwner.getReputation()-5);
+            answer.setUser(answerOwner);
             answer.getVotedDownByUsers().add(user);
             answerService.updateAnswer(answer);
         }

@@ -34,6 +34,7 @@ public class QuestionService {
 //        question.setAnswers(previousQuestion.getAnswers());
 //        question.setVotedUpByUsers(previousQuestion.getVotedUpByUsers());
 //        question.setVotedDownByUsers(previousQuestion.getVotedDownByUsers());
+        previousQuestion.setVotes((long) (previousQuestion.getVotedUpByUsers().size()-previousQuestion.getVotedDownByUsers().size()));
 
         questionRepository.save(previousQuestion);
     }
@@ -55,5 +56,9 @@ public class QuestionService {
         }
         question.setTags(setOfTags);
         questionRepository.save(question);
+    }
+
+    public List<Question> getAllQuestions() {
+        return questionRepository.findAll();
     }
 }

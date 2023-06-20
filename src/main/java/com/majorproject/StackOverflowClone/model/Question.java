@@ -21,6 +21,7 @@ public class Question {
     private String title;
     private String description;
     private Long views;
+    private Long votes;
     @CreationTimestamp
     private LocalDateTime creationDateTime;
     @ManyToOne
