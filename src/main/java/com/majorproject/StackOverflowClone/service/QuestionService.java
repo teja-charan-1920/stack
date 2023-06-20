@@ -49,6 +49,7 @@ public class QuestionService {
             } else {
                 Tag newTag = new Tag();
                 newTag.setName(trimmedTag);
+                tagRepository.save(newTag);
                 setOfTags.add(newTag);
             }
         }
