@@ -1,11 +1,13 @@
 package com.majorproject.StackOverflowClone.controller;
 
+import com.majorproject.StackOverflowClone.dto.QuestionDto;
 import com.majorproject.StackOverflowClone.model.Question;
 import com.majorproject.StackOverflowClone.model.User;
 import com.majorproject.StackOverflowClone.service.QuestionService;
 import com.majorproject.StackOverflowClone.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.LinkedHashMap;
@@ -15,15 +17,14 @@ import java.util.Set;
 @Controller
 public class QuestionController {
     @Autowired
-
     QuestionService questionService;
     @Autowired
     UserService userService;
 
-    @RequestMapping("/votedUp")
-    public String voteUpForQuestion(@RequestParam("questionId") Long questionId) {
+    @PostMapping("/questions/{id}/vote/up")
+    public String voteUpForQuestion(@PathVariable Long id) {
         User user = userService.getUserById(1L);
-        Question question = questionService.getQuestionById(questionId);
+        Question question = questionService.getQuestionById(id);
 
         User questionOwner = question.getUser();
         if (question.getVotedDownByUsers().contains(user)) {
@@ -36,13 +37,13 @@ public class QuestionController {
             question.getVotedUpByUsers().add(user);
         }
         questionService.updateQuestion(question);
-        return "redirect:/viewQuestion?questionId=" + questionId;
+        return "redirect:/questions/" + id;
     }
 
-    @RequestMapping("/votedDown")
-    public String voteDownForQuestion(@RequestParam("questionId") Long questionId) {
+    @PostMapping("questions/{id}/vote/down")
+    public String voteDownForQuestion(@PathVariable Long id) {
         User user = userService.getUserById(1L);
-        Question question = questionService.getQuestionById(questionId);
+        Question question = questionService.getQuestionById(id);
 
         User questionOwner = question.getUser();
         if (question.getVotedUpByUsers().contains(user)) {
@@ -56,24 +57,31 @@ public class QuestionController {
             question.getVotedDownByUsers().add(user);
         }
         questionService.updateQuestion(question);
-        return "redirect:/viewQuestion?questionId=" + questionId;
+        return "redirect:/questions/" + id;
     }
 
     @PostMapping("/questions/ask")
-    public String addQuestion(@ModelAttribute Question question, @RequestParam("tag") String tags) {
-        questionService.addQuestion(question, tags);
+    public String addQuestion(@ModelAttribute QuestionDto questionDto) {
+        questionService.addQuestion(questionDto);
         return "redirect:/questions/ask";
     }
 
     @GetMapping("/questions/ask")
-    public String addNewQuestion() {
+    public String getQuestionPage() {
         return "ask_que_form";
     }
 
     @RequestMapping("/")
-    public String homePage(){
+    public String homePage() {
         List<Question> allQuestions = questionService.getAllQuestions();
+        return "allQue";
+    }
 
-        return "all-questions";
+    @GetMapping("/questions/{id}")
+    public String getQuestion(@RequestParam(name = "sort", defaultValue = "votes", required = false) String sortBy,
+                              @PathVariable Long id,
+                              Model model){
+        model.addAttribute("question",questionService.getQuestion(id,sortBy));
+        return "history";
     }
 }

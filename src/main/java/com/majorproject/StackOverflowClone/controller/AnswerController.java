@@ -53,12 +53,12 @@ public class AnswerController {
             answer.getVotedDownByUsers().add(user);
             answerService.updateAnswer(answer);
         }
-
         return "redirect:/viewQuestion?questionId=" + questionId;
     }
 
     @GetMapping
-    public String sortAnswers(@RequestParam(name = "sort", defaultValue = "votes", required = false) String sortBy, Model model){
+    public String sortAnswers( Model model){
+        String sortBy = null;
         model.addAttribute("question", answerService.fetchAnswers(sortBy));
         return "history";
     }

@@ -27,8 +27,7 @@ public class Question {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    @JoinColumn(referencedColumnName = "question_id",name = "question_id")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "question")
     private Set<Answer> answers;
     @ManyToMany
     @JoinTable(
