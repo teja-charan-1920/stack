@@ -4,24 +4,27 @@ import com.majorproject.StackOverflowClone.model.User;
 import com.majorproject.StackOverflowClone.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/addUser")
-    @ResponseBody
-    public User addUser(@RequestBody User user){
-        return userService.saveUser(user);
-    }
-
     @GetMapping("/login")
     public String login() {
         return "login";
     }
+
+    @GetMapping("/signup")
+    public String signup() {
+        return "signup";
+    }
+
+    @PostMapping("/signup")
+    public String addUser(@ModelAttribute User user) {
+    userService.addUser(user);
+    return "login";
+    }
+
 }
