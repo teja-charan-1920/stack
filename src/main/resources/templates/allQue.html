@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timeline for answer to <span th:text="que">(que)</span></title>
+    <title>all que</title>
     <link rel="icon" href="./stackoverflowfavicon.png" type="image/x-icon">
     <style>
         a {
@@ -11,6 +11,9 @@
         }
         code {
             font-size: medium;
+        }
+        hr {
+            direction: ltr;
         }
         #aboveNavBar {
             background-color: rgb(235, 152, 0);
@@ -84,16 +87,16 @@
             border: none;
             padding: 10px;
             font-size: 14px;
-            outline: none;        
+            outline: none;
         }
         #searchContainer button {
-            display: none;       
-        }  
+            display: none;
+        }
         #searchContainer img {
             height: 17px;
             width: 17px;
             margin: 6px 0px 0px 9px;
-        }       
+        }
         .user-buttons {
             margin: -33px 0px 0px 1120px;
         }
@@ -126,7 +129,7 @@
             color: #fff;
         }
         #left-side-bar {
-            height: auto;
+            height: fit-content;
             width: 220px;
             margin: -1px 0px 0px -8px;
             border: 1px solid rgb(133, 164, 165);
@@ -160,13 +163,16 @@
         }
         #containers {
             display: flex;
+            margin-bottom: 50px;
         }
         #allQueAndSuggestionContainer {
-            display: inline-block;
+            display: flex;
+            flex-direction: row;
             justify-content: space-between;
             padding: 30px 0px 20px 50px;
         }
         header {
+            width: 700px;
             margin-bottom: 50px;
         }
         header b {
@@ -185,114 +191,578 @@
         #askQueBtn a{
             color: white;
         }
-        #count-filter-container {
-            display: flex;
+        #filters-container {
+            margin: -20px 0px 30px 45%;
         }
         #queCount {
             font-family: Verdana, Geneva, Tahoma, sans-serif;
-            width: fit-content;
+            display: inline;
         }
+        .flex--item, #filters-container a{
+            font-family: fantasy;
+            display: inline;
+            width: fit-content;
+            padding: 7px;
+            color: rgb(54, 51, 51);
+            border: 0.5px solid hsl(210, 8%, 45%);
+        }
+        .flex--item:hover, #filters-container a:hover {
+            cursor: pointer;
+            color: black;
+            background-color: #666;
+        }
+        .flex--item button {
+            cursor: pointer;
+            font-family: fantasy;
+            font-size: medium;
+            border: none;
+            background-color: transparent;
+            color: rgb(54, 51, 51);
+            padding: 3px 5px 5px 5px;
+        }
+        .flex--item {
+            margin: 0px 0px 0px 30px;
+        }
+        #filter-container {
+            display: none;
+            background-color: #f5f5f5;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .filter-column {
+            width: 33.33%;
+            display: inline-block;
+            vertical-align: top;
+            padding: 10px;
+        }
+
+        .filter-heading {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .filter-options label {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 14px;
+            font-weight: 100;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .filter-actions {
+            margin-top: 10px;
+            text-align: left;
+        }
+
+        .filter-button {
+            background-color: #0077cc;
+            color: #fff;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #questions-container {
+            display: flex;
+            flex-direction: column;
+            width: 750px;
+        }
+        #question-container {
+            padding: 25px 15px 20px 15px;
+            display: flex;
+            flex-direction: row;
+            border-bottom-color: #666;
+            border-bottom-style: solid;
+            border-bottom-width: 0.5px;
+
+        }
+        #relatedinfo {
+            width: 200px;
+            display: list-item ;
+            list-style: none;
+        }
+        #question-detail-container h3{
+            font-family: sans-serif;
+            font-weight: lighter;
+            margin: 0px 0px 10px 0px;
+        }
+        #question-desciption {
+            font-family: serif;
+            font-size: 15px;
+            font-weight: lighter;
+        }
+        #tags-container {
+            margin: 10px;
+        }
+        .tag-container {
+            display: inline;
+            background-color: #d9e1e6;
+            padding: 2.5px 7px 5px 7px;
+            border-radius: 2px;
+            margin: 100px 10px 0px 0px;
+        }
+        .tag-container a{
+            font-size: small;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #3881b4;
+        }
+        #asker-info-container {
+            display: flex;
+            justify-content: flex-end;
+        }
+        #asker-info a {
+            color: #3881b4;
+        }
+        #asker-info a:hover {
+            color: #769ebb;
+        }
+        #asker-info span {
+            color: #666;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: small;
+        }
+        #options {
+            margin: 0px 0px 0px 50px;
+        }
+        #custom-filters-heading {
+            color: hsl(210, 8%, 35%);
+            padding: 12px 120px 12px 24px;
+            background-color: hsl(210, 8%, 98%);
+            border: 0.5px solid hsl(210, 8%, 90%);
+        }
+        #custom-filters-link {
+            color: #0077cc;
+            border: 0.5px solid hsl(210, 8%, 90%);
+            margin-top: -1px;
+            padding: 25px 0px 25px 24px;
+            cursor: pointer;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: 100px;
+        }
+        #custom-filters-link:hover {
+            color: #9cccec;
+        }
+        #related-tags-container {
+            margin: 40px 0px 0px 0px;
+
+        }
+        #related-tags-heading {
+            padding: 12px 0px 12px 24px;
+            color: hsl(210, 8%, 35%);
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 18px;
+            font-weight: 100px;
+        }
+        #related-tags-links a{
+            display: list-item;
+            list-style: none;
+            width: fit-content;
+            font-size: 14px;
+            color: hsl(205, 47%, 42%);
+            margin: 10px 0px 15px 30px;
+            padding: 5px 8px 5px 10px;
+            border-radius: 3px;
+            background-color: hsl(205, 46%, 92%);
+        }
+
+        /* Footer styles */
+.footer {
+  background-color: hsl(210, 8%, 15%);
+  padding: 20px 0;
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1150px;
+  margin: 0 auto;
+}
+
+.footer-column {
+  flex-basis: 25%;
+  padding: 0 10px;
+}
+
+.footer-column h4 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #ccc;
+}
+
+.footer-column ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-column ul li {
+    margin: 10px 0px 15px 0px;
+}
+
+.footer-column ul li a {
+  color: #8a8484;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-column ul li a:hover {
+  color: #0077cc;
+}
+
 </style>
 </head>
 <body>
-    <main id="aboveNavBar"></main>
-    <nav id="navBar">
-        <a href="./history.html">
+<main id="aboveNavBar"></main>
+<nav id="navBar">
+    <a href="./history.html">
+        <div>
+            <svg aria-hidden="true" viewBox="0 0 32 37">
+                <path d="M26 33v-9h4v13H0V24h4v9h22Z" fill="#BCBBBB"></path><path d="m21.5 0-2.7 2 9.9 13.3 2.7-2L21.5 0ZM26 18.4 13.3 7.8l2.1-2.5 12.7 10.6-2.1 2.5ZM9.1 15.2l15 7 1.4-3-15-7-1.4 3Zm14 10.79.68-2.95-16.1-3.35L7 23l16.1 2.99ZM23 30H7v-3h16v3Z" fill="#F48024"></path>
+            </svg>
+            <span>stack<b>overflow</b></span>
+        </div>
+    </a>
+    <ul class="nav-links">
+        <li><a href="#">About</a></li>
+        <li><a href="#">Products</a></li>
+        <li><a href="#">For Teams</a></li>
+    </ul>
+    <form action="#" id="searchContainer">
+        <img src="./search-26234.png" />
+        <input type="search" placeholder="Search..."/>
+        <button type="submit"></button>
+    </form>
+    <div class="user-buttons">
+        <a href="#" class="login-button">Log In</a>
+        <a href="#" class="signup-button">Sign Up</a>
+    </div>
+</nav>
+<div id="containers">
+    <aside id="left-side-bar">
+        <div id="left-side-bar-container">
+            <nav role="navigation">
+                <ol id="aside-nav-links">
+                    <li>
+                        <a href="#">
+                            <span>Home</span>
+                        </a>
+                    </li>
+                </ol>
+                <ol id="aside-nav-links">
+                    <li>
+                        <span>PUBLIC</span>
+                    </li>
+                    <li id="aside-nav-links-innerList">
+                        <a href="#">
+                            <span>Questions</span>
+                        </a>
+                    </li>
+                    <li id="aside-nav-links-innerList">
+                        <a href="#">
+                            <span>Tags</span>
+                        </a>
+                    </li>
+                    <li id="aside-nav-links-innerList">
+                        <a href="#">
+                            <span>Users</span>
+                        </a>
+                    </li>
+                    <li id="aside-nav-links-innerList">
+                        <a href="#">
+                            <span>Companies</span>
+                        </a>
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </aside>
+    <section id="allQueAndSuggestionContainer">
+        <div id="count-filter-container">
+            <header>
+                <b>All Questions</b>
+                <div id="askQueBtn">
+                    <a href="#">Ask Question</a>
+                </div>
+            </header>
             <div>
-                <svg aria-hidden="true" viewBox="0 0 32 37">
-                    <path d="M26 33v-9h4v13H0V24h4v9h22Z" fill="#BCBBBB"></path><path d="m21.5 0-2.7 2 9.9 13.3 2.7-2L21.5 0ZM26 18.4 13.3 7.8l2.1-2.5 12.7 10.6-2.1 2.5ZM9.1 15.2l15 7 1.4-3-15-7-1.4 3Zm14 10.79.68-2.95-16.1-3.35L7 23l16.1 2.99ZM23 30H7v-3h16v3Z" fill="#F48024"></path>
-                </svg>
-                <span>stack<b>overflow</b></span>
-            </div>
-        </a>
-        <ul class="nav-links">
-            <li><a href="#">About</a></li>
-            <li><a href="#">Products</a></li>
-            <li><a href="#">For Teams</a></li>
-        </ul>
-        <form action="#" id="searchContainer">
-            <img src="./search-26234.png" />
-            <input type="search" placeholder="Search..."/>
-            <button type="submit"></button>
-        </form>
-        <div class="user-buttons">
-            <a href="#" class="login-button">Log In</a>
-            <a href="#" class="signup-button">Sign Up</a>
-        </div>          
-    </nav>
-    <div id="containers">
-        <aside id="left-side-bar">
-            <div id="left-side-bar-container">
-                <nav role="navigation">
-                    <ol id="aside-nav-links">
-                        <li>
-                            <a href="#">
-                                <span>Home</span>
-                            </a>
-                        </li>
-                    </ol>
-                    <ol id="aside-nav-links">
-                        <li>
-                            <span>PUBLIC</span>
-                        </li>
-                        <li id="aside-nav-links-innerList">
-                            <a href="#">
-                                <span>Questions</span>
-                            </a>
-                        </li>
-                        <li id="aside-nav-links-innerList">
-                            <a href="#">
-                                <span>Tags</span>
-                            </a>
-                        </li>
-                        <li id="aside-nav-links-innerList">
-                            <a href="#">
-                                <span>Users</span>
-                            </a>
-                        </li>
-                        <li id="aside-nav-links-innerList">
-                            <a href="#">
-                                <span>Companies</span>
-                            </a>
-                        </li>
-                    </ol>
-                </nav>
-            </div>
-        </aside>
-        <section id="allQueAndSuggestionContainer">
-            <div id="count-filter-container">
-                <header>
-                    <b>All Questions</b>
-                    <div id="askQueBtn">
-                        <a href="#">Ask Question</a>
-                    </div>
-                </header>
-                <div>
-                    <div id="queCount">
-                        <span>23,764,131</span>
-                        questions
-                    </div>
-                    <div id="">
-                        <a href="#">
-                            <span>Newest</span>
-                        </a>
-                        <a href="#">
-                            <span>Active</span>
-                        </a>
-                        <a href="#">
-                            <span>Unanswered</span>
-                        </a>
-                    </div>
-                    <div class="flex--item">
-                        <button class="s-btn s-btn__filled s-btn__sm s-btn__icon ws-nowrap is-selected" role="button" data-controller="s-expandable-control" data-s-expandable-control-toggle-class="is-selected" data-se-uql-target="toggleFormButton" aria-expanded="true" aria-controls="uql-form">
-                            <svg aria-hidden="true" class="svg-icon iconFilter" width="18" height="18" viewBox="0 0 18 18"><path d="M2 4h14v2H2V4Zm2 4h10v2H4V8Zm8 4H6v2h6v-2Z"></path></svg> Filter
+                <div id="queCount">
+                    <span>23,764,131</span>
+                    questions
+                </div>
+                <div id="filters-container">
+                    <a href="#">
+                        <span>Newest</span>
+                    </a>
+                    <a href="#">
+                        <span>Active</span>
+                    </a>
+                    <a href="#">
+                        <span>Unanswered</span>
+                    </a>
+                    <div class="flex--item" onclick="filteringOptions()">
+                        <button >
+                            <svg width="18" height="18" ><path d="M2 4h14v2H2V4Zm2 4h10v2H4V8Zm8 4H6v2h6v-2Z"></path></svg> Filter
                         </button>
                     </div>
                 </div>
-            </div>
-            <aside>
+                <script>
+                        function filteringOptions() {
+                            var filteringOptionsPopupId = document.getElementById("filter-container")
+                            if(filteringOptionsPopupId.style.display === "none") {
+                                filteringOptionsPopupId.style.display = "block";
+                            } else {
+                                filteringOptionsPopupId.style.display = "none";
+                            }
 
-            </aside>
-        </section>
+                        }
+                    </script>
+                <div id="filter-container" >
+                    <form action="#">
+                        <div class="filter-column">
+                            <div class="filter-heading">Filter By</div>
+                            <div class="filter-options">
+                                <label for="noanswers">
+                                    <input id="noanswers" name="filter" value="noanswers" type="checkbox"> No answers
+                                </label>
+                                <label for="noacceptedanswers">
+                                    <input id="noacceptedanswers" name="filter" value="noacceptedanswers"  type="checkbox" > No accepted answers
+                                </label>
+                                <label for="hasbounty">
+                                    <input id="hasbounty" name="filter" value="hasbounty" type="checkbox"> Has bounty
+                                </label>
+                            </div>
+                        </div>
+                        <div class="filter-column">
+                            <div class="filter-heading">Sort By</div>
+                            <div class="filter-options">
+                                <label for="newest">
+                                    <input id="newest" value="newest" type="radio" name="sort"> Newest
+                                </label>
+                                <label for="recentactivity">
+                                    <input id="recentactivity" value="recentactivity" type="radio" name="sort"> Recent activity
+                                </label>
+                                <label for="highestscore">
+                                    <input id="highestscore" value="highestscore" type="radio" name="sort"> Highest score
+                                </label>
+                                <label for="mostfrequent">
+                                    <input id="mostfrequent" value="mostfrequent" type="radio" name="sort"> Most frequent
+                                </label>
+                                <label for="bountyendingsoon">
+                                    <input id="bountyendingsoon" value="bountyendingsoon" type="radio" name="sort"> Bounty ending soon
+                                </label>
+                            </div>
+                        </div>
+                        <div class="filter-actions">
+                            <button type="submit" class="filter-button">Apply Filter</button>
+                            <button type="reset" class="filter-button" onclick="filteringOptions()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            <br>
+            <hr>
+            <br>
+            <div id="questions-container">
+                <div id="question-container">
+                    <div id="relatedinfo">
+                        <div>
+                            <span>0000</span>
+                            <span>votes</span>
+                        </div>
+                        <div>
+                            <span>0</span>
+                            <span>answers</span>
+                        </div>
+                        <div>
+                            <span>2</span>
+                            <span>views</span>
+                        </div>
+                    </div>
+                    <div id="question-detail-container">
+                        <h3>
+                            <a href="/questions/76511616/error-copying-data-from-a-csv-file-with-row-number-2-found-more-columns-than-e" class="s-link">Error copying data from a csv file (with row number 2: found more columns than expected column count 41)</a>
+                        </h3>
+                        <div id="question-desciption">
+                            I have a csv file I am trying import and it keeps giving me error saying 'with row number 2:
+                            found more columns than expected column count 41"
+                            I check the data manually and none of them are going ...
+                        </div>
+                        <div>
+                            <div id="tags-container">
+                                <div class="tag-container">
+                                    <a href="particular tag link">csv</a>
+                                </div>
+                                <div class="tag-container">
+                                    <a href="/questions/tagged/csv">csv</a>
+                                </div>
+                            </div>
+                            <div id="asker-info-container">
+                                <a href="#">
+                                    <div id="asker-info">
+                                        <a href="user link">BokA</a>
+                                        <span th:value="reputation score" title="reputation score">1</span>
+                                        <span>asked/modified</span>
+                                        <span title="uploaded time">40 secs ago</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="question-container">
+                    <div id="relatedinfo">
+                        <div>
+                            <span>0000</span>
+                            <span>votes</span>
+                        </div>
+                        <div>
+                            <span>0</span>
+                            <span>answers</span>
+                        </div>
+                        <div>
+                            <span>2</span>
+                            <span>views</span>
+                        </div>
+                    </div>
+                    <div id="question-detail-container">
+                        <h3>
+                            <a href="/questions/76511616/error-copying-data-from-a-csv-file-with-row-number-2-found-more-columns-than-e" class="s-link">Error copying data from a csv file (with row number 2: found more columns than expected column count 41)</a>
+                        </h3>
+                        <div id="question-desciption">
+                            I have a csv file I am trying import and it keeps giving me error saying 'with row number 2:
+                            found more columns than expected column count 41"
+                            I check the data manually and none of them are going ...
+                        </div>
+                        <div>
+                            <div id="tags-container">
+                                <div class="tag-container">
+                                    <a href="particular tag link">csv</a>
+                                </div>
+                                <div class="tag-container">
+                                    <a href="/questions/tagged/csv">csv</a>
+                                </div>
+                            </div>
+                            <div id="asker-info-container">
+                                <a href="#">
+                                    <div id="asker-info">
+                                        <a href="user link">BokA</a>
+                                        <span th:value="reputation score" title="reputation score">1</span>
+                                        <span>asked/modified</span>
+                                        <span title="uploaded time">40 secs ago</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="question-container">
+                    <div id="relatedinfo">
+                        <div>
+                            <span>0000</span>
+                            <span>votes</span>
+                        </div>
+                        <div>
+                            <span>0</span>
+                            <span>answers</span>
+                        </div>
+                        <div>
+                            <span>2</span>
+                            <span>views</span>
+                        </div>
+                    </div>
+                    <div id="question-detail-container">
+                        <h3>
+                            <a href="/questions/76511616/error-copying-data-from-a-csv-file-with-row-number-2-found-more-columns-than-e" class="s-link">Error copying data from a csv file (with row number 2: found more columns than expected column count 41)</a>
+                        </h3>
+                        <div id="question-desciption">
+                            I have a csv file I am trying import and it keeps giving me error saying 'with row number 2:
+                            found more columns than expected column count 41"
+                            I check the data manually and none of them are going ...
+                        </div>
+                        <div>
+                            <div id="tags-container">
+                                <div class="tag-container">
+                                    <a href="particular tag link">csv</a>
+                                </div>
+                                <div class="tag-container">
+                                    <a href="/questions/tagged/csv">csv</a>
+                                </div>
+                            </div>
+                            <div id="asker-info-container">
+                                <a href="#">
+                                    <div id="asker-info">
+                                        <a href="user link">BokA</a>
+                                        <span th:value="reputation score" title="reputation score">1</span>
+                                        <span>asked/modified</span>
+                                        <span title="uploaded time">40 secs ago</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <aside id="options">
+            <div id="custom-filters-container">
+                <div id="custom-filters-heading">Custom Filters</div>
+                <div onclick="filteringOptions()" id="custom-filters-link">create a custom filter</div>
+            </div>
+            <div id="related-tags-container">
+                <div id="related-tags-heading">Related Tags</div>
+                <div id="related-tags-links">
+                    <a href="#">tag</a>
+                    <a href="#">tag</a>
+                    <a href="#">tag</a>
+                    <a href="#">tag</a>
+
+                </div>
+            </div>
+        </aside>
+    </section>
+</div>
+<footer class="footer">
+    <div class="footer-inner">
+        <a href="#" aria-label="Stack Overflow"><svg aria-hidden="true" class="native svg-icon iconLogoGlyphMd" width="32" height="37" viewBox="0 0 32 37"><path d="M26 33v-9h4v13H0V24h4v9h22Z" fill="#BCBBBB"></path><path d="m21.5 0-2.7 2 9.9 13.3 2.7-2L21.5 0ZM26 18.4 13.3 7.8l2.1-2.5 12.7 10.6-2.1 2.5ZM9.1 15.2l15 7 1.4-3-15-7-1.4 3Zm14 10.79.68-2.95-16.1-3.35L7 23l16.1 2.99ZM23 30H7v-3h16v3Z" fill="#F48024"></path></svg></a>
+        <div class="footer-column">
+            <h4>STACK OVERFLOW</h4>
+            <ul>
+                <li><a href="#">Questions</a></li>
+                <li><a href="#">Help</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h4>PRODUCTS</h4>
+            <ul>
+                <li><a href="#">Team</a></li>
+                <li><a href="#">Advertising</a></li>
+                <li><a href="#">Collectives</a></li>
+                <li><a href="#">Talent</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h4>COMPANY</h4>
+            <ul>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Press</a></li>
+                <li><a href="#">Work here</a></li>
+                <li><a href="#">Legal</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h4>STACK EXCHANGE NETWORK</h4>
+            <ul>
+                <li><a href="#">Technology</a></li>
+                <li><a href="#">Science</a></li>
+                <li><a href="#">Business</a></li>
+            </ul>
+        </div>
     </div>
+</footer>
 </body>
