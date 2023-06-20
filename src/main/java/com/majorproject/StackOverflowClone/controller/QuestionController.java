@@ -10,9 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
 
 @Controller
 public class QuestionController {
@@ -71,17 +69,19 @@ public class QuestionController {
         return "ask_que_form";
     }
 
-    @RequestMapping("/")
-    public String homePage() {
-        List<Question> allQuestions = questionService.getAllQuestions();
-        return "allQue";
-    }
 
     @GetMapping("/questions/{id}")
     public String getQuestion(@RequestParam(name = "sort", defaultValue = "votes", required = false) String sortBy,
                               @PathVariable Long id,
-                              Model model){
-        model.addAttribute("question",questionService.getQuestion(id,sortBy));
+                              Model model) {
+        model.addAttribute("question", questionService.getQuestion(id, sortBy));
         return "history";
+    }
+
+    @RequestMapping("/")
+    public String homePage(Model model) {
+        List<Question> allQuestions = questionService.getAllQuestions();
+        model.addAttribute("questions", allQuestions);
+        return "allQue";
     }
 }

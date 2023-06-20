@@ -17,6 +17,7 @@ public class AnswerService {
     }
 
     public void updateAnswer(Answer answer){
+        answer.setVotes((long) (answer.getVotedUpByUsers().size()-answer.getVotedDownByUsers().size()));
         answerRepository.save(answer);
     }
 
