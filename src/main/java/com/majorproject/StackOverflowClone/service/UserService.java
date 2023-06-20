@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 public class UserService {
     @Autowired
     UserRepository userRepository;
+//    @Autowired
+//    PasswordEncoder passwordEncoder;
 
     public User getUserById(Long id){
         return userRepository.findById(id).orElse(null);
@@ -23,7 +25,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public User saveUser(User user) {
-      return userRepository.save(user);
+    public void addUser(User user) {
+
     }
 }
