@@ -58,7 +58,7 @@ public class QuestionController {
         return "redirect:/viewQuestion?questionId=" + questionId;
     }
         @PostMapping("/questions/ask")
-        public String addQuestion(@ModelAttribute Question question, @RequestParam("tags") String tags) {
+        public String addQuestion(@ModelAttribute Question question, @RequestParam("tag") String tags) {
             questionService.addQuestion(question, tags);
             return "redirect:/";
     }
