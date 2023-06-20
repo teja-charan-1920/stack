@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -20,10 +21,12 @@ public class Question {
     @Column(unique = true,nullable = false)
     private String title;
     private String description;
-    private Long views;
-    private Long votes;
+    private Long views = 0l;
+    private Long votes= 0l;
     @CreationTimestamp
-    private LocalDateTime creationDateTime;
+    private LocalDateTime createdAt;
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

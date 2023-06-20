@@ -19,8 +19,11 @@ public class QuestionDto {
     private Set<Tag> tags;
     private Long views;
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     private Long votes;
     private String sortBy;
     private Set<Question> relatedQue;
     private String totalTags;
+    private boolean showVoteUp = true;
+    private boolean showVoteDown = true;
 }

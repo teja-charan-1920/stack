@@ -7,9 +7,7 @@ import com.majorproject.StackOverflowClone.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class AnswerController {
@@ -18,48 +16,25 @@ public class AnswerController {
     @Autowired
     UserService userService;
 
-    @RequestMapping("/answerVotedUp")
-    public String answerVotedUp(@RequestParam("answerId") Long answerId, @RequestParam("questionId") Long questionId) {
-        User user = userService.getUserById(1L);
-        Answer answer = answerService.getAnswerById(answerId);
-        User answerOwner = answer.getUser();
-        if (answer.getVotedDownByUsers().contains(user)) {
-            answerOwner.setReputation(answerOwner.getReputation()+5);
-            answer.setUser(answerOwner);
-            answer.getVotedDownByUsers().remove(user);
-            answerService.updateAnswer(answer);
-        } else {
-            answerOwner.setReputation(answerOwner.getReputation()+10);
-            answer.setUser(answerOwner);
-            answer.getVotedUpByUsers().add(user);
-            answerService.updateAnswer(answer);
-        }
-        return "redirect:/viewQuestion?questionId=" + questionId;
+    @RequestMapping("/questions/{questionId}/answer/{answerId}/voteUp")
+    public String answerVotedUp(@PathVariable Long answerId,
+                                @PathVariable Long questionId) {
+        answerService.votedUp(answerId);
+        return "redirect:/questions/" + questionId;
     }
 
-    @RequestMapping("/answerVotedDown")
-    public String answerVoteDown(@RequestParam("answerId") Long answerId, @RequestParam("questionId") Long questionId) {
-        User user = userService.getUserById(1L);
-        Answer answer = answerService.getAnswerById(answerId);
-        User answerOwner = answer.getUser();
-        if (answer.getVotedUpByUsers().contains(user)) {
-            answerOwner.setReputation(answerOwner.getReputation()-10);
-            answer.setUser(answerOwner);
-            answer.getVotedUpByUsers().remove(user);
-            answerService.updateAnswer(answer);
-        } else {
-            answerOwner.setReputation(answerOwner.getReputation()-5);
-            answer.setUser(answerOwner);
-            answer.getVotedDownByUsers().add(user);
-            answerService.updateAnswer(answer);
-        }
-        return "redirect:/viewQuestion?questionId=" + questionId;
+    @RequestMapping("/questions/{questionId}/answer/{answerId}/voteDown")
+    public String answerVoteDown(@PathVariable Long answerId,
+                                 @PathVariable Long questionId) {
+        answerService.votedDown(answerId);
+        return "redirect:/questions/" + questionId;
     }
 
-    @GetMapping
-    public String sortAnswers( Model model){
-        String sortBy = null;
-        model.addAttribute("question", answerService.fetchAnswers(sortBy));
-        return "history";
+    @PostMapping("/questions/{questionId}/addAnswer")
+    public String addAnswer(@RequestParam  String answer,
+                            @PathVariable Long questionId){
+        answerService.addAnswer(questionId,answer);
+        return "redirect:/questions/" + questionId;
     }
+
 }

@@ -9,6 +9,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+import static java.lang.Boolean.FALSE;
+
 @Entity
 @Table(name = "answers")
 @Getter
@@ -19,8 +21,8 @@ public class Answer {
     @Column(name = "answer_id")
     private Long answerId;
     private String answer;
-    private boolean isAccepted;
-    private Long votes;
+    private boolean isAccepted = FALSE;
+    private Long votes = 0L;
     @CreationTimestamp
     private LocalDateTime createdAt;
     @UpdateTimestamp
@@ -48,6 +50,4 @@ public class Answer {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "answer_id",referencedColumnName = "answer_id")
     private Set<Comment> comments;
-
-
 }
