@@ -6,6 +6,8 @@ import com.majorproject.StackOverflowClone.service.AnswerService;
 import com.majorproject.StackOverflowClone.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -44,5 +46,11 @@ public class AnswerController {
         }
 
         return "redirect:/viewQuestion?questionId=" + questionId;
+    }
+
+    @GetMapping
+    public String sortAnswers(@RequestParam(name = "sort", defaultValue = "votes", required = false) String sortBy, Model model){
+        model.addAttribute("question", answerService.fetchAnswers(sortBy));
+        return "history";
     }
 }
