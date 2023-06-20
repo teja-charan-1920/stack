@@ -5,5 +5,5 @@
 *.iws
 *.iml
 *.ipr
-*. class
+*.class
 
