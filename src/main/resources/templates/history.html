@@ -80,20 +80,20 @@
                         </div>
                     </div>
                     <code id="queDetailsContainer">
-                        <span>Asked<b> 10 years ago</b></span>
-                        <span>Modified<b> 7 months ago</b></span>
-                        <span>Viewed<b> 226k times</b></span>                        
+                        <span>Asked<b th:text="${question.createdAt}"></b></span>
+                        <span>Modified<b th:text="${question.updatedAt}"></b></span>
+                        <span>Viewed<b th:text="${question.views}"></b></span>
                     </code>
                     <hr>
                     <div id="queDesciptionContainer">
                         <div class="voting-buttons">
-                            <form th:action="@{/questions/{id}/vote/up(id=${question.id})}" method="post">
+                            <form th:if="${question.showVoteUp}" th:action="@{/questions/{id}/vote/up(id=${question.id})}" method="post">
                             <button class="upvote-button">
                               <b>^</b>
                             </button>
                             </form>
-                            <form th:action="@{/questions/{id}/vote/down(id=${question.id})}" method="post">
                             <span class="vote-count" th:if="${question.votes != null }" th:text="${question.votes}"></span>
+                            <form th:if="${question.showVoteDown}" th:action="@{/questions/{id}/vote/down(id=${question.id})}" method="post">
                             <button class="downvote-button">
                               <b>^</b>
                             </button>
@@ -213,8 +213,8 @@
                     <div id="addAns">
                         <hr>
                         <h1>Add your Answers</h1>
-                        <form action="#">
-                            <textarea placeholder="add answers" id="addAnswer"></textarea>
+                        <form th:action="@{/questions/{questionId}/addAnswer(questionId=${question.id})}" method="post">
+                            <textarea placeholder="add answer" id="addAnswer" name="answer"></textarea>
                             <br>
                             <button type="submit">Add Answer</button>
                         </form>

@@ -3,6 +3,7 @@ package com.majorproject.StackOverflowClone.service;
 import com.majorproject.StackOverflowClone.dto.QuestionDto;
 import com.majorproject.StackOverflowClone.model.Question;
 import com.majorproject.StackOverflowClone.model.Tag;
+import com.majorproject.StackOverflowClone.model.User;
 import com.majorproject.StackOverflowClone.repository.AnswerRepository;
 import com.majorproject.StackOverflowClone.repository.QuestionRepository;
 import com.majorproject.StackOverflowClone.repository.TagRepository;
@@ -11,10 +12,11 @@ import com.majorproject.StackOverflowClone.specification.AnswerSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import static java.lang.Boolean.FALSE;
 
 @Service
 public class QuestionService {
@@ -24,7 +26,6 @@ public class QuestionService {
     TagRepository tagRepository;
     @Autowired
     AnswerRepository answerRepository;
-
     @Autowired
     UserRepository userRepository;
 
@@ -34,19 +35,8 @@ public class QuestionService {
         return questionRepository.findById(id).orElse(null);
     }
 
-    public void updateQuestion(Question previousQuestion) {
-//        Question question = new Question();
-//        question.setQuestionId(previousQuestion.getQuestionId());
-//        question.setTitle(previousQuestion.getTitle());
-//        question.setDescription(previousQuestion.getDescription());
-//        question.setTags(previousQuestion.getTags());
-//        question.setViews(previousQuestion.getViews());
-//        question.setCreationDateTime(previousQuestion.getCreationDateTime());
-//        question.setAnswers(previousQuestion.getAnswers());
-//        question.setVotedUpByUsers(previousQuestion.getVotedUpByUsers());
-//        question.setVotedDownByUsers(previousQuestion.getVotedDownByUsers());
+    public void updateQuestionVotes(Question previousQuestion) {
         previousQuestion.setVotes((long) (previousQuestion.getVotedUpByUsers().size()-previousQuestion.getVotedDownByUsers().size()));
-
         questionRepository.save(previousQuestion);
     }
 
@@ -76,10 +66,25 @@ public class QuestionService {
 
     public QuestionDto getQuestion(Long id, String sortBy) {
         Question question = getQuestionById(id);
+        question.setViews(question.getViews()+1);
+        questionRepository.save(question);
+
         QuestionDto questionDto =  convertDaoToDto(question);
         questionDto.setAnswers(new HashSet<>(answerRepository.findAll(answerSpecification.findByQuestionIdAndSortByVotes(id,sortBy))));
         questionDto.setSortBy(sortBy);
-        return  questionDto;
+        return  setVotedUpAndDown(questionDto);
+    }
+
+    public QuestionDto setVotedUpAndDown(QuestionDto questionDto){
+        User user = userRepository.findById(1l).get();
+        Question question = getQuestionById(questionDto.getId());
+
+        if (question.getVotedUpByUsers().contains(user)) {
+            questionDto.setShowVoteUp(FALSE);
+        } else if(question.getVotedDownByUsers().contains(user)){
+            questionDto.setShowVoteDown(FALSE);
+        }
+        return questionDto;
     }
 
     public QuestionDto convertDaoToDto(Question question){
@@ -90,7 +95,8 @@ public class QuestionService {
         questionDto.setAnswers(question.getAnswers());
         questionDto.setTitle(question.getTitle());
         questionDto.setDescription(question.getDescription());
-        questionDto.setCreatedAt(question.getCreationDateTime());
+        questionDto.setCreatedAt(question.getCreatedAt());
+        questionDto.setUpdatedAt(question.getUpdatedAt());
         questionDto.setVotes(question.getVotes());
         questionDto.setViews(question.getViews());
 
@@ -112,5 +118,39 @@ public class QuestionService {
 
     public List<Question> getAllQuestions() {
         return questionRepository.findAll();
+    }
+
+    public void votedUp(Long id) {
+        User user = userRepository.findById(1L).orElse(null);
+        Question question = getQuestionById(id);
+        User questionOwner = question.getUser();
+
+        if (question.getVotedDownByUsers().contains(user)) {
+            questionOwner.setReputation(questionOwner.getReputation() + 5);
+            question.setUser(questionOwner);
+            question.getVotedDownByUsers().remove(user);
+        } else {
+            questionOwner.setReputation(questionOwner.getReputation() + 10);
+            question.setUser(questionOwner);
+            question.getVotedUpByUsers().add(user);
+        }
+        updateQuestionVotes(question);
+    }
+
+    public void votedDown(Long id) {
+        User user = userRepository.findById(1L).orElse(null);
+        Question question = getQuestionById(id);
+        User questionOwner = question.getUser();
+
+        if (question.getVotedUpByUsers().contains(user)) {
+            questionOwner.setReputation(questionOwner.getReputation() - 10);
+            question.setUser(questionOwner);
+            question.getVotedUpByUsers().remove(user);
+        } else {
+            questionOwner.setReputation(questionOwner.getReputation() - 5);
+            question.setUser(questionOwner);
+            question.getVotedDownByUsers().add(user);
+        }
+        updateQuestionVotes(question);
     }
 }

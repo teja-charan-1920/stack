@@ -25,8 +25,8 @@ public class User {
     private String password;
     @CreationTimestamp
     private LocalDateTime createdAt;
-    private Long reputation;
-    private Long votes;
+    private Long reputation = 0l;
+    private Long votes = 0l;
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
     private Set<Question> questions;
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
