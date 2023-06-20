@@ -6,10 +6,7 @@ import com.majorproject.StackOverflowClone.service.QuestionService;
 import com.majorproject.StackOverflowClone.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class QuestionController {
@@ -58,9 +55,9 @@ public class QuestionController {
         return "redirect:/viewQuestion?questionId=" + questionId;
     }
 
-        @PostMapping("/questions/ask")
+        @GetMapping("/questions/ask")
         public String addQuestion(@ModelAttribute Question question, @RequestParam("tag") String tags) {
             questionService.addQuestion(question, tags);
-            return "redirect:/";
+            return "ask_que_form";
     }
 }
