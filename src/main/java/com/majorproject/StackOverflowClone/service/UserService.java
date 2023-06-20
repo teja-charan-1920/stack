@@ -3,13 +3,14 @@ package com.majorproject.StackOverflowClone.service;
 import com.majorproject.StackOverflowClone.model.User;
 import com.majorproject.StackOverflowClone.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 @Service
 public class UserService {
     @Autowired
     UserRepository userRepository;
-//    @Autowired
-//    PasswordEncoder passwordEncoder;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     public User getUserById(Long id){
         return userRepository.findById(id).orElse(null);
@@ -26,6 +27,7 @@ public class UserService {
     }
 
     public void addUser(User user) {
-
+    user.setPassword(passwordEncoder.encode(user.getPassword()));
+    userRepository.save(user);
     }
 }
