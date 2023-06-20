@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -413,6 +413,10 @@
 .footer-column ul li a:hover {
   color: #0077cc;
 }
+.navigation{
+        display:flex;
+        justify-content:space-around;
+    }
 
 </style>
 </head>
@@ -458,7 +462,7 @@
                         <span>PUBLIC</span>
                     </li>
                     <li id="aside-nav-links-innerList">
-                        <a href="#">
+                        <a th:href="@{/}">
                             <span>Questions</span>
                         </a>
                     </li>
@@ -486,12 +490,12 @@
             <header>
                 <b>All Questions</b>
                 <div id="askQueBtn">
-                    <a href="#">Ask Question</a>
+                    <a th:href="@{/questions/ask}">Ask Question</a>
                 </div>
             </header>
             <div>
                 <div id="queCount">
-                    <span>23,764,131</span>
+                    <span th:text="${#lists.size(questions)}"></span>
                     questions
                 </div>
                 <div id="filters-container">
@@ -568,144 +572,75 @@
             <br>
             <hr>
             <br>
-            <div id="questions-container">
+            <div id="questions-container" th:each="question : ${questions}">
                 <div id="question-container">
                     <div id="relatedinfo">
-                        <div>
-                            <span>0000</span>
+                        <div th:if="${question.votes == null}">
+                            <span>0</span>
+                            <span th:text="${question.votes}"></span>
+                            <span>votes</span>
+                        </div>
+                        <div th:if="${question.votes != null}">
+                            <span th:text="${question.votes}"></span>
                             <span>votes</span>
                         </div>
                         <div>
-                            <span>0</span>
+                            <span th:text="${#sets.size(question.answers)}"></span>
                             <span>answers</span>
                         </div>
-                        <div>
-                            <span>2</span>
+                        <div th:if="${question.views == null}">
+                            <span>0</span>
+                            <span>views</span>
+                        </div>
+                        <div th:if="${question.views != null}">
+                            <span th:text="${question.views}"></span>
                             <span>views</span>
                         </div>
                     </div>
                     <div id="question-detail-container">
                         <h3>
-                            <a href="/questions/76511616/error-copying-data-from-a-csv-file-with-row-number-2-found-more-columns-than-e" class="s-link">Error copying data from a csv file (with row number 2: found more columns than expected column count 41)</a>
+                            <a th:href="@{/questions/{id}(id = ${question.questionId})}" class="s-link">
+                                <span th:text="${question.title}"></span>
+                            </a>
                         </h3>
-                        <div id="question-desciption">
-                            I have a csv file I am trying import and it keeps giving me error saying 'with row number 2:
-                            found more columns than expected column count 41"
-                            I check the data manually and none of them are going ...
+                        <div id="question-desciption" th:if="${#strings.length(question.description)>100}">
+                            <span th:text="${#strings.substring(question.description, 0, 100)}"></span>
+                        </div>
+                        <div id="question-desciption" th:if="${#strings.length(question.description)<100}">
+                            <span th:text="${question.description}"></span>
                         </div>
                         <div>
-                            <div id="tags-container">
+                            <div id="tags-container" th:each="tag:${question.tags}">
                                 <div class="tag-container">
-                                    <a href="particular tag link">csv</a>
-                                </div>
-                                <div class="tag-container">
-                                    <a href="/questions/tagged/csv">csv</a>
+                                    <a href="#">
+                                        <span th:text="${tag.name}"></span>
+                                    </a>
                                 </div>
                             </div>
                             <div id="asker-info-container">
                                 <a href="#">
                                     <div id="asker-info">
-                                        <a href="user link">BokA</a>
-                                        <span th:value="reputation score" title="reputation score">1</span>
-                                        <span>asked/modified</span>
-                                        <span title="uploaded time">40 secs ago</span>
+                                        <a href="user link">
+                                            <span th:text="${question.user.username}"></span>
+                                        </a>
+                                        <span title="reputation score" th:text="${question.user.reputation}"></span>
+                                        <span>asked</span>
+                                        <span title="uploaded time" th:text="${question.creationDateTime}"></span>
                                     </div>
                                 </a>
                             </div>
                         </div>
                     </div>
+                </div><hr>
+            </div>
+            <div class="navigation">
+                <div>
+                    <a th:href="@{/}">&laquo;
+                        Previous</a>
                 </div>
-                <div id="question-container">
-                    <div id="relatedinfo">
-                        <div>
-                            <span>0000</span>
-                            <span>votes</span>
-                        </div>
-                        <div>
-                            <span>0</span>
-                            <span>answers</span>
-                        </div>
-                        <div>
-                            <span>2</span>
-                            <span>views</span>
-                        </div>
-                    </div>
-                    <div id="question-detail-container">
-                        <h3>
-                            <a href="/questions/76511616/error-copying-data-from-a-csv-file-with-row-number-2-found-more-columns-than-e" class="s-link">Error copying data from a csv file (with row number 2: found more columns than expected column count 41)</a>
-                        </h3>
-                        <div id="question-desciption">
-                            I have a csv file I am trying import and it keeps giving me error saying 'with row number 2:
-                            found more columns than expected column count 41"
-                            I check the data manually and none of them are going ...
-                        </div>
-                        <div>
-                            <div id="tags-container">
-                                <div class="tag-container">
-                                    <a href="particular tag link">csv</a>
-                                </div>
-                                <div class="tag-container">
-                                    <a href="/questions/tagged/csv">csv</a>
-                                </div>
-                            </div>
-                            <div id="asker-info-container">
-                                <a href="#">
-                                    <div id="asker-info">
-                                        <a href="user link">BokA</a>
-                                        <span th:value="reputation score" title="reputation score">1</span>
-                                        <span>asked/modified</span>
-                                        <span title="uploaded time">40 secs ago</span>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="question-container">
-                    <div id="relatedinfo">
-                        <div>
-                            <span>0000</span>
-                            <span>votes</span>
-                        </div>
-                        <div>
-                            <span>0</span>
-                            <span>answers</span>
-                        </div>
-                        <div>
-                            <span>2</span>
-                            <span>views</span>
-                        </div>
-                    </div>
-                    <div id="question-detail-container">
-                        <h3>
-                            <a href="/questions/76511616/error-copying-data-from-a-csv-file-with-row-number-2-found-more-columns-than-e" class="s-link">Error copying data from a csv file (with row number 2: found more columns than expected column count 41)</a>
-                        </h3>
-                        <div id="question-desciption">
-                            I have a csv file I am trying import and it keeps giving me error saying 'with row number 2:
-                            found more columns than expected column count 41"
-                            I check the data manually and none of them are going ...
-                        </div>
-                        <div>
-                            <div id="tags-container">
-                                <div class="tag-container">
-                                    <a href="particular tag link">csv</a>
-                                </div>
-                                <div class="tag-container">
-                                    <a href="/questions/tagged/csv">csv</a>
-                                </div>
-                            </div>
-                            <div id="asker-info-container">
-                                <a href="#">
-                                    <div id="asker-info">
-                                        <a href="user link">BokA</a>
-                                        <span th:value="reputation score" title="reputation score">1</span>
-                                        <span>asked/modified</span>
-                                        <span title="uploaded time">40 secs ago</span>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                <div>
+                    <a th:href="@{/}">Next
+                        &raquo;</a>
                 </div>
             </div>
         </div>
