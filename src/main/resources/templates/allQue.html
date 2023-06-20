@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeline for answer to <span th:text="que">(que)</span></title>
+    <link rel="icon" href="./stackoverflowfavicon.png" type="image/x-icon">
+    <style>
+        a {
+            text-decoration: none;
+        }
+        code {
+            font-size: medium;
+        }
+        #aboveNavBar {
+            background-color: rgb(235, 152, 0);
+            height: 3px;
+        }
+        #navBar {
+            border-style: none none solid none ;
+            border-width: 1px ;
+            border-color: rgb(169, 189, 207);
+            height: 44px;
+            align-items: center;
+            padding: 8px 20px 4px 46px;
+        }
+        #navBar a {
+            text-decoration: none;
+            width: fit-content;
+        }
+        #navBar a div svg {
+            height: 35px;
+            width: 30px;
+        }
+        #navBar a div span {
+            margin: 4px 0px 0px 12px;
+            font-family: sans-serif;
+            font-size: 19px;
+            color: rgb(39, 39, 39);
+        }
+        #navBar div {
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s;
+            width: 200px;
+        }
+        .nav-links {
+            list-style: none;
+            display: flex;
+            margin: -25px 0px 0px 140px;
+        }
+        .nav-links li {
+            font-size: 13px;
+            font-family: sans-serif;
+            font-weight: 200px;
+            margin-right: 28px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #666;
+            width: fit-content;
+        }
+        .nav-links a:hover {
+            border-radius: 30%;
+            width: 200px;
+            height: 200px;
+            background-color: #b1b1b1;
+            color: black;
+        }
+        #searchContainer {
+            display: flex;
+            width: 710px;
+            height: 30px;
+            border: 1.5px solid #ccc;
+            border-radius: 2px;
+            margin: -25px 0px 0px 400px;
+        }
+        #searchContainer:hover {
+            position: static;
+            border: 1.5px solid #6584ac;
+        }
+        #searchContainer input {
+            flex-grow: 1;
+            border: none;
+            padding: 10px;
+            font-size: 14px;
+            outline: none;        
+        }
+        #searchContainer button {
+            display: none;       
+        }  
+        #searchContainer img {
+            height: 17px;
+            width: 17px;
+            margin: 6px 0px 0px 9px;
+        }       
+        .user-buttons {
+            margin: -33px 0px 0px 1120px;
+        }
+        .login-button, .signup-button {
+            padding: 8.5px 10px;
+            margin-right: 10px;
+            font-size: 12px;
+            font-family: sans-serif;
+            font-weight: 200px;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        .login-button {
+            border: 0.5px solid hsl(205, 41%, 63%);
+            background-color: hsl(205, 46%, 92%);
+            color: hsl(205, 47%, 42%);
+        }
+        .signup-button {
+            width: auto;
+            margin-left: -7px;
+            border: 2px solid #e9ecee;
+            background-color: #3291d4;
+            color: white;
+        }
+        .login-button:hover {
+            background-color: hsl(204, 54%, 79%);
+        }
+        .signup-button:hover {
+            background-color: #025d9e;
+            color: #fff;
+        }
+        #left-side-bar {
+            height: auto;
+            width: 220px;
+            margin: -1px 0px 0px -8px;
+            border: 1px solid rgb(133, 164, 165);
+        }
+        #left-side-bar-container {
+            padding: 19px 5px 0px 12px ;
+            width: auto;
+        }
+        #aside-nav-links {
+            list-style: none;
+        }
+        #aside-nav-links li {
+            font-size: 13px;
+            font-family: sans-serif;
+            font-weight: 200px;
+            list-style: none;
+            color: rgb(78, 74, 74);
+            height: 30px;
+        }
+
+        #aside-nav-links li a {
+            text-decoration: none;
+            color: rgb(78, 74, 74);
+        }
+        #aside-nav-links li a:hover {
+            color: black;
+        }
+        #aside-nav-links-innerList {
+            margin: 0px 0px 0px 28px;
+            height: 25px;
+        }
+        #containers {
+            display: flex;
+        }
+        #allQueAndSuggestionContainer {
+            display: inline-block;
+            justify-content: space-between;
+            padding: 30px 0px 20px 50px;
+        }
+        header {
+            margin-bottom: 50px;
+        }
+        header b {
+            font-size: xx-large;
+            font-family: Impact, 'Arial Narrow Bold', sans-serif;
+        }
+        #askQueBtn {
+            float: right;
+            padding: 12px;
+            border-radius: 10px;
+            background-color: hsl(206, 100%, 52%);
+        }
+        #askQueBtn:hover {
+            background-color: hsl(206, 98%, 37%);
+        }
+        #askQueBtn a{
+            color: white;
+        }
+        #count-filter-container {
+            display: flex;
+        }
+        #queCount {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            width: fit-content;
+        }
+</style>
+</head>
+<body>
+    <main id="aboveNavBar"></main>
+    <nav id="navBar">
+        <a href="./history.html">
+            <div>
+                <svg aria-hidden="true" viewBox="0 0 32 37">
+                    <path d="M26 33v-9h4v13H0V24h4v9h22Z" fill="#BCBBBB"></path><path d="m21.5 0-2.7 2 9.9 13.3 2.7-2L21.5 0ZM26 18.4 13.3 7.8l2.1-2.5 12.7 10.6-2.1 2.5ZM9.1 15.2l15 7 1.4-3-15-7-1.4 3Zm14 10.79.68-2.95-16.1-3.35L7 23l16.1 2.99ZM23 30H7v-3h16v3Z" fill="#F48024"></path>
+                </svg>
+                <span>stack<b>overflow</b></span>
+            </div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#">About</a></li>
+            <li><a href="#">Products</a></li>
+            <li><a href="#">For Teams</a></li>
+        </ul>
+        <form action="#" id="searchContainer">
+            <img src="./search-26234.png" />
+            <input type="search" placeholder="Search..."/>
+            <button type="submit"></button>
+        </form>
+        <div class="user-buttons">
+            <a href="#" class="login-button">Log In</a>
+            <a href="#" class="signup-button">Sign Up</a>
+        </div>          
+    </nav>
+    <div id="containers">
+        <aside id="left-side-bar">
+            <div id="left-side-bar-container">
+                <nav role="navigation">
+                    <ol id="aside-nav-links">
+                        <li>
+                            <a href="#">
+                                <span>Home</span>
+                            </a>
+                        </li>
+                    </ol>
+                    <ol id="aside-nav-links">
+                        <li>
+                            <span>PUBLIC</span>
+                        </li>
+                        <li id="aside-nav-links-innerList">
+                            <a href="#">
+                                <span>Questions</span>
+                            </a>
+                        </li>
+                        <li id="aside-nav-links-innerList">
+                            <a href="#">
+                                <span>Tags</span>
+                            </a>
+                        </li>
+                        <li id="aside-nav-links-innerList">
+                            <a href="#">
+                                <span>Users</span>
+                            </a>
+                        </li>
+                        <li id="aside-nav-links-innerList">
+                            <a href="#">
+                                <span>Companies</span>
+                            </a>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </aside>
+        <section id="allQueAndSuggestionContainer">
+            <div id="count-filter-container">
+                <header>
+                    <b>All Questions</b>
+                    <div id="askQueBtn">
+                        <a href="#">Ask Question</a>
+                    </div>
+                </header>
+                <div>
+                    <div id="queCount">
+                        <span>23,764,131</span>
+                        questions
+                    </div>
+                    <div id="">
+                        <a href="#">
+                            <span>Newest</span>
+                        </a>
+                        <a href="#">
+                            <span>Active</span>
+                        </a>
+                        <a href="#">
+                            <span>Unanswered</span>
+                        </a>
+                    </div>
+                    <div class="flex--item">
+                        <button class="s-btn s-btn__filled s-btn__sm s-btn__icon ws-nowrap is-selected" role="button" data-controller="s-expandable-control" data-s-expandable-control-toggle-class="is-selected" data-se-uql-target="toggleFormButton" aria-expanded="true" aria-controls="uql-form">
+                            <svg aria-hidden="true" class="svg-icon iconFilter" width="18" height="18" viewBox="0 0 18 18"><path d="M2 4h14v2H2V4Zm2 4h10v2H4V8Zm8 4H6v2h6v-2Z"></path></svg> Filter
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <aside>
+
+            </aside>
+        </section>
+    </div>
+</body>
