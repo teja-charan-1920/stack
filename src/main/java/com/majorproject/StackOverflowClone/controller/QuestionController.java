@@ -57,7 +57,10 @@ public class QuestionController {
     }
 
     @RequestMapping("/")
-    public String homePage(Model model) {
+    public String homePage(@RequestParam(name = "search", required = false) String search,
+                           @RequestParam(name = "page",required = false,defaultValue = "1") Long page,
+                           @RequestParam(name = "pagesize",required = false,defaultValue = "15") Long pageSize,
+                           Model model) {
         List<Question> allQuestions = questionService.getAllQuestions();
         model.addAttribute("questions", allQuestions);
         return "allQue";
