@@ -1,5 +1,6 @@
 package com.majorproject.StackOverflowClone.service;
 
+import com.majorproject.StackOverflowClone.dto.PageDto;
 import com.majorproject.StackOverflowClone.dto.QuestionDto;
 import com.majorproject.StackOverflowClone.model.Question;
 import com.majorproject.StackOverflowClone.model.Tag;
@@ -9,7 +10,13 @@ import com.majorproject.StackOverflowClone.repository.QuestionRepository;
 import com.majorproject.StackOverflowClone.repository.TagRepository;
 import com.majorproject.StackOverflowClone.repository.UserRepository;
 import com.majorproject.StackOverflowClone.specification.AnswerSpecification;
+import com.majorproject.StackOverflowClone.specification.QuestionSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -30,6 +37,7 @@ public class QuestionService {
     UserRepository userRepository;
 
     private AnswerSpecification answerSpecification = new AnswerSpecification();
+    private QuestionSpecification questionSpecification= new QuestionSpecification();
 
     public Question getQuestionById(Long id) {
         return questionRepository.findById(id).orElse(null);
@@ -117,8 +125,25 @@ public class QuestionService {
         return tags;
     }
 
-    public List<Question> getAllQuestions() {
-        return questionRepository.findAll();
+    public PageDto getAllQuestions(String search, int page, int pageSize,String sort) {
+        Pageable pageable = PageRequest.of(page - 1, pageSize,Sort.by(Sort.Direction.DESC,sort));
+        Specification<Question> specification = Specification.where(null);
+
+        if(search != null) {
+            specification = questionSpecification.filterPostsOnKeyword(search);
+        }
+        Page<Question> questionPage = questionRepository.findAll(specification, pageable);
+        int totalPages = questionPage.getTotalPages();
+
+        PageDto pageDto = new PageDto();
+        pageDto.setPage(page);
+        pageDto.setPageSize(pageSize);
+        pageDto.setTotalPages(totalPages);
+        pageDto.setQuestions(questionPage.getContent());
+        pageDto.setTags(tagRepository.findAll());
+        pageDto.setSortBy(sort);
+        pageDto.setSearch(search);
+        return pageDto;
     }
 
     public void votedUp(Long id) {

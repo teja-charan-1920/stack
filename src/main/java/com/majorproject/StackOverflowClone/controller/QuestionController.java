@@ -1,8 +1,6 @@
 package com.majorproject.StackOverflowClone.controller;
 
 import com.majorproject.StackOverflowClone.dto.QuestionDto;
-import com.majorproject.StackOverflowClone.model.Question;
-import com.majorproject.StackOverflowClone.model.Tag;
 import com.majorproject.StackOverflowClone.model.User;
 import com.majorproject.StackOverflowClone.service.QuestionService;
 import com.majorproject.StackOverflowClone.service.TagService;
@@ -11,12 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-<<<<<<< Updated upstream
-=======
-import java.util.HashSet;
->>>>>>> Stashed changes
-import java.util.List;
 
 @Controller
 public class QuestionController {
@@ -57,25 +49,17 @@ public class QuestionController {
                               Model model) {
         User user = userService.getUserById(1L);
         model.addAttribute("question", questionService.getQuestion(id, sortBy));
-        model.addAttribute("user",user);
+        model.addAttribute("user", user);
         return "history";
     }
 
-    @RequestMapping("/")
-<<<<<<< Updated upstream
+    @GetMapping("/")
     public String homePage(@RequestParam(name = "search", required = false) String search,
-                           @RequestParam(name = "page",required = false,defaultValue = "1") Long page,
-                           @RequestParam(name = "pagesize",required = false,defaultValue = "15") Long pageSize,
+                           @RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                           @RequestParam(name = "pagesize", required = false, defaultValue = "15") int pageSize,
+                           @RequestParam(name = "sort", defaultValue = "votes", required = false) String sort,
                            Model model) {
-        List<Question> allQuestions = questionService.getAllQuestions();
-        List<Tag> allTags = tagService.getTagsByPage();
-        model.addAttribute("questions", allQuestions);
-        model.addAttribute("tags",allTags);
-=======
-    public String homePage(Model model){
-        List<Question> allQuestions = questionService.getAllQuestions();
-        model.addAttribute("questions",allQuestions);
->>>>>>> Stashed changes
-        return "allQue";
+        model.addAttribute("questions", questionService.getAllQuestions(search, page, pageSize, sort));
+            return "allQue";
+        }
     }
-}
