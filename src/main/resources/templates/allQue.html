@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>all que</title>
-    <link rel="icon" href="./stackoverflowfavicon.png" type="image/x-icon">
+    <title>All Questions</title>
+    <link rel="icon" th:href="@{/images/stackoverflowfavicon.png}" type="image/x-icon">
     <style>
         a {
             text-decoration: none;
@@ -299,11 +299,12 @@
             margin: 10px;
         }
         .tag-container {
-            display: inline;
+            display: inline-block;
             background-color: #d9e1e6;
             padding: 2.5px 7px 5px 7px;
             border-radius: 2px;
-            margin: 100px 10px 0px 0px;
+            margin: 10px 10px 0px 0px;
+            width: fit-content;
         }
         .tag-container a{
             font-size: small;
@@ -437,7 +438,7 @@
         <li><a href="#">For Teams</a></li>
     </ul>
     <form action="#" id="searchContainer">
-        <img src="./search-26234.png" />
+        <img th:src="@{/images/search-26234.png}" />
         <input type="search" placeholder="Search..."/>
         <button type="submit"></button>
     </form>
@@ -610,8 +611,8 @@
                             <span th:text="${question.description}"></span>
                         </div>
                         <div>
-                            <div id="tags-container" th:each="tag:${question.tags}">
-                                <div class="tag-container">
+                            <div id="tags-container" >
+                                <div class="tag-container" th:each="tag:${question.tags}">
                                     <a href="#">
                                         <span th:text="${tag.name}"></span>
                                     </a>
@@ -625,7 +626,7 @@
                                         </a>
                                         <span title="reputation score" th:text="${question.user.reputation}"></span>
                                         <span>asked</span>
-                                        <span title="uploaded time" th:text="${question.creationDateTime}"></span>
+                                        <span title="uploaded time" th:text="${question.createdAt}"></span>
                                     </div>
                                 </a>
                             </div>
@@ -651,12 +652,10 @@
             </div>
             <div id="related-tags-container">
                 <div id="related-tags-heading">Related Tags</div>
-                <div id="related-tags-links">
-                    <a href="#">tag</a>
-                    <a href="#">tag</a>
-                    <a href="#">tag</a>
-                    <a href="#">tag</a>
-
+                <div id="related-tags-links" th:each="tag, iterStat : ${tags}" th:if="${iterStat.count} &lt;= 10">
+                    <a th:href="@{/tagQuestions/{tagName}(tagName = ${tag.name})}">
+                        <span th:text="${tag.name}"></span>
+                    </a>
                 </div>
             </div>
         </aside>
