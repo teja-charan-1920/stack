@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -370,134 +370,14 @@
                 </div>
             </div>
             <div id="tags">
-                <div id="tag">
+                <div id="tag" th:each="tag : ${tags}">
                     <a href="link of all que related with this tag">
-                        <header>javascript</header>
+                        <header th:text="${tag.name}"></header>
                     </a>
                     
                     <div id="total-question-count">
-                        <span id="totalquecount">10000000</span>
-                        <span>questions</span>
-                    </div>
-                </div>
-                <div id="tag">
-                    <a href="link of all que related with this tag">
-                        <header>javascript</header>
-                    </a>
-                    <p>
-                        For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations (except for ActionScript). Note that
-                    </p>
-                    <div id="total-question-count">
-                        <span id="totalquecount">10000000</span>
-                        <span>questions</span>
-                    </div>
-                </div>
-                <div id="tag">
-                    <a href="link of all que related with this tag">
-                        <header>javascript</header>
-                    </a>
-                    <p>
-                        For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations (except for ActionScript). Note that
-                    </p>
-                    <div id="total-question-count">
-                        <span id="totalquecount">10000000</span>
-                        <span>questions</span>
-                    </div>
-                </div>
-                <div id="tag">
-                    <a href="link of all que related with this tag">
-                        <header>javascript</header>
-                    </a>
-                    <p>
-                        For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations (except for ActionScript). Note that
-                    </p>
-                    <div id="total-question-count">
-                        <span id="totalquecount">10000000</span>
-                        <span>questions</span>
-                    </div>
-                </div>
-                <div id="tag">
-                    <a href="link of all que related with this tag">
-                        <header>javascript</header>
-                    </a>
-                    <p>
-                        For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations (except for ActionScript). Note that
-                    </p>
-                    <div id="total-question-count">
-                        <span id="totalquecount">10000000</span>
-                        <span>questions</span>
-                    </div>
-                </div>
-                <div id="tag">
-                    <a href="link of all que related with this tag">
-                        <header>javascript</header>
-                    </a>
-                    <p>
-                        For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations (except for ActionScript). Note that
-                    </p>
-                    <div id="total-question-count">
-                        <span id="totalquecount">10000000</span>
-                        <span>questions</span>
-                    </div>
-                </div>
-                <div id="tag">
-                    <a href="link of all que related with this tag">
-                        <header>javascript</header>
-                    </a>
-                    <p>
-                        For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations (except for ActionScript). Note that
-                    </p>
-                    <div id="total-question-count">
-                        <span id="totalquecount">10000000</span>
-                        <span>questions</span>
-                    </div>
-                </div>
-                <div id="tag">
-                    <a href="link of all que related with this tag">
-                        <header>javascript</header>
-                    </a>
-                    <p>
-                        For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations (except for ActionScript). Note that
-                    </p>
-                    <div id="total-question-count">
-                        <span id="totalquecount">10000000</span>
-                        <span>questions</span>
-                    </div>
-                </div>
-                <div id="tag">
-                    <a href="link of all que related with this tag">
-                        <header>javascript</header>
-                    </a>
-                    <p>
-                        For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations (except for ActionScript). Note that
-                    </p>
-                    <div id="total-question-count">
-                        <span id="totalquecount">10000000</span>
-                        <span>questions</span>
-                    </div>
-                </div>
-                <div id="tag">
-                    <a href="link of all que related with this tag">
-                        <header>javascript</header>
-                    </a>
-                    <p>
-                        For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations (except for ActionScript). Note that
-                    </p>
-                    <div id="total-question-count">
-                        <span id="totalquecount">10000000</span>
-                        <span>questions</span>
-                    </div>
-                </div>
-                <div id="tag">
-                    <a href="link of all que related with this tag">
-                        <header>javascript</header>
-                    </a>
-                    <p>
-                        For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations (except for ActionScript). Note that
-                    </p>
-                    <div id="total-question-count">
-                        <span id="totalquecount">10000000</span>
-                        <span>questions</span>
+                        <span>Created At</span>
+                        <span id="totalquecount" th:text="${tag.createdAt}"></span>
                     </div>
                 </div>
             </div>
