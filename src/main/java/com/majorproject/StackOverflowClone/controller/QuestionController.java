@@ -3,6 +3,7 @@ package com.majorproject.StackOverflowClone.controller;
 import com.majorproject.StackOverflowClone.dto.QuestionDto;
 import com.majorproject.StackOverflowClone.model.Question;
 import com.majorproject.StackOverflowClone.model.Tag;
+import com.majorproject.StackOverflowClone.model.User;
 import com.majorproject.StackOverflowClone.service.QuestionService;
 import com.majorproject.StackOverflowClone.service.TagService;
 import com.majorproject.StackOverflowClone.service.UserService;
@@ -50,7 +51,9 @@ public class QuestionController {
     public String getQuestion(@RequestParam(name = "sort", defaultValue = "votes", required = false) String sortBy,
                               @PathVariable Long id,
                               Model model) {
+        User user = userService.getUserById(1L);
         model.addAttribute("question", questionService.getQuestion(id, sortBy));
+        model.addAttribute("user",user);
         return "history";
     }
 

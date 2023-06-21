@@ -5,6 +5,7 @@ import com.majorproject.StackOverflowClone.model.User;
 import com.majorproject.StackOverflowClone.service.AnswerService;
 import com.majorproject.StackOverflowClone.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,15 +19,23 @@ public class AnswerController {
 
     @RequestMapping("/questions/{questionId}/answer/{answerId}/voteUp")
     public String answerVotedUp(@PathVariable Long answerId,
-                                @PathVariable Long questionId) {
+                                @PathVariable Long questionId,
+                                Model model) {
+        User user = userService.getUserById(1l);
         answerService.votedUp(answerId);
+       Answer answer = answerService.getAnswerById(answerId);
+       model.addAttribute("isPresent",!answer.getVotedUpByUsers().contains(user));
         return "redirect:/questions/" + questionId;
     }
 
     @RequestMapping("/questions/{questionId}/answer/{answerId}/voteDown")
     public String answerVoteDown(@PathVariable Long answerId,
-                                 @PathVariable Long questionId) {
+                                 @PathVariable Long questionId,
+                                 Model model) {
+        User user = userService.getUserById(1l);
         answerService.votedDown(answerId);
+        Answer answer = answerService.getAnswerById(answerId);
+        model.addAttribute("isPresent",!answer.getVotedDownByUsers().contains(user));
         return "redirect:/questions/" + questionId;
     }
 
