@@ -54,16 +54,11 @@ public class QuestionController {
         return "history";
     }
 
-<<<<<<< HEAD
     @RequestMapping("/")
     public String homePage(@RequestParam(name = "search", required = false) String search,
                            @RequestParam(name = "page",required = false,defaultValue = "1") Long page,
                            @RequestParam(name = "pagesize",required = false,defaultValue = "15") Long pageSize,
                            Model model) {
-=======
-    @GetMapping("/")
-    public String homePage(Model model) {
->>>>>>> 455d30b71bbbca215724308945d274a55e87c1a3
         List<Question> allQuestions = questionService.getAllQuestions();
         List<Tag> allTags = tagService.getTagsByPage();
         model.addAttribute("questions", allQuestions);
