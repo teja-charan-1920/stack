@@ -3,8 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< Updated upstream
     <title>All Questions</title>
     <link rel="icon" th:href="@{/images/stackoverflowfavicon.png}" type="image/x-icon">
+=======
+    <title>all que</title>
+    <link rel="icon" href="./stackoverflowfavicon.png" type="image/x-icon">
+>>>>>>> Stashed changes
     <style>
         a {
             text-decoration: none;
@@ -201,6 +206,7 @@
         .flex--item, #filters-container a{
             font-family: fantasy;
             display: inline;
+<<<<<<< Updated upstream
             width: fit-content;
             padding: 7px;
             color: rgb(54, 51, 51);
@@ -371,6 +377,177 @@
             background-color: hsl(205, 46%, 92%);
         }
 
+=======
+            width: fit-content;
+            padding: 7px;
+            color: rgb(54, 51, 51);
+            border: 0.5px solid hsl(210, 8%, 45%);
+        }
+        .flex--item:hover, #filters-container a:hover {
+            cursor: pointer;
+            color: black;
+            background-color: #666;
+        }
+        .flex--item button {
+            cursor: pointer;
+            font-family: fantasy;
+            font-size: medium;
+            border: none;
+            background-color: transparent;
+            color: rgb(54, 51, 51);
+            padding: 3px 5px 5px 5px;
+        }
+        .flex--item {
+            margin: 0px 0px 0px 30px;
+        }
+        #filter-container {
+            display: none;
+            background-color: #f5f5f5;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .filter-column {
+            width: 33.33%;
+            display: inline-block;
+            vertical-align: top;
+            padding: 10px;
+        }
+
+        .filter-heading {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .filter-options label {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 14px;
+            font-weight: 100;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .filter-actions {
+            margin-top: 10px;
+            text-align: left;
+        }
+
+        .filter-button {
+            background-color: #0077cc;
+            color: #fff;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #questions-container {
+            display: flex;
+            flex-direction: column;
+            width: 750px;
+        }
+        #question-container {
+            padding: 25px 15px 20px 15px;
+            display: flex;
+            flex-direction: row;
+            border-bottom-color: #666;
+            border-bottom-style: solid;
+            border-bottom-width: 0.5px;
+
+        }
+        #relatedinfo {
+            width: 200px;
+            display: list-item ;
+            list-style: none;
+        }
+        #question-detail-container h3{
+            font-family: sans-serif;
+            font-weight: lighter;
+            margin: 0px 0px 10px 0px;
+        }
+        #question-desciption {
+            font-family: serif;
+            font-size: 15px;
+            font-weight: lighter;
+        }
+        #tags-container {
+            margin: 10px;
+        }
+        .tag-container {
+            display: inline;
+            background-color: #d9e1e6;
+            padding: 2.5px 7px 5px 7px;
+            border-radius: 2px;
+            margin: 100px 10px 0px 0px;
+        }
+        .tag-container a{
+            font-size: small;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #3881b4;
+        }
+        #asker-info-container {
+            display: flex;
+            justify-content: flex-end;
+        }
+        #asker-info a {
+            color: #3881b4;
+        }
+        #asker-info a:hover {
+            color: #769ebb;
+        }
+        #asker-info span {
+            color: #666;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: small;
+        }
+        #options {
+            margin: 0px 0px 0px 50px;
+        }
+        #custom-filters-heading {
+            color: hsl(210, 8%, 35%);
+            padding: 12px 120px 12px 24px;
+            background-color: hsl(210, 8%, 98%);
+            border: 0.5px solid hsl(210, 8%, 90%);
+        }
+        #custom-filters-link {
+            color: #0077cc;
+            border: 0.5px solid hsl(210, 8%, 90%);
+            margin-top: -1px;
+            padding: 25px 0px 25px 24px;
+            cursor: pointer;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: 100px;
+        }
+        #custom-filters-link:hover {
+            color: #9cccec;
+        }
+        #related-tags-container {
+            margin: 40px 0px 0px 0px;
+
+        }
+        #related-tags-heading {
+            padding: 12px 0px 12px 24px;
+            color: hsl(210, 8%, 35%);
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 18px;
+            font-weight: 100px;
+        }
+        #related-tags-links a{
+            display: list-item;
+            list-style: none;
+            width: fit-content;
+            font-size: 14px;
+            color: hsl(205, 47%, 42%);
+            margin: 10px 0px 15px 30px;
+            padding: 5px 8px 5px 10px;
+            border-radius: 3px;
+            background-color: hsl(205, 46%, 92%);
+        }
+
+>>>>>>> Stashed changes
         /* Footer styles */
 .footer {
   background-color: hsl(210, 8%, 15%);
@@ -438,7 +615,11 @@
         <li><a href="#">For Teams</a></li>
     </ul>
     <form action="#" id="searchContainer">
+<<<<<<< Updated upstream
         <img th:src="@{/images/search-26234.png}" />
+=======
+        <img src="./search-26234.png" />
+>>>>>>> Stashed changes
         <input type="search" placeholder="Search..."/>
         <button type="submit"></button>
     </form>
@@ -568,6 +749,7 @@
                         </div>
                     </form>
                 </div>
+<<<<<<< Updated upstream
 
             </div>
             <br>
@@ -656,6 +838,98 @@
                     <a th:href="@{/tagQuestions/{tagName}(tagName = ${tag.name})}">
                         <span th:text="${tag.name}"></span>
                     </a>
+=======
+
+            </div>
+            <br>
+            <hr>
+            <br>
+            <div id="questions-container" th:each="question : ${questions}">
+                <div id="question-container">
+                    <div id="relatedinfo">
+                        <div th:if="${question.votes == null}">
+                            <span>0</span>
+                            <span th:text="${question.votes}"></span>
+                            <span>votes</span>
+                        </div>
+                        <div th:if="${question.votes != null}">
+                            <span th:text="${question.votes}"></span>
+                            <span>votes</span>
+                        </div>
+                        <div>
+                            <span th:text="${#sets.size(question.answers)}"></span>
+                            <span>answers</span>
+                        </div>
+                        <div th:if="${question.views == null}">
+                            <span>0</span>
+                            <span>views</span>
+                        </div>
+                        <div th:if="${question.views != null}">
+                            <span th:text="${question.views}"></span>
+                            <span>votes</span>
+                        </div>
+                    </div>
+                    <div id="question-detail-container">
+                        <h3>
+                            <a th:href="@{/viewQuestion/{id}(id = ${question.questionId})}" class="s-link">
+                                <span th:text="${question.title}"></span>
+                            </a>
+                        </h3>
+                        <div id="question-desciption" th:if="${#strings.length(question.description)>100}">
+                            <span th:text="${#strings.substring(question.description, 0, 100)}"></span>
+                        </div>
+                        <div id="question-desciption" th:if="${#strings.length(question.description)<100}">
+                            <span th:text="${question.description}"></span>
+                        </div>
+                        <div>
+                            <div id="tags-container" th:each="tag:${question.tags}">
+                                <div class="tag-container">
+                                    <a href="#">
+                                        <span th:text="${tag.name}"></span>
+                                    </a>
+                                </div>
+                            </div>
+<!--                            <div id="asker-info-container">-->
+<!--                                <a href="#">-->
+<!--                                    <div id="asker-info">-->
+<!--                                        <a href="user link">-->
+<!--                                            <span th:text="${question.user.name}"></span>-->
+<!--                                        </a>-->
+<!--                                        <span title="reputation score" th:text="${question.user.reputation}"></span>-->
+<!--                                        <span>asked</span>-->
+<!--                                        <span title="uploaded time" th:text="${question.creationDateTime}"></span>-->
+<!--                                    </div>-->
+<!--                                </a>-->
+<!--                            </div>-->
+                        </div>
+                    </div>
+                </div><hr>
+            </div>
+            <div class="navigation">
+                <div>
+                    <a th:href="@{/}">&laquo;
+                        Previous</a>
+                </div>
+                <div>
+                    <a th:href="@{/}">Next
+                        &raquo;</a>
+                </div>
+            </div>
+        </div>
+        <aside id="options">
+            <div id="custom-filters-container">
+                <div id="custom-filters-heading">Custom Filters</div>
+                <div onclick="filteringOptions()" id="custom-filters-link">create a custom filter</div>
+            </div>
+            <div id="related-tags-container">
+                <div id="related-tags-heading">Related Tags</div>
+                <div id="related-tags-links">
+                    <a href="#">tag</a>
+                    <a href="#">tag</a>
+                    <a href="#">tag</a>
+                    <a href="#">tag</a>
+
+>>>>>>> Stashed changes
                 </div>
             </div>
         </aside>

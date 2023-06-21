@@ -12,6 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+<<<<<<< Updated upstream
+=======
+import java.util.HashSet;
+>>>>>>> Stashed changes
 import java.util.List;
 
 @Controller
@@ -58,6 +62,7 @@ public class QuestionController {
     }
 
     @RequestMapping("/")
+<<<<<<< Updated upstream
     public String homePage(@RequestParam(name = "search", required = false) String search,
                            @RequestParam(name = "page",required = false,defaultValue = "1") Long page,
                            @RequestParam(name = "pagesize",required = false,defaultValue = "15") Long pageSize,
@@ -66,6 +71,11 @@ public class QuestionController {
         List<Tag> allTags = tagService.getTagsByPage();
         model.addAttribute("questions", allQuestions);
         model.addAttribute("tags",allTags);
+=======
+    public String homePage(Model model){
+        List<Question> allQuestions = questionService.getAllQuestions();
+        model.addAttribute("questions",allQuestions);
+>>>>>>> Stashed changes
         return "allQue";
     }
 }
