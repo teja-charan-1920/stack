@@ -127,10 +127,10 @@ a {
             padding: 19px 5px 0px 12px ;
             width: auto;
         }
-        #aside-nav-links {
+        .aside-nav-links {
             list-style: none;
         }
-        #aside-nav-links li {
+        .aside-nav-links li {
             font-size: 13px;
             font-family: sans-serif;
             font-weight: 200px;
@@ -139,14 +139,14 @@ a {
             height: 30px;
         }
 
-        #aside-nav-links li a {
+        .aside-nav-links li a {
             text-decoration: none;
             color: rgb(78, 74, 74);
         }
-        #aside-nav-links li a:hover {
+        .aside-nav-links li a:hover {
             color: black;
         }
-        #aside-nav-links-innerList {
+        .aside-nav-links-innerList {
             margin: 0px 0px 0px 28px;
             height: 25px;
         }
@@ -158,7 +158,7 @@ a {
             padding: 7px 5px 0px 24px;
         }
 
-        .question p {
+        .question a p {
             font-size: 30px;
             font-family:Verdana, Geneva, Tahoma, sans-serif;
             color: #444;
@@ -175,6 +175,15 @@ a {
         .question{
             display: flex;
             justify-content: space-between;
+            padding: 10px 80px 20px 10px;
+        }
+        .question-detail-container {
+            display: flex;
+            border-bottom: 1px solid hsl(210, 6%, 70%) ;
+            padding: 10px 0px 30px 0px;
+        }
+        .question-detail {
+            width: 100%;
         }
         .voting-buttons {
             padding: 90px 40px 0px 5px;
@@ -215,8 +224,9 @@ a {
             justify-content: space-between;
         }
         #queDesciption{
-            align-items: center;
-            padding: 50px 70px 0px 0px;
+            display: flex;
+            flex-direction: column;
+            padding: 0px 70px 0px 0px;
         }
 
         .tag {
@@ -233,7 +243,9 @@ a {
             background-color: #91c3e7;
             width: fit-content;
         }
-
+        #totalAns {
+            padding: 20px 20px 10px 30px;
+        }
         #totalAns code{
             font-size: 20px;
         }
@@ -250,30 +262,71 @@ a {
             list-style: none;
             margin: 20px 0px 0px -30px;
         }
-        #side-links-votes {
+        .side-links-votes {
             color: white;
             border: none;
             background-color: hsl(140, 40%, 55%);
             padding: 3px 13px 3px 13px;
         }
-        #side-links-que {
+        .side-links-que {
             text-decoration: none;
             color: hsl(206, 100%, 40%);
         }
+        #answers-container {
+            width: 750px;
+        }
         #answers {
+            display:flex;
             width: 740px;
+            padding: 10px 10px 40px 0px;
         }
         #ansContainer {
             margin: -200px 0px 0px 100px;
+        }
+        .answer-comment-container {
+            display: flex;
+            flex-direction: column;
         }
         #commentss span {
             margin-left: 20px;
             float: right;
         }
+
         #addAnswer {
             height: 150px;
             width: 700px;
             margin: 0px 0px 0px 00px;
+        }
+        #create-comment-container {
+            width:700px;
+            padding: 10px 10px 100px 10px;
+        }
+        #create-comment {
+            font-size: 14px;
+            color: #999;
+            cursor: pointer;
+            padding: 10px 0px 20px 0px;
+        }
+        #create-comment:hover {
+            color: #025d9e;
+        }
+        .create-comment-form {
+            display: none;
+        }
+        .create-comment-form button {
+            background-color: #025d9e;
+            padding: 7px 10px 7px 10px;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            border: none;
+        }
+        .create-comment-form.show {
+          display: block;
+        }
+        #comment-box {
+            height: 50px;
+            width: 600px;
         }
 
         /* Footer styles */
