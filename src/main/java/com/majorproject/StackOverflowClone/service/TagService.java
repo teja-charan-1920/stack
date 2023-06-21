@@ -17,14 +17,20 @@ public class TagService {
        return tagRepository.findAll();
     }
 
+
     public List<Question> getQuestionsByTag(String name) {
         Tag tag = tagRepository.findByName(name);
         List<Question> tagQuestions = new ArrayList<>();
-        try{
-             tagQuestions = new ArrayList<>(tag.getQuestions());
-        } catch (Exception e){
+        try {
+            tagQuestions = new ArrayList<>(tag.getQuestions());
+        } catch (Exception e) {
         }
 
         return tagQuestions;
+    }
+
+    public long countTotalTags() {
+        return tagRepository.count();
+
     }
 }
