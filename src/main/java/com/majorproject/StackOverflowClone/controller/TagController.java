@@ -1,11 +1,13 @@
 package com.majorproject.StackOverflowClone.controller;
 
+import com.majorproject.StackOverflowClone.model.Question;
 import com.majorproject.StackOverflowClone.model.Tag;
 import com.majorproject.StackOverflowClone.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -33,4 +35,13 @@ public class TagController {
     System.out.println(tags);
     return "tags";
 }
+
+    @GetMapping("/tagQuestions/{tagName}")
+    public String tagQuestions(@PathVariable("tagName") String name,Model model){
+        List<Question> allQuestions = tagService.getQuestionsByTag(name);
+        List<Tag> allTags = tagService.getTagsByPage();
+        model.addAttribute("questions",allQuestions);
+        model.addAttribute("tags",allTags);
+        return "allQue";
+    }
 }

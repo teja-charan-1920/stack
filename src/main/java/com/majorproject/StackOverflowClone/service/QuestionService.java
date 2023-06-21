@@ -46,12 +46,13 @@ public class QuestionService {
         }
         Set<Tag> setOfTags = saveTags(questionDto.getTotalTags().split(","));
         Question question = convertDtoToDao(questionDto);
+
         for (Tag tag : setOfTags) {
                 tag.getQuestions().add(question);
                 tagRepository.save(tag);
             }
         question.setTags(setOfTags);
-        question.setUser(userRepository.findById(1l).get());
+        System.out.println(1);
         return questionRepository.save(question).getQuestionId();
     }
 
@@ -60,7 +61,7 @@ public class QuestionService {
 
         question.setTitle(questionDto.getTitle());
         question.setDescription(questionDto.getDescription());
-        question.setTags(questionDto.getTags());
+        question.setUser(userRepository.findById(1l).get());
         return question;
     }
 
