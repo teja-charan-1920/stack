@@ -54,15 +54,13 @@ public class QuestionController {
         return "history";
     }
 
-    @RequestMapping("/")
+    @GetMapping("/")
     public String homePage(@RequestParam(name = "search", required = false) String search,
-                           @RequestParam(name = "page",required = false,defaultValue = "1") Long page,
-                           @RequestParam(name = "pagesize",required = false,defaultValue = "15") Long pageSize,
+                           @RequestParam(name = "page",required = false,defaultValue = "1") int page,
+                           @RequestParam(name = "pagesize",required = false,defaultValue = "15") int pageSize,
+                           @RequestParam(name = "sort", defaultValue = "votes", required = false) String sort,
                            Model model) {
-        List<Question> allQuestions = questionService.getAllQuestions();
-        List<Tag> allTags = tagService.getTagsByPage();
-        model.addAttribute("questions", allQuestions);
-        model.addAttribute("tags",allTags);
+        model.addAttribute("questions",questionService.getAllQuestions(search,page,pageSize,sort));
         return "allQue";
     }
 }
