@@ -45,4 +45,6 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "badge_id"))
     private Set<Badge> badges;
+
+
 }
