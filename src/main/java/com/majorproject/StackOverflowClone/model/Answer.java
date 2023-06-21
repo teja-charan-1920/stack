@@ -20,6 +20,7 @@ public class Answer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "answer_id")
     private Long answerId;
+    @Column(columnDefinition = "TEXT")
     private String answer;
     private boolean isAccepted = FALSE;
     private Long votes = 0L;

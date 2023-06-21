@@ -16,6 +16,7 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentId;
+    @Column(columnDefinition = "TEXT")
     private String comment;
     @CreationTimestamp
     private LocalDateTime createdAt;
