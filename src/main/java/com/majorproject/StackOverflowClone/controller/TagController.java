@@ -22,6 +22,7 @@ public class TagController {
                        @RequestParam(value = "order", defaultValue = "") String sortOrder,
                        @RequestParam(value = "search", defaultValue = "") String searchKeyword) {
     List<Tag> tags;
+    long totalTags = tagService.countTotalTags();
 //    if(!sortOrder.isEmpty()) {
 //
 //    }
@@ -32,7 +33,6 @@ public class TagController {
     tags = tagService.getTagsByPage();
 //    }
     model.addAttribute("tags",tags);
-    System.out.println(tags);
     return "tags";
 }
 
