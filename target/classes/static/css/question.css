@@ -158,7 +158,7 @@ a {
             padding: 7px 5px 0px 24px;
         }
 
-        .question p {
+        .question a p {
             font-size: 30px;
             font-family:Verdana, Geneva, Tahoma, sans-serif;
             color: #444;

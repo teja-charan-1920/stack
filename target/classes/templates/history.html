@@ -75,7 +75,7 @@
             <section>
                 <div id="question-container">
                     <div class="question">
-                        <p th:text="${question.title}"></p>
+                        <a th:href="@{/questions/{id}(id=${question.id})}"><p th:text="${question.title}"></p></a>
                         <div class="signup-button" id="addQueBtn">
                             <a href="/questions/ask" >Ask Questions?</a>
                         </div>
@@ -166,19 +166,10 @@
                                             <button type="submit">Add comment</button>
                                         </form>
                                         <script>
-                                            function popupCreateCommentForm() {
-                                                var createCommentFormId = document.getElementById("create-comment-form");
-                                                if( createCommentFormId.style.display === "none" ) {
-                                                    createCommentFormId.style.display = "inline";
-                                                } else {
-                                                    createCommentFormId.style.display = "none";
-                                                }
-                                            }
-
                                             function toggleCommentForm(button) {
-    var commentForm = button.nextElementSibling;
-    commentForm.classList.toggle("show");
-  }
+                                                var commentForm = button.nextElementSibling;
+                                                commentForm.classList.toggle("show");
+                                            }
                                         </script>
                                     </div>
                                 </div>

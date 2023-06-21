@@ -2,7 +2,9 @@ package com.majorproject.StackOverflowClone.controller;
 
 import com.majorproject.StackOverflowClone.dto.QuestionDto;
 import com.majorproject.StackOverflowClone.model.Question;
+import com.majorproject.StackOverflowClone.model.Tag;
 import com.majorproject.StackOverflowClone.service.QuestionService;
+import com.majorproject.StackOverflowClone.service.TagService;
 import com.majorproject.StackOverflowClone.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,9 @@ public class QuestionController {
     QuestionService questionService;
     @Autowired
     UserService userService;
+
+    @Autowired
+    TagService tagService;
 
     @PostMapping("/questions/{id}/vote/up")
     public String voteUpForQuestion(@PathVariable Long id) {
@@ -41,13 +46,6 @@ public class QuestionController {
         return "ask_que_form";
     }
 
-
-    @GetMapping("/")
-    public String homePage() {
-        List<Question> allQuestions = questionService.getAllQuestions();
-        return "allQue";
-    }
-
     @GetMapping("/questions/{id}")
     public String getQuestion(@RequestParam(name = "sort", defaultValue = "votes", required = false) String sortBy,
                               @PathVariable Long id,
@@ -57,9 +55,14 @@ public class QuestionController {
     }
 
     @RequestMapping("/")
-    public String homePage(Model model) {
+    public String homePage(@RequestParam(name = "search", required = false) String search,
+                           @RequestParam(name = "page",required = false,defaultValue = "1") Long page,
+                           @RequestParam(name = "pagesize",required = false,defaultValue = "15") Long pageSize,
+                           Model model) {
         List<Question> allQuestions = questionService.getAllQuestions();
+        List<Tag> allTags = tagService.getTagsByPage();
         model.addAttribute("questions", allQuestions);
+        model.addAttribute("tags",allTags);
         return "allQue";
     }
 }
