@@ -468,6 +468,43 @@
                         <div th:if="${question.votes == null}">
                             <span>0</span>
                             <span th:text="${question.votes}"></span>
+                            <span>answers</span>
+                        </div>
+                        <div>
+                            <span>2</span>
+                            <span>views</span>
+                        </div>
+                    </div>
+                    <div id="question-detail-container">
+                        <h3>
+                            <a href="/" class="s-link">Error copying data from a csv file (with row number 2: found more columns than expected column count 41)</a>
+                        </h3>
+                        <div>
+                            <div id="tags-container">
+                                <div class="tag-container">
+                                    <a href="particular tag link">csv</a>
+                                </div>
+                                <div class="tag-container">
+                                    <a href="/questions/tagged/csv">csv</a>
+                                </div>                                
+                            </div>
+                            <div id="asker-info-container">
+                                <a href="#">
+                                    <div id="asker-info">
+                                        <a href="user link">BokA</a>
+                                        <span>1</span>
+                                        <span>asked/modified</span>
+                                        <span title="uploaded time">40 secs ago</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="question-container">
+                    <div id="relatedinfo">
+                        <div>
+                            <span>0000</span>
                             <span>votes</span>
                         </div>
                         <div th:if="${question.votes != null}">
