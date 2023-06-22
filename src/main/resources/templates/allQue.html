@@ -527,7 +527,7 @@
                     <form>
                         <span><button value="createdAt" name="sort">Newest</button></span>
                         <span><button value="updatedAt" name="sort">Active</button></span>
-                        <span><button value="votes" name="sort">Unanswered</button></span>
+                        <span><button value="votes" name="sort">Votes</button></span>
                         <input type="hidden" name="search" th:if="${not #strings.isEmpty(questions.search)}"
                                th:value="${questions.search}"/>
                     </form>

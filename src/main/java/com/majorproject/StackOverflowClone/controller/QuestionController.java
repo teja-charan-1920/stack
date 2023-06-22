@@ -27,8 +27,9 @@ public class QuestionController {
     }
 
     @GetMapping("/home")
-    public String homePage(Model model){
-        model.addAttribute("questions",questionService.getQuestionsForHomePage());
+    public String homePage(@RequestParam(name = "sort", defaultValue = "votes", required = false) String sort,
+                           Model model){
+        model.addAttribute("questions",questionService.getQuestionsForHomePage(sort));
         return "home";
     }
 

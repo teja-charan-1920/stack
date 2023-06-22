@@ -59,7 +59,6 @@ public class QuestionService {
             tagRepository.save(tag);
         }
         question.setTags(setOfTags);
-        System.out.println(1);
         return questionRepository.save(question).getQuestionId();
     }
 
@@ -178,12 +177,22 @@ public class QuestionService {
         updateQuestionVotes(question);
     }
 
-    public PageDto getQuestionsForHomePage() {
+    public PageDto getQuestionsForHomePage(String sort) {
         PageDto pageDto = new PageDto();
-        Sort sort = Sort.by(Sort.Direction.DESC, "updatedAt");
-        Specification<Question> specification = questionSpecification.getQuestionsInLast12Hours();
-        pageDto.setQuestions(questionRepository.findAll(specification, sort));
         pageDto.setTags(tagRepository.findAll());
+        Pageable pageable = PageRequest.of(0, 25, Sort.by(Sort.Direction.ASC, "createdAt"));
+        if(sort.equals("week")){
+            Specification<Question> specification = questionSpecification.getQuestionsInLastDays(7);
+            pageDto.setQuestions(questionRepository.findAll(specification,pageable).getContent());
+            return pageDto;
+        } else if (sort.equals("month")) {
+            Specification<Question> specification = questionSpecification.getQuestionsInLastDays(30);
+            pageDto.setQuestions(questionRepository.findAll(specification,pageable).getContent());
+            return pageDto;
+        }
+        pageable = PageRequest.of(0, 25, Sort.by(Sort.Direction.DESC, "votes"));
+        Specification<Question> specification = questionSpecification.getQuestionsInLastDays(15);
+        pageDto.setQuestions(questionRepository.findAll(specification, pageable).getContent());
         return pageDto;
     }
 
