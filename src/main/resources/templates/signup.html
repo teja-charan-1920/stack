@@ -140,6 +140,13 @@
             margin: 0px 0px 0px 28px;
             height: 25px;
         }
+
+
+
+
+
+
+
 body {
   font-family: Arial, sans-serif;
   background-color: #f5f5f5;
@@ -214,8 +221,7 @@ button {
   background-color: #0077cc;
   color: #fff;
   border: none;
-
-    </style>
+  </style>
 </head>
 <body>
 <main id="aboveNavBar">
@@ -232,18 +238,17 @@ button {
                     popup.style.display = "none";
                 }
             }
-
         </script>
-        <a href="perticularQue.html">
+        <a th:href="@{/home}">
             <div>
                 <img th:src="@{/images/stackoverflowfavicon.png}" alt="Logo" title="logo"/>
                 <span>stack<b>overflow</b></span>
             </div>
         </a>
         <ul class="nav-links">
-            <li><a href="#">About</a></li>
-            <li><a href="#">Products</a></li>
-            <li><a href="#">For Teams</a></li>
+            <li><a href="https://stackoverflow.co/">About</a></li>
+            <li><a href="https://stackoverflow.co/advertising/">Products</a></li>
+            <li><a href="https://stackoverflow.co/teams/">For Teams</a></li>
         </ul>
         <form action="#" id="searchContainer">
             <img th:src="@{/images/search-26234.png}" alt="Logo" title="logo"/>
@@ -251,8 +256,7 @@ button {
             <button type="submit"></button>
         </form>
         <div id="left-side-bar-btn">
-            <button onclick="leftsidebar()"><img th:src="@{/images/menu-button-of-three-horizontal-lines.png}"
-                                                 alt="Logo" title="logo"></button>
+            <button onclick="leftsidebar()" ><img th:src="@{/images/menu-button-of-three-horizontal-lines.png}" alt="Logo" title="logo"></button>
         </div>
     </nav>
 
@@ -262,7 +266,7 @@ button {
                 <nav role="navigation">
                     <ol id="aside-nav-links">
                         <li>
-                            <a href="#">
+                            <a th:href="@{/home}">
                                 <span>Home</span>
                             </a>
                         </li>
@@ -272,22 +276,22 @@ button {
                             <span>PUBLIC</span>
                         </li>
                         <li id="aside-nav-links-innerList">
-                            <a href="#">
+                            <a th:href="@{/}">
                                 <span>Questions</span>
                             </a>
                         </li>
                         <li id="aside-nav-links-innerList">
-                            <a href="#">
+                            <a th:href="@{/tags}">
                                 <span>Tags</span>
                             </a>
                         </li>
                         <li id="aside-nav-links-innerList">
-                            <a href="#">
+                            <a th:href="@{/users}">
                                 <span>Users</span>
                             </a>
                         </li>
                         <li id="aside-nav-links-innerList">
-                            <a href="#">
+                            <a href="https://stackoverflow.com/jobs/companies">
                                 <span>Companies</span>
                             </a>
                         </li>
@@ -323,7 +327,7 @@ button {
                 </div>
                 <div class="form-group">
                     <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" required>
+                    <input type="password" id="password" name="password"  required>
                     <!--          pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" title="Passwords must contain at least eight characters, including at least 1 letter and 1 number."-->
                 </div>
                 <button type="submit">Sign Up</button>
