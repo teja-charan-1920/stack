@@ -89,7 +89,7 @@ public class AnswerService {
 
         Comment comment = new Comment();
         comment.setComment(data);
-        comment.setUser(user);
+//        comment.setUser(user);
         commentRepository.save(comment);
         Answer answer = answerRepository.findById(answerId).get();
         answer.getComments().add(comment);
