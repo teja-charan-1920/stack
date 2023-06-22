@@ -417,10 +417,17 @@
 .footer-column ul li a:hover {
   color: #0077cc;
 }
-.navigation{
+.pagination-container{
         display:flex;
-        justify-content:space-around;
+        flex-direction: column;
     }
+   .nextForm {
+        display: flex;
+        justify-content: flex-end;   }
+   .prevForm {
+        display: flex;
+        justify-content: flex-start;
+   }
 
 
     </style>
@@ -642,8 +649,9 @@
                 </div>
                 <hr>
             </div>
-            <div class="navigation">
-                <form class="prevForm" th:if="${questions.page > 1}"
+            <div class="pagination-container">
+                <div class="prevForm">
+                <form th:if="${questions.page > 1}"
                       th:action="@{/(page=${questions.page - 1})}" method="get">
                     <input type="hidden" name="page" th:value="${questions.page - 1}"/>
                     <input type="hidden" name="search" th:if="${not #strings.isEmpty(questions.search)}"
@@ -653,8 +661,9 @@
                            th:value="${questions.sortBy}"/>
                     <button type="submit" class="nextButton">&laquo;Previous</button>
                 </form>
-
-                <form class="nextForm" th:if="${questions.page < questions.totalPages}"
+                </div>
+                <div  class="nextForm">
+                <form th:if="${questions.page < questions.totalPages}"
                       th:action="@{/(page=${questions.page + 1})}" method="get">
                     <input type="hidden" name="page" th:value="${questions.page + 1}"/>
                     <input type="hidden" name="search" th:if="${not #strings.isEmpty(questions.search)}"
@@ -664,6 +673,7 @@
                            th:value="${questions.sortBy}"/>
                     <button type="submit" class="nextButton">Next&raquo;</button>
                 </form>
+                </div>
             </div>
         </div>
         <aside id="options">
