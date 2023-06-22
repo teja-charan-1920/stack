@@ -525,9 +525,9 @@
                 </div>
                 <div id="filters-container">
                     <form>
-                    <span><button value="createdAt" name="sort">Newest</button></span>
-                    <span><button value="updatedAt" name="sort">Active</button></span>
-                    <span><button value="votes" name="sort">Unanswered</button></span>
+                        <span><button value="createdAt" name="sort">Newest</button></span>
+                        <span><button value="updatedAt" name="sort">Active</button></span>
+                        <span><button value="votes" name="sort">Unanswered</button></span>
                         <input type="hidden" name="search" th:if="${not #strings.isEmpty(questions.search)}"
                                th:value="${questions.search}"/>
                     </form>
@@ -623,7 +623,7 @@
                     </div>
                     <div id="question-detail-container">
                         <h3>
-                            <a th:href="@{/questions/{id}(id = ${question.questionId})}" class="s-link">
+                            <a th:href="@{/questionView/{id}(id = ${question.questionId})}" class="s-link">
                                 <span th:text="${question.title}"></span>
                             </a>
                         </h3>
@@ -660,28 +660,28 @@
             </div>
             <div class="pagination-container">
                 <div class="prevForm">
-                <form th:if="${questions.page > 1}"
-                      th:action="@{/(page=${questions.page - 1})}" method="get">
-                    <input type="hidden" name="page" th:value="${questions.page - 1}"/>
-                    <input type="hidden" name="search" th:if="${not #strings.isEmpty(questions.search)}"
-                           th:value="${questions.search}"/>
-                    <input type="hidden" name="sort"
-                           th:if="${not #strings.isEmpty(questions.sortBy) and questions.sortBy != 'votes'}"
-                           th:value="${questions.sortBy}"/>
-                    <button type="submit" class="nextButton">&laquo;Previous</button>
-                </form>
+                    <form th:if="${questions.page > 1}"
+                          th:action="@{/(page=${questions.page - 1})}" method="get">
+                        <input type="hidden" name="page" th:value="${questions.page - 1}"/>
+                        <input type="hidden" name="search" th:if="${not #strings.isEmpty(questions.search)}"
+                               th:value="${questions.search}"/>
+                        <input type="hidden" name="sort"
+                               th:if="${not #strings.isEmpty(questions.sortBy) and questions.sortBy != 'votes'}"
+                               th:value="${questions.sortBy}"/>
+                        <button type="submit" class="nextButton">&laquo;Previous</button>
+                    </form>
                 </div>
                 <div  class="nextForm">
-                <form th:if="${questions.page < questions.totalPages}"
-                      th:action="@{/(page=${questions.page + 1})}" method="get">
-                    <input type="hidden" name="page" th:value="${questions.page + 1}"/>
-                    <input type="hidden" name="search" th:if="${not #strings.isEmpty(questions.search)}"
-                           th:value="${questions.search}"/>
-                    <input type="hidden" name="sort"
-                           th:if="${not #strings.isEmpty(questions.sortBy) and questions.sortBy != 'votes'}"
-                           th:value="${questions.sortBy}"/>
-                    <button type="submit" class="nextButton">Next&raquo;</button>
-                </form>
+                    <form th:if="${questions.page < questions.totalPages}"
+                          th:action="@{/(page=${questions.page + 1})}" method="get">
+                        <input type="hidden" name="page" th:value="${questions.page + 1}"/>
+                        <input type="hidden" name="search" th:if="${not #strings.isEmpty(questions.search)}"
+                               th:value="${questions.search}"/>
+                        <input type="hidden" name="sort"
+                               th:if="${not #strings.isEmpty(questions.sortBy) and questions.sortBy != 'votes'}"
+                               th:value="${questions.sortBy}"/>
+                        <button type="submit" class="nextButton">Next&raquo;</button>
+                    </form>
                 </div>
             </div>
         </div>

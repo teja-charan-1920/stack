@@ -74,8 +74,8 @@ public class QuestionService {
 
     public QuestionDto getQuestion(Long id, String sortBy) {
         Question question = getQuestionById(id);
-        question.setViews(question.getViews() + 1);
-        questionRepository.save(question);
+//        question.setViews(question.getViews() + 1);
+//        questionRepository.save(question);
 
         QuestionDto questionDto = convertDaoToDto(question);
         questionDto.setAnswers(new HashSet<>(answerRepository.findAll(answerSpecification.findByQuestionIdAndSortByVotes(id, sortBy))));
@@ -186,5 +186,11 @@ public class QuestionService {
         pageDto.setQuestions(questionRepository.findAll(specification, sort));
         pageDto.setTags(tagRepository.findAll());
         return pageDto;
+    }
+
+    public void setViewForQuestion(Long id) {
+        Question question = getQuestionById(id);
+        question.setViews(question.getViews() + 1);
+        questionRepository.save(question);
     }
 }
