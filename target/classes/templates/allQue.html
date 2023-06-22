@@ -626,10 +626,10 @@
                             </a>
                         </h3>
                         <div id="question-desciption" th:if="${#strings.length(question.description)>100}">
-                            <span th:text="${#strings.substring(question.description, 0, 100)}"></span>
+                            <span th:utext="${#strings.substring(question.description, 0, 100)}"></span>
                         </div>
                         <div id="question-desciption" th:if="${#strings.length(question.description)<100}">
-                            <span th:text="${question.description}"></span>
+                            <span th:utext="${question.description}"></span>
                         </div>
                         <div>
                             <div id="tags-container">

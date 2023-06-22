@@ -6,6 +6,7 @@
     <title>Timeline for answer to <span th:text="que">(que)</span></title>
     <link rel="icon" th:href="@{/images/stackoverflowfavicon.png}" type="image/x-icon">
     <link rel="stylesheet" th:href="@{/css/question.css}">
+    <script th:src="@{/tinymce/tinymce.min.js}"></script>
 </head>
 <body>
 <main id="aboveNavBar"></main>
@@ -111,7 +112,7 @@
                                 </a>
                             </div>
                             <div class="question-detail">
-                            <p th:text="${question.description}"> </p>
+                            <p th:utext="${question.description}"> </p>
                             <br>
                                 <div class="tag-container" th:each="tag:${question.tags}">
                                     <a th:href="@{/questions/tagged/{tag}(tag = ${tag.name})}">
@@ -160,7 +161,7 @@
                                     </a>
                                 </div>
                                 <div class="answer-comment-container">
-                                    <p th:text="${answer.answer}"></p>
+                                    <p th:utext="${answer.answer}"></p>
                                     <div id="commentss" th:each="comment : ${answer.comments}">
                                         <hr>
                                         <p th:text="${comment.comment}"></p>
@@ -204,7 +205,7 @@
                     <hr>
                     <h1>Add your Answers</h1>
                     <form th:action="@{/questions/{questionId}/addAnswer(questionId=${question.id})}" method="post">
-                        <textarea placeholder="add answer" id="addAnswer" name="answer" required></textarea>
+                        <textarea placeholder="add answer" id="addAnswer" name="answer"></textarea>
                         <br>
                         <button type="submit">Add Answer</button>
                     </form>
@@ -251,5 +252,20 @@
         </div>
     </footer>
 </div>
+<script>
+        tinymce.init({
+            selector: 'textarea#addAnswer',
+    width: 800,
+    height: 300,
+    plugins: [
+        'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'code', 'table',
+        'preview', 'anchor', 'pagebreak', 'searchreplace', 'wordcount', 'visualblocks',
+        'fullscreen', 'insertdatetime', 'media', 'emoticons', 'codesample'
+    ],
+    toolbar: 'undo redo | styleselect | bold italic underline | alignleft alignright aligncenter alignjustify | bullist numlist outdent indent | print preview fullscreen | forecolor backcolor emoticons',
+    menubar: 'favs file edit view format tools table',
+    content_style: 'body { font-family: Helvetica, Arial, sans-serif; font-size: 16px; }'
+});
+    </script>
 </body>
 </html>

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Timeline for answer to <span th:text="que">(que)</span></title>
     <link rel="icon" th:href="@{/images/stackoverflowfavicon.png}" type="image/x-icon">
+    <script th:src="@{/tinymce/tinymce.min.js}"></script>
     <style>
         a {
             text-decoration: none;
@@ -349,7 +350,7 @@
                         <br>
                     </label>
                     <br>
-                    <textarea id="description" name="description" required></textarea>
+                    <textarea id="description" name="description"></textarea>
                 </div>
                 <div id="tagBox">
                     <label for="tag">
@@ -403,6 +404,23 @@
                 </div>
             </div>
         </footer>
+
 </main>
+    <script>
+    tinymce.init({
+        selector: 'textarea#description',
+width: 800,
+height: 300,
+plugins: [
+    'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'code', 'table',
+    'preview', 'anchor', 'pagebreak', 'searchreplace', 'wordcount', 'visualblocks',
+    'fullscreen', 'insertdatetime', 'media', 'emoticons', 'codesample'
+],
+toolbar: 'undo redo | styleselect | bold italic underline | alignleft alignright aligncenter alignjustify | bullist numlist outdent indent | print preview fullscreen | forecolor backcolor emoticons',
+menubar: 'favs file edit view format tools table',
+content_style: 'body { font-family: Helvetica, Arial, sans-serif; font-size: 16px; }'
+});
+</script>
 </body>
+</html>
 
