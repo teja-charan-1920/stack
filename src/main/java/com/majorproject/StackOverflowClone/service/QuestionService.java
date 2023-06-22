@@ -74,13 +74,11 @@ public class QuestionService {
 
     public QuestionDto getQuestion(Long id, String sortBy) {
         Question question = getQuestionById(id);
-//        question.setViews(question.getViews() + 1);
-//        questionRepository.save(question);
-
         QuestionDto questionDto = convertDaoToDto(question);
         questionDto.setAnswers(new HashSet<>(answerRepository.findAll(answerSpecification.findByQuestionIdAndSortByVotes(id, sortBy))));
         questionDto.setSortBy(sortBy);
-        return setVotedUpAndDown(questionDto);
+        questionDto.setRelatedQue(getRelatedQuestions(question));
+        return  setVotedUpAndDown(questionDto);
     }
 
     public QuestionDto setVotedUpAndDown(QuestionDto questionDto) {
@@ -193,5 +191,15 @@ public class QuestionService {
         Question question = getQuestionById(id);
         question.setViews(question.getViews() + 1);
         questionRepository.save(question);
+    }
+
+    public Set<Question> getRelatedQuestions(Question question){
+        Set<Question> related = new HashSet<>();
+
+        for(Tag tag:question.getTags()){
+            related.addAll(tag.getQuestions());
+        }
+        related.remove(question);
+        return related;
     }
 }

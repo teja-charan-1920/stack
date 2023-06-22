@@ -173,7 +173,7 @@
                                             Add a comment
                                         </div>
                                         <form th:action="@{/questions/{questionId}/answer/{answerId}/comment(questionId=${question.id}, answerId=${answer.answerId})}" class="create-comment-form" method="post">
-                                            <textarea name="comment" id="comment-box"></textarea>
+                                            <textarea name="comment" id="comment-box" required></textarea>
                                             <button type="submit">Add comment</button>
                                         </form>
                                         <script>
@@ -189,52 +189,12 @@
                     </div>
                     <hr>
                     <div id="linksContainer">
-                        <header>related Que</header>
-                        <div id="relatedLinks">
+                        <header>Related Questions</header>
+                        <div id="relatedLinks" th:each="question:${question.relatedQue}">
                             <ol>
-                                <li class="side-links"><a href="#">
-                                    <code class="side-links-votes">2222</code>
-                                    <span class="side-links-que"> is bla vlla bla bla bla bla bla bla blabla bla</span>
-                                </a></li>
-                                <li class="side-links"><a href="#">
-                                    <code class="side-links-votes">2222</code>
-                                    <span class="side-links-que"> is bla bla bla bla bla bla blabla bla</span>
-                                </a></li>
-                                <li class="side-links"><a href="#">
-                                    <code class="side-links-votes">2222</code>
-                                    <span class="side-links-que"> is bla bla bla bla bla bla blabla bla</span>
-                                </a></li>
-                                <li class="side-links"><a href="#">
-                                    <code class="side-links-votes">2222</code>
-                                    <span class="side-links-que"> is bla bla bla bla bla bla blabla bla</span>
-                                </a></li>
-                                <li class="side-links"><a href="#">
-                                    <code class="side-links-votes">2222</code>
-                                    <span class="side-links-que"> is bla bla bla bla bla bla blabla bla</span>
-                                </a></li>
-                                <li class="side-links"><a href="#">
-                                    <code class="side-links-votes">2222</code>
-                                    <span class="side-links-que"> is bla bla bla bla bla bla blabla bla</span>
-                                </a></li>
-                                <li class="side-links"><a href="#">
-                                    <code class="side-links-votes">2222</code>
-                                    <span class="side-links-que"> is bla bla bla bla bla bla blabla bla</span>
-                                </a></li>
-                                <li class="side-links"><a href="#">
-                                    <code class="side-links-votes">2222</code>
-                                    <span class="side-links-que"> is bla bla bla bla bla bla blabla bla</span>
-                                </a></li>
-                                <li class="side-links"><a href="#">
-                                    <code class="side-links-votes">2222</code>
-                                    <span class="side-links-que"> is bla bla bla bla bla bla blabla bla</span>
-                                </a></li>
-                                <li class="side-links"><a href="#">
-                                    <code class="side-links-votes">2222</code>
-                                    <span class="side-links-que"> is bla bla bla bla bla bla blabla bla</span>
-                                </a></li>
-                                <li class="side-links"><a href="#">
-                                    <code class="side-links-votes">2222</code>
-                                    <span class="side-links-que"> is bla bla bla bla bla bla blabla bla</span>
+                                <li class="side-links"><a th:href="@{/questions/{id}(id=${question.questionId})}">
+                                    <code class="side-links-votes" th:text="${question.votes}"></code>
+                                    <span class="side-links-que" th:text="${question.title}"></span>
                                 </a></li>
                             </ol>
                         </div>
@@ -244,7 +204,7 @@
                     <hr>
                     <h1>Add your Answers</h1>
                     <form th:action="@{/questions/{questionId}/addAnswer(questionId=${question.id})}" method="post">
-                        <textarea placeholder="add answer" id="addAnswer" name="answer"></textarea>
+                        <textarea placeholder="add answer" id="addAnswer" name="answer" required></textarea>
                         <br>
                         <button type="submit">Add Answer</button>
                     </form>
