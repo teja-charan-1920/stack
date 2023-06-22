@@ -84,8 +84,8 @@
                         </div>
                     </div>
                     <code id="queDetailsContainer">
-                        <span>Asked - <b th:text="${question.createdAt}"></b></span>
-                        <span>Modified - <b th:text="${question.updatedAt}"></b></span>
+                        <span>Asked - <b th:text="${#temporals.format(question.createdAt, 'MMM dd, yyyy')}"></b></span>
+                        <span>Modified - <b th:text="${#temporals.format(question.updatedAt, 'MMM dd, yyyy')}"></b></span>
                         <span>Viewed - <b th:text="${question.views}"></b></span>
                     </code>
                 </div>
@@ -113,15 +113,15 @@
                             <div class="question-detail">
                             <p th:text="${question.description}"> </p>
                             <br>
-                            <form action="#" th:if="${question.tags != null }">
-                                    <span th:each="tag: ${question.tags}">
-                                    <button class="tag" th:text="${tag.name}"></button>
-                                    </span>
-                            </form>
+                                <div class="tag-container" th:each="tag:${question.tags}">
+                                    <a th:href="@{/questions/tagged/{tag}(tag = ${tag.name})}">
+                                        <span th:text="${tag.name}"></span>
+                                    </a>
+                                </div>
                             <div id="askedBy">
-                                <code th:text="${question.createdAt}"></code>
+                                <code th:text="${#temporals.format(question.createdAt,'MMM dd, yyyy')}"></code>
                                 <br>
-                                <span>name bla bla</span>
+                                <span th:text="${user.username}"></span>
                             </div>
                             </div>
                         </div>
@@ -253,7 +253,6 @@
         </div>
         <br><br>
     </section>
-
     <footer class="footer">
         <div class="footer-inner">
             <div class="footer-column">

@@ -143,6 +143,7 @@ public class QuestionService {
         pageDto.setTags(tagRepository.findAll());
         pageDto.setSortBy(sort);
         pageDto.setSearch(search);
+        pageDto.setAllQuestions(questionRepository.findAll().size());
         return pageDto;
     }
 

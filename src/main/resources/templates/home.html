@@ -241,6 +241,9 @@
             display: list-item ;
             list-style: none;
         }
+        #question-detail-container {
+            width: 800px;
+        }
         #question-detail-container h3{
             font-family: sans-serif;
             font-weight: lighter;
@@ -369,6 +372,10 @@
 .footer-column ul li a:hover {
   color: #0077cc;
 }
+#timestamp {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: small;
+}
     
 </style>
 </head>
@@ -399,6 +406,9 @@
         </div>
         <div class="user-buttons" sec:authorize="isAuthenticated()">
             <a th:href="@{/logout}" class="login-button">Log Out</a>
+        <div class="user-buttons">
+            <a href="/login" class="login-button">Log In</a>
+            <a href="/signup" class="signup-button">Sign Up</a>
         </div>
     </nav>
     <div id="containers">
@@ -467,78 +477,12 @@
             </div>
             <div id="questions-container" th:each="question : ${questions.questions}">
                 <div id="question-container">
-                    <div id="relatedinfo">
-                        <div th:if="${question.votes == null}">
-                            <span>0</span>
-                            <span th:text="${question.votes}"></span>
-                            <span>answers</span>
-                        </div>
-                        <div>
-                            <span>2</span>
-                            <span>views</span>
-                        </div>
-                    </div>
-                    <div id="question-detail-container">
-                        <h3>
-                            <a href="/" class="s-link">Error copying data from a csv file (with row number 2: found more columns than expected column count 41)</a>
-                        </h3>
-                        <div>
-                            <div id="tags-container">
-                                <div class="tag-container">
-                                    <a href="particular tag link">csv</a>
-                                </div>
-                                <div class="tag-container">
-                                    <a href="/questions/tagged/csv">csv</a>
-                                </div>                                
-                            </div>
-                            <div id="asker-info-container">
-                                <a href="#">
-                                    <div id="asker-info">
-                                        <a href="user link">BokA</a>
-                                        <span>1</span>
-                                        <span>asked/modified</span>
-                                        <span title="uploaded time">40 secs ago</span>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="question-container">
-                    <div id="relatedinfo">
-                        <div>
-                            <span>0000</span>
-                            <span>votes</span>
-                        </div>
-                        <div th:if="${question.votes != null}">
-                            <span th:text="${question.votes}"></span>
-                            <span>votes</span>
-                        </div>
-                        <div>
-                            <span th:text="${#sets.size(question.answers)}"></span>
-                            <span>answers</span>
-                        </div>
-                        <div th:if="${question.views == null}">
-                            <span>0</span>
-                            <span>views</span>
-                        </div>
-                        <div th:if="${question.views != null}">
-                            <span th:text="${question.views}"></span>
-                            <span>views</span>
-                        </div>
-                    </div>
                     <div id="question-detail-container">
                         <h3>
                             <a th:href="@{/questions/{id}(id = ${question.questionId})}" class="s-link">
                                 <span th:text="${question.title}"></span>
                             </a>
                         </h3>
-                        <!--                    <div id="question-desciption" th:if="${#strings.length(question.description)>100}">-->
-                        <!--                        <span th:text="${#strings.substring(question.description, 0, 100)}"></span>-->
-                        <!--                    </div>-->
-                        <!--                    <div id="question-desciption" th:if="${#strings.length(question.description)<100}">-->
-                        <!--                        <span th:text="${question.description}"></span>-->
-                        <!--                    </div>-->
                         <div>
                             <div id="tags-container">
                                 <div class="tag-container" th:each="tag:${question.tags}">
@@ -548,47 +492,64 @@
                                 </div>
                             </div>
                             <div id="asker-info-container">
-                                <a href="#">
+                                <a href="#"></a>
                                     <div id="asker-info">
                                         <a href="user link">
                                             <span th:text="${question.user.username}"></span>
                                         </a>
                                         <span title="reputation score"
                                               th:text="${question.user.reputation}"></span>
-                                        <span>Updated</span>
-                                        <div th:each="question : ${questions.questions}">
-                                            <div th:with="timestamp1=${question.updatedAt}">
-                                                <div id="duration"
-                                                     th:data-timestamp1="${#dates.format(#dates.createNow().getTime() - timestamp1.getTime(), 'yyyy-MM-dd HH:mm:ss')}"></div>
+
+                                            <div th:with="timestamp1=${question.updatedAt}" id="timestamp">
+                                                <span>Updated</span>
+                                                <div id="duration" th:data-timestamp1="${timestamp1}"></div>
 
                                                 <script th:inline="javascript">
-                                                function getTimeDiff(durationElement) {
-                                                    var timestamp1 = durationElement.getAttribute('data-timestamp1');
-                                                    var timestamp2 = new Date().getTime();
-                                                    var date1 = new Date(timestamp1);
-                                                    var date2 = new Date(timestamp2);
-                                                    var duration = date2.getTime() - date1.getTime();
-                                                    var hours = Math.floor(duration / (1000 * 60 * 60));
-                                                    var minutes = Math.floor((duration % (1000 * 60 * 60)) / (1000 * 60));
-                                                    var seconds = Math.floor((duration % (1000 * 60)) / 1000);
+        function getTimeDiff(durationElement) {
+            var timestamp1 = durationElement.getAttribute('data-timestamp1');
+            var timestamp2 = new Date().getTime();
+            var date1 = new Date(timestamp1);
+            var date2 = new Date(timestamp2);
+            var duration = date2.getTime() - date1.getTime();
+            var days = Math.floor(duration / (1000 * 60 * 60 * 24));
+            var hours = Math.floor(duration / (1000 * 60 * 60));
+            var minutes = Math.floor((duration % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((duration % (1000 * 60)) / 1000);
 
-                                                    return 'Duration: ' + hours + ' hours, ' + minutes + ' minutes, ' + seconds + ' seconds';
-                                                }
+            if(days>0){
+            if(days == 1) {
+            return days +' day ago';
+            }
+             return days +' days ago';
+            }
+             else if(hours>0){
+             if(hours == 1) {
+            return hours +' hr ago';
+            }
+            return hours +' hrs ago';
+            } else if(minutes > 0) {
+            return  minutes +' mins ago';
+            } else {
+            return seconds +' secs ago';
+            }
+        }
 
-                                                var durationElement = document.getElementById('duration');
-                                                var durationText = getTimeDiff(durationElement);
-                                                document.write(durationText);
-
-                                                                </script>
+        var durationElements = document.querySelectorAll('#duration');
+        durationElements.forEach(function(durationElement) {
+            var durationText = getTimeDiff(durationElement);
+            durationElement.textContent = durationText;
+        });
+    </script>
                                             </div>
+
                                         </div>
                                     </div>
+
                                 </a>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
         </section>
             <aside id="options">
                 <div id="custom-filters-container">
@@ -597,12 +558,11 @@
                 </div>
                 <div id="related-tags-container">
                     <div id="related-tags-heading">Related Tags</div>
-                    <div id="related-tags-links">
-                        <a href="#">tag</a>
-                        <a href="#">tag</a>
-                        <a href="#">tag</a>
-                        <a href="#">tag</a>
-
+                    <div id="related-tags-links" th:each="tag, iterStat : ${questions.tags}"
+                         th:if="${iterStat.count} &lt;= 10">
+                        <a th:href="@{/questions/tagged/{tag}(tag=${tag.name})}">
+                            <header th:text="${tag.name}"></header>
+                        </a>
                     </div>
                 </div>
             </aside>
