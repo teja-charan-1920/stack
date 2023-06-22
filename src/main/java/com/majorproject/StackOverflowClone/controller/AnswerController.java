@@ -52,5 +52,4 @@ public class AnswerController {
         answerService.addComment(answerId, comment);
         return "redirect:/questions/" + questionId;
     }
-
 }
