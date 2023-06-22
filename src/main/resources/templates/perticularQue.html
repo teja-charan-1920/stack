@@ -169,7 +169,7 @@
                                         <div id="create-comment" onclick="toggleCommentForm(this)">
                                             Add a comment
                                         </div>
-                                        <form action="#" class="create-comment-form">
+                                        <form th:action="@{/questions/{questionId}/answer/{answerId}/comment(questionId=${question.id}, answerId=${answer.answerId})}" class="create-comment-form" method="post">
                                             <textarea name="comment" id="comment-box"></textarea>
                                             <button type="submit">Add comment</button>
                                         </form>
