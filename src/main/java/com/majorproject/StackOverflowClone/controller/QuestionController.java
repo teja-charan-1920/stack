@@ -48,9 +48,9 @@ public class QuestionController {
                               @PathVariable Long id,
                               Model model) {
         User user = userService.getUserById(1L);
+        model.addAttribute("user",userService.getUserById(1l));
         model.addAttribute("question", questionService.getQuestion(id, sortBy));
-        model.addAttribute("user", user);
-        return "history";
+        return "perticularQue";
     }
 
     @GetMapping("/")

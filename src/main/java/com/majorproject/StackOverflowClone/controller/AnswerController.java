@@ -46,4 +46,11 @@ public class AnswerController {
         return "redirect:/questions/" + questionId;
     }
 
+    @PostMapping("/questions/{questionId}/answer/{answerId}/comment")
+    public String addComment(@RequestParam  String comment,
+                            @PathVariable Long questionId, @PathVariable Long answerId){
+        answerService.addComment(answerId,comment);
+        return "redirect:/questions/" + questionId;
+    }
+
 }

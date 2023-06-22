@@ -8,6 +8,8 @@ import jakarta.persistence.criteria.Root;
 import jakarta.persistence.criteria.Subquery;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.time.LocalDateTime;
+
 public class QuestionSpecification {
     public Specification<Question> filterPostsOnKeyword(String keyword) {
         return (root, query, criteriaBuilder) -> {
@@ -23,6 +25,13 @@ public class QuestionSpecification {
             Predicate tagPredicate = criteriaBuilder.in(root.get("id")).value(tagSubquery);
 
             return criteriaBuilder.or(descriptionPredicate, titlePredicate,tagPredicate);
+        };
+    }
+
+    public Specification<Question> getQuestionsInLast12Hours(){
+        return (root, query, criteriaBuilder) -> {
+            LocalDateTime last5hrsQuestions = LocalDateTime.now().minusHours(12);
+            return criteriaBuilder.greaterThan(root.get("updatedAt"),last5hrsQuestions);
         };
     }
 }
