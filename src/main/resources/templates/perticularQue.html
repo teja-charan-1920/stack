@@ -10,25 +10,28 @@
 <body>
 <main id="aboveNavBar"></main>
 <nav id="navBar">
-    <a href="perticularQue.html">
+    <a th:href="@{/home}">
         <div>
             <img th:src="@{/images/stackoverflowfavicon.png}" alt="Logo" title="Stack Overflow Logo" />
             <span title="Stack Overflow Logo">stack<b>overflow</b></span>
         </div>
     </a>
     <ul class="nav-links">
-        <li><a href="#">About</a></li>
-        <li><a href="#">Products</a></li>
-        <li><a href="#">For Teams</a></li>
+        <li><a href="https://stackoverflow.co/">About</a></li>
+        <li><a href="https://stackoverflow.co/advertising/">Products</a></li>
+        <li><a href="https://stackoverflow.co/teams/">For Teams</a></li>
     </ul>
     <form action="#" id="searchContainer">
         <img th:src="@{/images/search-26234.png}" />
         <input type="search" placeholder="Search..."/>
         <button type="submit"></button>
     </form>
-    <div class="user-buttons">
-        <a href="#" class="login-button">Log In</a>
-        <a href="#" class="signup-button">Sign Up</a>
+    <div class="user-buttons" sec:authorize="isAnonymous()">
+        <a th:href="@{/login}" class="login-button">Log In</a>
+        <a th:href="@{/signup}" class="signup-button">Sign Up</a>
+    </div>
+    <div class="user-buttons" sec:authorize="isAuthenticated()">
+        <a th:href="@{/logout}" class="login-button">Log Out</a>
     </div>
 </nav>
 <div id="containers">
@@ -37,7 +40,7 @@
             <nav role="navigation">
                 <ol class="aside-nav-links">
                     <li>
-                        <a href="#">
+                        <a th:href="@{/home}">
                             <span>Home</span>
                         </a>
                     </li>
@@ -47,22 +50,22 @@
                         <span>PUBLIC</span>
                     </li>
                     <li class="aside-nav-links-innerList-selected">
-                        <a href="#">
+                        <a th:href="@{/}">
                             <span>Questions</span>
                         </a>
                     </li>
                     <li class="aside-nav-links-innerList">
-                        <a href="#">
+                        <a th:href="@{/tags}">
                             <span>Tags</span>
                         </a>
                     </li>
                     <li class="aside-nav-links-innerList">
-                        <a href="#">
+                        <a th:href="@{/users}">
                             <span>Users</span>
                         </a>
                     </li>
                     <li class="aside-nav-links-innerList">
-                        <a href="#">
+                        <a href="https://stackoverflow.com/jobs/companies">
                             <span>Companies</span>
                         </a>
                     </li>
@@ -256,34 +259,34 @@
             <div class="footer-column">
                 <h4>STACK OVERFLOW</h4>
                 <ul>
-                    <li><a href="#">Questions</a></li>
-                    <li><a href="#">Help</a></li>
+                    <li><a th:href="@{/}">Questions</a></li>
+                    <li><a href="https://stackoverflow.com/help">Help</a></li>
                 </ul>
             </div>
             <div class="footer-column">
                 <h4>PRODUCTS</h4>
                 <ul>
-                    <li><a href="#">Team</a></li>
-                    <li><a href="#">Advertising</a></li>
-                    <li><a href="#">Collectives</a></li>
-                    <li><a href="#">Talent</a></li>
+                    <li><a href="https://stackoverflow.co/teams/">Team</a></li>
+                    <li><a href="https://stackoverflow.co/advertising/">Advertising</a></li>
+                    <li><a href="https://stackoverflow.co/collectives/">Collectives</a></li>
+                    <li><a href="https://stackoverflow.co/talent/">Talent</a></li>
                 </ul>
             </div>
             <div class="footer-column">
                 <h4>COMPANY</h4>
                 <ul>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Press</a></li>
-                    <li><a href="#">Work here</a></li>
-                    <li><a href="#">Legal</a></li>
+                    <li><a href="https://stackoverflow.co/">About</a></li>
+                    <li><a href="https://stackoverflow.co/company/press">Press</a></li>
+                    <li><a href="https://stackoverflow.co/company/work-here">Work here</a></li>
+                    <li><a href="https://stackoverflow.com/legal/terms-of-service">Legal</a></li>
                 </ul>
             </div>
             <div class="footer-column">
                 <h4>STACK EXCHANGE NETWORK</h4>
                 <ul>
-                    <li><a href="#">Technology</a></li>
-                    <li><a href="#">Science</a></li>
-                    <li><a href="#">Business</a></li>
+                    <li><a href="https://stackexchange.com/sites#technology">Technology</a></li>
+                    <li><a href="https://stackexchange.com/sites#science">Science</a></li>
+                    <li><a href="https://stackexchange.com/sites#business">Business</a></li>
                 </ul>
             </div>
         </div>
