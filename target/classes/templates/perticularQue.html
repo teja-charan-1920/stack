@@ -136,13 +136,21 @@
                         <div id="answers-container" th:if="${question.answers != null }" th:each="answer : ${question.answers}">
                             <div id="answers" >
                                 <div class="voting-buttons">
-                                    <button class="upvote-button">
-                                        <b>^</b>
-                                    </button>
-                                    <span class="vote-count" th:text="${answer.votes}"></span>
-                                    <button class="downvote-button">
-                                        <b>^</b>
-                                    </button>
+                                    <form th:if="${not #sets.contains(answer.votedUpByUsers,user)}"
+                                          th:action="@{/questions/{questionId}/answer/{answerId}/voteUp(questionId=${question.id},answerId=${answer.answerId})}"
+                                          method="post">
+                                        <button class="upvote-button">
+                                            <b>^</b>
+                                        </button>
+                                    </form>
+                                    <span class="vote-count" th:if="${answer.votes != null }" th:text="${answer.votes}"></span>
+                                    <form th:if="${not #sets.contains(answer.votedDownByUsers,user)}"
+                                          th:action="@{/questions/{questionId}/answer/{answerId}/voteDown(questionId=${question.id},answerId=${answer.answerId})}"
+                                          method="post">
+                                        <button class="downvote-button">
+                                            <b>^</b>
+                                        </button>
+                                    </form>
                                     <br>
                                     <a href="#">
                                         <img th:src="@{/images/icons8-history-32.png}">

@@ -50,6 +50,7 @@ public class QuestionController {
     public String getQuestion(@RequestParam(name = "sort", defaultValue = "votes", required = false) String sortBy,
                               @PathVariable Long id,
                               Model model) {
+        model.addAttribute("user",userService.getUserById(1l));
         model.addAttribute("question", questionService.getQuestion(id, sortBy));
         return "perticularQue";
     }
