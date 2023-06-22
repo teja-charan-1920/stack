@@ -32,4 +32,10 @@ public class UserController {
         return "user";
     }
 
+    @GetMapping("/oauth2/authorization/google")
+    public String redirectToGoogleAuthorization() {
+        System.out.println("hi");
+        return "redirect:/login/oauth2/code/google";
+    }
+
 }

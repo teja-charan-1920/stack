@@ -232,6 +232,7 @@ button {
                     popup.style.display = "none";
                 }
             }
+<<<<<<< Updated upstream
 
         </script>
         <a href="perticularQue.html">
@@ -255,6 +256,70 @@ button {
                                                  alt="Logo" title="logo"></button>
         </div>
     </nav>
+=======
+        </script>
+    <a th:href="@{/home}">
+      <div>
+        <img th:src="@{/images/stackoverflowfavicon.png}" alt="Logo" title="logo"/>
+        <span>stack<b>overflow</b></span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="https://stackoverflow.co/">About</a></li>
+      <li><a href="https://stackoverflow.co/advertising/">Products</a></li>
+      <li><a href="https://stackoverflow.co/teams/">For Teams</a></li>
+    </ul>
+    <form action="#" id="searchContainer">
+      <img th:src="@{/images/search-26234.png}" alt="Logo" title="logo"/>
+      <input type="search" placeholder="Search..."/>
+      <button type="submit"></button>
+    </form>
+    <div id="left-side-bar-btn">
+      <button onclick="leftsidebar()" ><img th:src="@{/images/menu-button-of-three-horizontal-lines.png}" alt="Logo" title="logo"></button>
+    </div>
+  </nav>
+
+  <div id="containers">
+    <aside id="left-side-bar">
+      <div id="left-side-bar-container">
+        <nav role="navigation">
+          <ol id="aside-nav-links">
+            <li>
+              <a th:href="@{/home}">
+                <span>Home</span>
+              </a>
+            </li>
+          </ol>
+          <ol id="aside-nav-links">
+            <li>
+              <span>PUBLIC</span>
+            </li>
+            <li id="aside-nav-links-innerList">
+              <a th:href="@{/}">
+                <span>Questions</span>
+              </a>
+            </li>
+            <li id="aside-nav-links-innerList">
+              <a th:href="@{/tags}">
+                <span>Tags</span>
+              </a>
+            </li>
+            <li id="aside-nav-links-innerList">
+              <a th:href="@{/users}">
+                <span>Users</span>
+              </a>
+            </li>
+            <li id="aside-nav-links-innerList">
+              <a href="https://stackoverflow.com/jobs/companies">
+                <span>Companies</span>
+              </a>
+            </li>
+          </ol>
+        </nav>
+      </div>
+    </aside>
+  </div>
+>>>>>>> Stashed changes
 
     <div id="containers">
         <aside id="left-side-bar">
