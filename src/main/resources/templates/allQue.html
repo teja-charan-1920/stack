@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -443,7 +443,7 @@
 <body>
 <main id="aboveNavBar"></main>
 <nav id="navBar">
-    <a href="perticularQue.html">
+    <a th:href="@{/}">
         <div>
             <svg aria-hidden="true" viewBox="0 0 32 37">
                 <path d="M26 33v-9h4v13H0V24h4v9h22Z" fill="#BCBBBB"></path>
@@ -454,9 +454,9 @@
         </div>
     </a>
     <ul class="nav-links">
-        <li><a href="#">About</a></li>
-        <li><a href="#">Products</a></li>
-        <li><a href="#">For Teams</a></li>
+        <li><a href="https://stackoverflow.co/">About</a></li>
+        <li><a href="https://stackoverflow.co/advertising/">Products</a></li>
+        <li><a href="https://stackoverflow.co/teams/">For Teams</a></li>
     </ul>
     <form action="/" id="searchContainer">
         <img th:src="@{/images/search-26234.png}"/>
@@ -466,9 +466,12 @@
                th:value="${questions.sortBy}"/>
         <button type="submit"></button>
     </form>
-    <div class="user-buttons">
+    <div class="user-buttons" sec:authorize="isAnonymous()">
         <a href="#" class="login-button">Log In</a>
         <a href="#" class="signup-button">Sign Up</a>
+    </div>
+    <div class="user-buttons" sec:authorize="isAuthenticated()">
+        <a href="#" class="login-button">Log Out</a>
     </div>
 </nav>
 <div id="containers">
