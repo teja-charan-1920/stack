@@ -77,13 +77,13 @@
                     <div class="question">
                         <a th:href="@{/questions/{id}(id=${question.id})}"><p th:text="${question.title}"></p></a>
                         <div class="signup-button" id="addQueBtn">
-                            <a href="/questions/ask" >Ask Questions?</a>
+                            <a href="/questions/ask">Ask Questions?</a>
                         </div>
                     </div>
                     <code id="queDetailsContainer">
-                        <span>Asked<b th:text="${question.createdAt}"></b></span>
-                        <span>Modified<b th:text="${question.updatedAt}"></b></span>
-                        <span>Viewed<b th:text="${question.views}"></b></span>
+                        <span>Asked - <b th:text="${question.createdAt}"></b></span>
+                        <span>Modified - <b th:text="${question.updatedAt}"></b></span>
+                        <span>Viewed - <b th:text="${question.views}"></b></span>
                     </code>
                 </div>
                 <hr>
