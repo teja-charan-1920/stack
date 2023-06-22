@@ -9,6 +9,7 @@ import com.majorproject.StackOverflowClone.repository.QuestionRepository;
 import com.majorproject.StackOverflowClone.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -98,7 +99,7 @@ public class AnswerService {
 
     public User getUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null) {
+        if (authentication == null || !authentication.isAuthenticated() || authentication instanceof AnonymousAuthenticationToken) {
             return null;
         }
         Object principal = authentication.getPrincipal();
