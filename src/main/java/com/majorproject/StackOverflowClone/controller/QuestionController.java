@@ -51,7 +51,7 @@ public class QuestionController {
                               @PathVariable Long id,
                               Model model) {
         model.addAttribute("question", questionService.getQuestion(id, sortBy));
-        return "history";
+        return "perticularQue";
     }
 
     @GetMapping("/")

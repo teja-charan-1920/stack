@@ -150,6 +150,13 @@ a {
             margin: 0px 0px 0px 28px;
             height: 25px;
         }
+        .aside-nav-links-innerList-selected {
+                    margin: -10px 0px 0px -10px;
+                    font-weight: bolder;
+                    padding: 12px 0px 0px 37px;
+                    background-color: #b1b1b1;
+                    border-right: 2px solid orangered;
+                }
         #content-box {
             display: inline-flexbox;
             width: 1115px;
@@ -183,7 +190,7 @@ a {
             padding: 10px 0px 30px 0px;
         }
         .question-detail {
-            width: 100%;
+            width: 660px;
         }
         .voting-buttons {
             padding: 90px 40px 0px 5px;

@@ -161,6 +161,13 @@
             margin: 0px 0px 0px 28px;
             height: 25px;
         }
+        #aside-nav-links-innerList-selected {
+            margin: -10px 0px 0px -10px;
+            font-weight: bolder;
+            padding: 12px 0px 0px 37px;
+            background-color: #b1b1b1;
+            border-right: 2px solid orangered;
+        }
         #containers {
             display: flex;
             margin-bottom: 50px;
@@ -430,12 +437,13 @@
    }
 
 
+
     </style>
 </head>
 <body>
 <main id="aboveNavBar"></main>
 <nav id="navBar">
-    <a href="./history.html">
+    <a href="perticularQue.html">
         <div>
             <svg aria-hidden="true" viewBox="0 0 32 37">
                 <path d="M26 33v-9h4v13H0V24h4v9h22Z" fill="#BCBBBB"></path>
@@ -475,7 +483,7 @@
                     <li>
                         <span>PUBLIC</span>
                     </li>
-                    <li id="aside-nav-links-innerList">
+                    <li id="aside-nav-links-innerList-selected">
                         <a th:href="@{/}">
                             <span>Questions</span>
                         </a>
