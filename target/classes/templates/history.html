@@ -1,4 +1,13 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeline for answer to <span th:text="que">(que)</span></title>
+    <link rel="icon" th:href="@{/images/stackoverflowfavicon.png}" type="image/x-icon">
+    <link rel="stylesheet" th:href="@{/css/question.css}">
+=======
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
@@ -281,16 +290,24 @@
   color: #0077cc;
 }
 </style>
+>>>>>>> fae57ad5111d859385f020eb3e9a3355a5e3946e
 </head>
 <body>
 <main id="aboveNavBar"></main>
 <nav id="navBar">
+<<<<<<< HEAD
+    <a href="./history.html">
+        <div>
+            <img th:src="@{/images/stackoverflowfavicon.png}" alt="Logo" title="Stack Overflow Logo" />
+            <span title="Stack Overflow Logo">stack<b>overflow</b></span>
+=======
     <a href="perticularQue.html">
         <div>
             <svg aria-hidden="true" viewBox="0 0 32 37">
                 <path d="M26 33v-9h4v13H0V24h4v9h22Z" fill="#BCBBBB"></path><path d="m21.5 0-2.7 2 9.9 13.3 2.7-2L21.5 0ZM26 18.4 13.3 7.8l2.1-2.5 12.7 10.6-2.1 2.5ZM9.1 15.2l15 7 1.4-3-15-7-1.4 3Zm14 10.79.68-2.95-16.1-3.35L7 23l16.1 2.99ZM23 30H7v-3h16v3Z" fill="#F48024"></path>
             </svg>
             <span>stack<b>overflow</b></span>
+>>>>>>> fae57ad5111d859385f020eb3e9a3355a5e3946e
         </div>
     </a>
     <ul class="nav-links">
@@ -299,7 +316,15 @@
         <li><a href="#">For Teams</a></li>
     </ul>
     <form action="#" id="searchContainer">
+<<<<<<< Updated upstream
+<<<<<<< HEAD
+        <img th:src="@{/images/search-26234.png}" />
+=======
         <img src="./search-26234.png" />
+>>>>>>> fae57ad5111d859385f020eb3e9a3355a5e3946e
+=======
+        <img th:src="@{/images/search-26234.png}" />
+>>>>>>> Stashed changes
         <input type="search" placeholder="Search..."/>
         <button type="submit"></button>
     </form>
@@ -312,33 +337,57 @@
     <aside id="left-side-bar">
         <div id="left-side-bar-container">
             <nav role="navigation">
+<<<<<<< HEAD
+                <ol class="aside-nav-links">
+=======
                 <ol id="aside-nav-links">
+>>>>>>> fae57ad5111d859385f020eb3e9a3355a5e3946e
                     <li>
                         <a href="#">
                             <span>Home</span>
                         </a>
                     </li>
                 </ol>
+<<<<<<< HEAD
+                <ol class="aside-nav-links">
+                    <li>
+                        <span>PUBLIC</span>
+                    </li>
+                    <li class="aside-nav-links-innerList">
+=======
                 <ol id="aside-nav-links">
                     <li>
                         <span>PUBLIC</span>
                     </li>
                     <li id="aside-nav-links-innerList-selected">
+>>>>>>> fae57ad5111d859385f020eb3e9a3355a5e3946e
                         <a href="#">
                             <span>Questions</span>
                         </a>
                     </li>
+<<<<<<< HEAD
+                    <li class="aside-nav-links-innerList">
+=======
                     <li id="aside-nav-links-innerList">
+>>>>>>> fae57ad5111d859385f020eb3e9a3355a5e3946e
                         <a href="#">
                             <span>Tags</span>
                         </a>
                     </li>
+<<<<<<< HEAD
+                    <li class="aside-nav-links-innerList">
+=======
                     <li id="aside-nav-links-innerList">
+>>>>>>> fae57ad5111d859385f020eb3e9a3355a5e3946e
                         <a href="#">
                             <span>Users</span>
                         </a>
                     </li>
+<<<<<<< HEAD
+                    <li class="aside-nav-links-innerList">
+=======
                     <li id="aside-nav-links-innerList">
+>>>>>>> fae57ad5111d859385f020eb3e9a3355a5e3946e
                         <a href="#">
                             <span>Companies</span>
                         </a>
@@ -347,6 +396,10 @@
             </nav>
         </div>
     </aside>
+<<<<<<< Updated upstream
+<<<<<<< HEAD
+    <section id="content-box" >
+=======
     <section id="history-container">
         <header id="history-header">
             <p>Timeline for <a href="/questiions/{id}">bla bla que?</a></p>
@@ -355,6 +408,10 @@
             <span>16</span>
             <span> events</span>
             <section id="content-box" >
+>>>>>>> fae57ad5111d859385f020eb3e9a3355a5e3946e
+=======
+    <section id="content-box" >
+>>>>>>> Stashed changes
         <div id="perticularQuetion">
             <section>
                 <div id="question-container">
@@ -392,6 +449,24 @@
                                 </a>
                             </div>
                             <div class="question-detail">
+<<<<<<< Updated upstream
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
+                                <p th:text="${question.description}"> </p>
+                                <br>
+                                <form action="#" th:if="${question.tags != null }">
+                                    <span th:each="tag: ${question.tags}">
+                                    <button class="tag" th:text="${tag.name}"></button>
+                                    </span>
+                                </form>
+                                <div id="askedBy">
+                                    <code th:text="${question.createdAt}"></code>
+                                    <br>
+                                    <span>name bla bla</span>
+                                </div>
+<<<<<<< Updated upstream
+=======
                             <p th:text="${question.description}"> </p>
                             <br>
                             <form action="#" th:if="${question.tags != null }">
@@ -404,6 +479,9 @@
                                 <br>
                                 <span>name bla bla</span>
                             </div>
+>>>>>>> fae57ad5111d859385f020eb3e9a3355a5e3946e
+=======
+>>>>>>> Stashed changes
                             </div>
                         </div>
 
@@ -520,6 +598,7 @@
                             </ol>
                         </div>
                     </div>
+<<<<<<< Updated upstream
                 </div>
                 <div id="addAns">
                     <hr>
@@ -532,6 +611,66 @@
                 </div>
             </section>
         </div>
+<<<<<<< HEAD
+=======
+                </div>
+                <div id="addAns">
+                    <hr>
+                    <h1>Add your Answers</h1>
+                    <form th:action="@{/questions/{questionId}/addAnswer(questionId=${question.id})}" method="post">
+                        <textarea placeholder="add answer" id="addAnswer" name="answer"></textarea>
+                        <br>
+                        <button type="submit">Add Answer</button>
+                    </form>
+                </div>
+            </section>
+        </div>
+>>>>>>> Stashed changes
+        <br><br>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-column">
+                <h4>STACK OVERFLOW</h4>
+                <ul>
+                    <li><a href="#">Questions</a></li>
+                    <li><a href="#">Help</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>PRODUCTS</h4>
+                <ul>
+                    <li><a href="#">Team</a></li>
+                    <li><a href="#">Advertising</a></li>
+                    <li><a href="#">Collectives</a></li>
+                    <li><a href="#">Talent</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>COMPANY</h4>
+                <ul>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="#">Work here</a></li>
+                    <li><a href="#">Legal</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>STACK EXCHANGE NETWORK</h4>
+                <ul>
+                    <li><a href="#">Technology</a></li>
+                    <li><a href="#">Science</a></li>
+                    <li><a href="#">Business</a></li>
+                </ul>
+            </div>
+<<<<<<< Updated upstream
+        </div>
+    </footer>
+</div>
+</body>
+</html>
+=======
         <table id="histories">
             <thead>
             <tr>
@@ -590,4 +729,10 @@
         </div>
     </div>
 </footer>
+=======
+        </div>
+    </footer>
+</div>
+>>>>>>> Stashed changes
 </body>
+>>>>>>> fae57ad5111d859385f020eb3e9a3355a5e3946e

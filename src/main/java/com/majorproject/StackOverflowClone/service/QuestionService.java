@@ -20,7 +20,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static java.lang.Boolean.FALSE;
@@ -37,28 +36,28 @@ public class QuestionService {
     UserRepository userRepository;
 
     private AnswerSpecification answerSpecification = new AnswerSpecification();
-    private QuestionSpecification questionSpecification= new QuestionSpecification();
+    private QuestionSpecification questionSpecification = new QuestionSpecification();
 
     public Question getQuestionById(Long id) {
         return questionRepository.findById(id).orElse(null);
     }
 
     public void updateQuestionVotes(Question previousQuestion) {
-        previousQuestion.setVotes((long) (previousQuestion.getVotedUpByUsers().size()-previousQuestion.getVotedDownByUsers().size()));
+        previousQuestion.setVotes((long) (previousQuestion.getVotedUpByUsers().size() - previousQuestion.getVotedDownByUsers().size()));
         questionRepository.save(previousQuestion);
     }
 
     public Long addQuestion(QuestionDto questionDto) {
-        if(questionDto.getTotalTags() == null) {
+        if (questionDto.getTotalTags() == null) {
             return questionRepository.save(convertDtoToDao(questionDto)).getQuestionId();
         }
         Set<Tag> setOfTags = saveTags(questionDto.getTotalTags().split(","));
         Question question = convertDtoToDao(questionDto);
 
         for (Tag tag : setOfTags) {
-                tag.getQuestions().add(question);
-                tagRepository.save(tag);
-            }
+            tag.getQuestions().add(question);
+            tagRepository.save(tag);
+        }
         question.setTags(setOfTags);
         System.out.println(1);
         return questionRepository.save(question).getQuestionId();
@@ -75,28 +74,28 @@ public class QuestionService {
 
     public QuestionDto getQuestion(Long id, String sortBy) {
         Question question = getQuestionById(id);
-        question.setViews(question.getViews()+1);
-        questionRepository.save(question);
+//        question.setViews(question.getViews() + 1);
+//        questionRepository.save(question);
 
-        QuestionDto questionDto =  convertDaoToDto(question);
-        questionDto.setAnswers(new HashSet<>(answerRepository.findAll(answerSpecification.findByQuestionIdAndSortByVotes(id,sortBy))));
+        QuestionDto questionDto = convertDaoToDto(question);
+        questionDto.setAnswers(new HashSet<>(answerRepository.findAll(answerSpecification.findByQuestionIdAndSortByVotes(id, sortBy))));
         questionDto.setSortBy(sortBy);
-        return  setVotedUpAndDown(questionDto);
+        return setVotedUpAndDown(questionDto);
     }
 
-    public QuestionDto setVotedUpAndDown(QuestionDto questionDto){
+    public QuestionDto setVotedUpAndDown(QuestionDto questionDto) {
         User user = userRepository.findById(1l).get();
         Question question = getQuestionById(questionDto.getId());
 
         if (question.getVotedUpByUsers().contains(user)) {
             questionDto.setShowVoteUp(FALSE);
-        } else if(question.getVotedDownByUsers().contains(user)){
+        } else if (question.getVotedDownByUsers().contains(user)) {
             questionDto.setShowVoteDown(FALSE);
         }
         return questionDto;
     }
 
-    public QuestionDto convertDaoToDto(Question question){
+    public QuestionDto convertDaoToDto(Question question) {
         QuestionDto questionDto = new QuestionDto();
 
         questionDto.setId(question.getQuestionId());
@@ -125,11 +124,11 @@ public class QuestionService {
         return tags;
     }
 
-    public PageDto getAllQuestions(String search, int page, int pageSize,String sort) {
-        Pageable pageable = PageRequest.of(page - 1, pageSize,Sort.by(Sort.Direction.DESC,sort));
+    public PageDto getAllQuestions(String search, int page, int pageSize, String sort) {
+        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.DESC, sort));
         Specification<Question> specification = Specification.where(null);
 
-        if(search != null) {
+        if (search != null) {
             specification = questionSpecification.filterPostsOnKeyword(search);
         }
         Page<Question> questionPage = questionRepository.findAll(specification, pageable);
@@ -188,5 +187,11 @@ public class QuestionService {
         pageDto.setQuestions(questionRepository.findAll(specification, sort));
         pageDto.setTags(tagRepository.findAll());
         return pageDto;
+    }
+
+    public void setViewForQuestion(Long id) {
+        Question question = getQuestionById(id);
+        question.setViews(question.getViews() + 1);
+        questionRepository.save(question);
     }
 }
