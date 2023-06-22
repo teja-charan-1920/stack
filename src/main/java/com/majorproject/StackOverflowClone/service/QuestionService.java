@@ -179,4 +179,13 @@ public class QuestionService {
         }
         updateQuestionVotes(question);
     }
+
+    public PageDto getQuestionsForHomePage() {
+        PageDto pageDto = new PageDto();
+        Sort sort = Sort.by(Sort.Direction.DESC, "updatedAt");
+        Specification<Question> specification = questionSpecification.getQuestionsInLast12Hours();
+        pageDto.setQuestions(questionRepository.findAll(specification, sort));
+        pageDto.setTags(tagRepository.findAll());
+        return pageDto;
+    }
 }
