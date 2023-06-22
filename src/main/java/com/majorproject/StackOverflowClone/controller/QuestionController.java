@@ -6,6 +6,7 @@ import com.majorproject.StackOverflowClone.service.QuestionService;
 import com.majorproject.StackOverflowClone.service.TagService;
 import com.majorproject.StackOverflowClone.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -54,7 +55,7 @@ public class QuestionController {
     }
 
     @GetMapping("/")
-    public String homePage(@RequestParam(name = "search", required = false) String search,
+    public String questionsHomePage(@RequestParam(name = "search", required = false) String search,
                            @RequestParam(name = "page", required = false, defaultValue = "1") int page,
                            @RequestParam(name = "pagesize", required = false, defaultValue = "15") int pageSize,
                            @RequestParam(name = "sort", defaultValue = "votes", required = false) String sort,
@@ -62,4 +63,13 @@ public class QuestionController {
         model.addAttribute("questions", questionService.getAllQuestions(search, page, pageSize, sort));
             return "allQue";
         }
+
+    @GetMapping("/home")
+    public String homePage(Model model){
+        model.addAttribute("questions",questionService.getQuestionsForHomePage());
+        return "home";
     }
+    }
+
+
+
