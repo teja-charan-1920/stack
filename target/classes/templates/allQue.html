@@ -435,6 +435,7 @@
         display: flex;
         justify-content: flex-start;
    }
+
     </style>
 </head>
 <body>
@@ -550,6 +551,7 @@
                             }
 
                         }
+
                 </script>
                 <div id="filter-container">
                     <form action="/">
@@ -645,9 +647,11 @@
                                         <a href="user link">
                                             <span th:text="${question.user.username}"></span>
                                         </a>
-                                        <strong><span title="reputation score" th:text="${question.user.reputation}"></span></strong>
+                                        <strong><span title="reputation score"
+                                                      th:text="${question.user.reputation}"></span></strong>
                                         <span>asked on </span>
-                                        <span title="uploaded time" th:text="${#temporals.format(question.createdAt,'MMM dd, yyyy')}"></span>
+                                        <span title="uploaded time"
+                                              th:text="${#temporals.format(question.createdAt,'MMM dd, yyyy')}"></span>
                                     </div>
                                 </a>
                             </div>
@@ -669,7 +673,7 @@
                         <button type="submit" class="nextButton">&laquo;Previous</button>
                     </form>
                 </div>
-                <div  class="nextForm">
+                <div class="nextForm">
                     <form th:if="${questions.page < questions.totalPages}"
                           th:action="@{/(page=${questions.page + 1})}" method="get">
                         <input type="hidden" name="page" th:value="${questions.page + 1}"/>

@@ -24,14 +24,14 @@ public class QuestionSpecification {
                     .where(criteriaBuilder.like(criteriaBuilder.lower(tagJoin.get("name")), lowercaseKeyword));
             Predicate tagPredicate = criteriaBuilder.in(root.get("id")).value(tagSubquery);
 
-            return criteriaBuilder.or(descriptionPredicate, titlePredicate,tagPredicate);
+            return criteriaBuilder.or(descriptionPredicate, titlePredicate, tagPredicate);
         };
     }
 
-    public Specification<Question> getQuestionsInLastDays(int days){
+    public Specification<Question> getQuestionsInLastDays(int days) {
         return (root, query, criteriaBuilder) -> {
             LocalDateTime lastHrsQuestions = LocalDateTime.now().minusDays(days);
-            return criteriaBuilder.greaterThan(root.get("createdAt"),lastHrsQuestions);
+            return criteriaBuilder.greaterThan(root.get("createdAt"), lastHrsQuestions);
         };
     }
 }

@@ -23,9 +23,10 @@ public class UserController {
 
     @PostMapping("/signup")
     public String addUser(@ModelAttribute User user) {
-    userService.addUser(user);
-    return "login";
+        userService.addUser(user);
+        return "login";
     }
+
     @GetMapping("/users")
     public String users() {
         return "user";
