@@ -417,12 +417,20 @@
 .footer-column ul li a:hover {
   color: #0077cc;
 }
-.navigation{
+.pagination-container{
         display:flex;
-        justify-content:space-around;
+        flex-direction: column;
     }
+   .nextForm {
+        display: flex;
+        justify-content: flex-end;   }
+   .prevForm {
+        display: flex;
+        justify-content: flex-start;
+   }
 
-</style>
+
+    </style>
 </head>
 <body>
 <main id="aboveNavBar"></main>
@@ -430,7 +438,9 @@
     <a href="./history.html">
         <div>
             <svg aria-hidden="true" viewBox="0 0 32 37">
-                <path d="M26 33v-9h4v13H0V24h4v9h22Z" fill="#BCBBBB"></path><path d="m21.5 0-2.7 2 9.9 13.3 2.7-2L21.5 0ZM26 18.4 13.3 7.8l2.1-2.5 12.7 10.6-2.1 2.5ZM9.1 15.2l15 7 1.4-3-15-7-1.4 3Zm14 10.79.68-2.95-16.1-3.35L7 23l16.1 2.99ZM23 30H7v-3h16v3Z" fill="#F48024"></path>
+                <path d="M26 33v-9h4v13H0V24h4v9h22Z" fill="#BCBBBB"></path>
+                <path d="m21.5 0-2.7 2 9.9 13.3 2.7-2L21.5 0ZM26 18.4 13.3 7.8l2.1-2.5 12.7 10.6-2.1 2.5ZM9.1 15.2l15 7 1.4-3-15-7-1.4 3Zm14 10.79.68-2.95-16.1-3.35L7 23l16.1 2.99ZM23 30H7v-3h16v3Z"
+                      fill="#F48024"></path>
             </svg>
             <span>stack<b>overflow</b></span>
         </div>
@@ -441,7 +451,7 @@
         <li><a href="#">For Teams</a></li>
     </ul>
     <form action="/" id="searchContainer">
-        <img th:src="@{/images/search-26234.png}" />
+        <img th:src="@{/images/search-26234.png}"/>
         <input type="search" placeholder="Search..." name="search"/>
         <button type="submit"></button>
     </form>
@@ -502,19 +512,22 @@
                     <span th:text="${#lists.size(questions.questions)}"></span>
                     questions
                 </div>
-                <div id="filters-container" >
+                <div id="filters-container">
                     <a th:with="newest='createdAt'" th:href="@{/(sort=${newest})}">
                         <span>Newest</span>
                     </a>
-                    <a  th:with="active='updatedAt'" th:href="@{/(sort=${active})}">
+                    <a th:with="active='updatedAt'" th:href="@{/(sort=${active})}">
                         <span>Active</span>
                     </a>
-                    <a  th:with="answer='votes'" th:href="@{/(sort=${answer})}">
+                    <a th:with="answer='votes'" th:href="@{/(sort=${answer})}">
                         <span>Unanswered</span>
                     </a>
                     <div class="flex--item" onclick="filteringOptions()">
-                        <button >
-                            <svg width="18" height="18" ><path d="M2 4h14v2H2V4Zm2 4h10v2H4V8Zm8 4H6v2h6v-2Z"></path></svg> Filter
+                        <button>
+                            <svg width="18" height="18">
+                                <path d="M2 4h14v2H2V4Zm2 4h10v2H4V8Zm8 4H6v2h6v-2Z"></path>
+                            </svg>
+                            Filter
                         </button>
                     </div>
                 </div>
@@ -528,8 +541,9 @@
                             }
 
                         }
-                    </script>
-                <div id="filter-container" >
+
+                </script>
+                <div id="filter-container">
                     <form action="/">
                         <div class="filter-column">
                             <div class="filter-heading">Filter By</div>
@@ -538,7 +552,8 @@
                                     <input id="noanswers" name="filter" value="noanswers" type="checkbox"> No answers
                                 </label>
                                 <label for="noacceptedanswers">
-                                    <input id="noacceptedanswers" name="filter" value="noacceptedanswers"  type="checkbox" > No accepted answers
+                                    <input id="noacceptedanswers" name="filter" value="noacceptedanswers"
+                                           type="checkbox"> No accepted answers
                                 </label>
                                 <label for="hasbounty">
                                     <input id="hasbounty" name="filter" value="hasbounty" type="checkbox"> Has bounty
@@ -552,7 +567,8 @@
                                     <input id="newest" value="createdAt" type="radio" name="sort"> Newest
                                 </label>
                                 <label for="recentactivity">
-                                    <input id="recentactivity" value="updatedAt" type="radio" name="sort"> Recent activity
+                                    <input id="recentactivity" value="updatedAt" type="radio" name="sort"> Recent
+                                    activity
                                 </label>
                                 <label for="highestscore">
                                     <input id="highestscore" value="votes" type="radio" name="sort"> Highest score
@@ -609,7 +625,7 @@
                             <span th:text="${question.description}"></span>
                         </div>
                         <div>
-                            <div id="tags-container" >
+                            <div id="tags-container">
                                 <div class="tag-container" th:each="tag:${question.tags}">
                                     <a href="#">
                                         <span th:text="${tag.name}"></span>
@@ -630,28 +646,34 @@
                             </div>
                         </div>
                     </div>
-                </div><hr>
+                </div>
+                <hr>
             </div>
-            <div class="navigation">
-                <form class="prevForm"  th:if="${questions.page > 1}"
+            <div class="pagination-container">
+                <div class="prevForm">
+                <form th:if="${questions.page > 1}"
                       th:action="@{/(page=${questions.page - 1})}" method="get">
                     <input type="hidden" name="page" th:value="${questions.page - 1}"/>
                     <input type="hidden" name="search" th:if="${not #strings.isEmpty(questions.search)}"
                            th:value="${questions.search}"/>
-                    <input type="hidden" name="sort" th:if="${not #strings.isEmpty(questions.sortBy) and questions.sortBy != 'votes'}"
+                    <input type="hidden" name="sort"
+                           th:if="${not #strings.isEmpty(questions.sortBy) and questions.sortBy != 'votes'}"
                            th:value="${questions.sortBy}"/>
                     <button type="submit" class="nextButton">&laquo;Previous</button>
                 </form>
-
-                <form class="nextForm" th:if="${questions.page < questions.totalPages}"
+                </div>
+                <div  class="nextForm">
+                <form th:if="${questions.page < questions.totalPages}"
                       th:action="@{/(page=${questions.page + 1})}" method="get">
                     <input type="hidden" name="page" th:value="${questions.page + 1}"/>
                     <input type="hidden" name="search" th:if="${not #strings.isEmpty(questions.search)}"
                            th:value="${questions.search}"/>
-                    <input type="hidden" name="sort" th:if="${not #strings.isEmpty(questions.sortBy) and questions.sortBy != 'votes'}"
+                    <input type="hidden" name="sort"
+                           th:if="${not #strings.isEmpty(questions.sortBy) and questions.sortBy != 'votes'}"
                            th:value="${questions.sortBy}"/>
                     <button type="submit" class="nextButton">Next&raquo;</button>
                 </form>
+                </div>
             </div>
         </div>
         <aside id="options">
@@ -661,7 +683,8 @@
             </div>
             <div id="related-tags-container">
                 <div id="related-tags-heading">Related Tags</div>
-                <div id="related-tags-links" th:each="tag, iterStat : ${questions.tags}" th:if="${iterStat.count} &lt;= 10">
+                <div id="related-tags-links" th:each="tag, iterStat : ${questions.tags}"
+                     th:if="${iterStat.count} &lt;= 10">
                     <a th:href="@{/tagQuestions/{tagName}(tagName = ${tag.name})}">
                         <span th:text="${tag.name}"></span>
                     </a>
@@ -672,7 +695,13 @@
 </div>
 <footer class="footer">
     <div class="footer-inner">
-        <a href="#" aria-label="Stack Overflow"><svg aria-hidden="true" class="native svg-icon iconLogoGlyphMd" width="32" height="37" viewBox="0 0 32 37"><path d="M26 33v-9h4v13H0V24h4v9h22Z" fill="#BCBBBB"></path><path d="m21.5 0-2.7 2 9.9 13.3 2.7-2L21.5 0ZM26 18.4 13.3 7.8l2.1-2.5 12.7 10.6-2.1 2.5ZM9.1 15.2l15 7 1.4-3-15-7-1.4 3Zm14 10.79.68-2.95-16.1-3.35L7 23l16.1 2.99ZM23 30H7v-3h16v3Z" fill="#F48024"></path></svg></a>
+        <a href="#" aria-label="Stack Overflow">
+            <svg aria-hidden="true" class="native svg-icon iconLogoGlyphMd" width="32" height="37" viewBox="0 0 32 37">
+                <path d="M26 33v-9h4v13H0V24h4v9h22Z" fill="#BCBBBB"></path>
+                <path d="m21.5 0-2.7 2 9.9 13.3 2.7-2L21.5 0ZM26 18.4 13.3 7.8l2.1-2.5 12.7 10.6-2.1 2.5ZM9.1 15.2l15 7 1.4-3-15-7-1.4 3Zm14 10.79.68-2.95-16.1-3.35L7 23l16.1 2.99ZM23 30H7v-3h16v3Z"
+                      fill="#F48024"></path>
+            </svg>
+        </a>
         <div class="footer-column">
             <h4>STACK OVERFLOW</h4>
             <ul>
