@@ -26,5 +26,9 @@ public class UserController {
     userService.addUser(user);
     return "login";
     }
+    @GetMapping("/users")
+    public String users() {
+        return "user";
+    }
 
 }
