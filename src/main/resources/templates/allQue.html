@@ -461,6 +461,9 @@
     <form action="/" id="searchContainer">
         <img th:src="@{/images/search-26234.png}"/>
         <input type="search" placeholder="Search..." name="search"/>
+        <input type="hidden" name="sort"
+               th:if="${not #strings.isEmpty(questions.sortBy) and questions.sortBy != 'votes'}"
+               th:value="${questions.sortBy}"/>
         <button type="submit"></button>
     </form>
     <div class="user-buttons">
@@ -521,15 +524,13 @@
                     questions
                 </div>
                 <div id="filters-container">
-                    <a th:with="newest='createdAt'" th:href="@{/(sort=${newest})}">
-                        <span>Newest</span>
-                    </a>
-                    <a th:with="active='updatedAt'" th:href="@{/(sort=${active})}">
-                        <span>Active</span>
-                    </a>
-                    <a th:with="answer='votes'" th:href="@{/(sort=${answer})}">
-                        <span>Unanswered</span>
-                    </a>
+                    <form>
+                    <span><button value="createdAt" name="sort">Newest</button></span>
+                    <span><button value="updatedAt" name="sort">Active</button></span>
+                    <span><button value="votes" name="sort">Unanswered</button></span>
+                        <input type="hidden" name="search" th:if="${not #strings.isEmpty(questions.search)}"
+                               th:value="${questions.search}"/>
+                    </form>
                     <div class="flex--item" onclick="filteringOptions()">
                         <button>
                             <svg width="18" height="18">
@@ -635,7 +636,7 @@
                         <div>
                             <div id="tags-container">
                                 <div class="tag-container" th:each="tag:${question.tags}">
-                                    <a href="#">
+                                    <a th:href="@{/questions/tagged/{tag}(tag = ${tag.name})}">
                                         <span th:text="${tag.name}"></span>
                                     </a>
                                 </div>
@@ -693,7 +694,7 @@
                 <div id="related-tags-heading">Related Tags</div>
                 <div id="related-tags-links" th:each="tag, iterStat : ${questions.tags}"
                      th:if="${iterStat.count} &lt;= 10">
-                    <a th:href="@{/tagQuestions/{tagName}(tagName = ${tag.name})}">
+                    <a th:href="@{/questions/tagged/{tag}(tag = ${tag.name})}">
                         <span th:text="${tag.name}"></span>
                     </a>
                 </div>
