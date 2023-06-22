@@ -17,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -80,6 +81,7 @@ public class QuestionService {
         questionDto.setAnswers(new HashSet<>(answerRepository.findAll(answerSpecification.findByQuestionIdAndSortByVotes(id, sortBy))));
         questionDto.setSortBy(sortBy);
         questionDto.setRelatedQue(getRelatedQuestions(question));
+        questionDto.setUsername(question.getUser().getUsername());
         return setVotedUpAndDown(questionDto);
     }
 
@@ -217,7 +219,7 @@ public class QuestionService {
 
     public User getUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null) {
+        if (authentication == null || !authentication.isAuthenticated() || authentication instanceof AnonymousAuthenticationToken) {
             return null;
         }
         Object principal = authentication.getPrincipal();
