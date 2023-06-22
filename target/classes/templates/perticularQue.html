@@ -10,7 +10,7 @@
 <body>
 <main id="aboveNavBar"></main>
 <nav id="navBar">
-    <a href="./history.html">
+    <a href="perticularQue.html">
         <div>
             <img th:src="@{/images/stackoverflowfavicon.png}" alt="Logo" title="Stack Overflow Logo" />
             <span title="Stack Overflow Logo">stack<b>overflow</b></span>
@@ -46,7 +46,7 @@
                     <li>
                         <span>PUBLIC</span>
                     </li>
-                    <li class="aside-nav-links-innerList">
+                    <li class="aside-nav-links-innerList-selected">
                         <a href="#">
                             <span>Questions</span>
                         </a>
@@ -124,7 +124,7 @@
                         </div>
 
                         <div id="totalAns">
-                            <code th:if="${question.answers != null }"><span th:text="${#sets.size(question.answers)}"></span></code>
+                            <code th:if="${question.answers != null }"><span th:text="${#sets.size(question.answers)}"></span> answers</code>
                             <form th:action="@{/questions/{id}(id=${question.id})}">
                                 <select type="" name="sort" onchange="this.form.submit()">
                                     <option value="votes" th:selected="${question.sortBy == 'votes'}">Highest score(default)</option>

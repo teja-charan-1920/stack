@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
@@ -157,6 +157,13 @@
         #aside-nav-links-innerList {
             margin: 0px 0px 0px 28px;
             height: 25px;
+        }
+        #aside-nav-links-innerList-selected {
+            margin: -10px 0px 0px -10px;
+            font-weight: bolder;
+            padding: 12px 0px 0px 37px;
+            background-color: #b1b1b1;
+            border-right: 2px solid orangered;
         }
         #containers {
             display: flex;
@@ -325,7 +332,7 @@
                                 <span>Questions</span>
                             </a>
                         </li>
-                        <li id="aside-nav-links-innerList">
+                        <li id="aside-nav-links-innerList-selected">
                             <a href="#">
                                 <span>Tags</span>
                             </a>
