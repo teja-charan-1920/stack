@@ -27,6 +27,12 @@ public class QuestionController {
         return "redirect:/questions/" + id;
     }
 
+    @GetMapping("/home")
+    public String homePage(Model model){
+        model.addAttribute("questions",questionService.getQuestionsForHomePage());
+        return "home";
+    }
+
     @PostMapping("questions/{id}/vote/down")
     public String voteDownForQuestion(@PathVariable Long id) {
         questionService.votedDown(id);
@@ -64,18 +70,10 @@ public class QuestionController {
         return "allQue";
     }
 
-    @GetMapping("/home")
-    public String homePage(Model model) {
-        model.addAttribute("questions", questionService.getQuestionsForHomePage());
-        return "home";
-    }
-
     @GetMapping("/questionView/{id}")
     public String addView(@PathVariable Long id) {
         questionService.setViewForQuestion(id);
         return "redirect:/questions/"+id;
     }
 }
-
-
 
