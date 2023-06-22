@@ -316,11 +316,15 @@
         <li><a href="#">For Teams</a></li>
     </ul>
     <form action="#" id="searchContainer">
+<<<<<<< Updated upstream
 <<<<<<< HEAD
         <img th:src="@{/images/search-26234.png}" />
 =======
         <img src="./search-26234.png" />
 >>>>>>> fae57ad5111d859385f020eb3e9a3355a5e3946e
+=======
+        <img th:src="@{/images/search-26234.png}" />
+>>>>>>> Stashed changes
         <input type="search" placeholder="Search..."/>
         <button type="submit"></button>
     </form>
@@ -392,6 +396,7 @@
             </nav>
         </div>
     </aside>
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     <section id="content-box" >
 =======
@@ -404,6 +409,9 @@
             <span> events</span>
             <section id="content-box" >
 >>>>>>> fae57ad5111d859385f020eb3e9a3355a5e3946e
+=======
+    <section id="content-box" >
+>>>>>>> Stashed changes
         <div id="perticularQuetion">
             <section>
                 <div id="question-container">
@@ -441,7 +449,10 @@
                                 </a>
                             </div>
                             <div class="question-detail">
+<<<<<<< Updated upstream
 <<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
                                 <p th:text="${question.description}"> </p>
                                 <br>
                                 <form action="#" th:if="${question.tags != null }">
@@ -454,6 +465,7 @@
                                     <br>
                                     <span>name bla bla</span>
                                 </div>
+<<<<<<< Updated upstream
 =======
                             <p th:text="${question.description}"> </p>
                             <br>
@@ -468,6 +480,8 @@
                                 <span>name bla bla</span>
                             </div>
 >>>>>>> fae57ad5111d859385f020eb3e9a3355a5e3946e
+=======
+>>>>>>> Stashed changes
                             </div>
                         </div>
 
@@ -584,6 +598,7 @@
                             </ol>
                         </div>
                     </div>
+<<<<<<< Updated upstream
                 </div>
                 <div id="addAns">
                     <hr>
@@ -597,6 +612,20 @@
             </section>
         </div>
 <<<<<<< HEAD
+=======
+                </div>
+                <div id="addAns">
+                    <hr>
+                    <h1>Add your Answers</h1>
+                    <form th:action="@{/questions/{questionId}/addAnswer(questionId=${question.id})}" method="post">
+                        <textarea placeholder="add answer" id="addAnswer" name="answer"></textarea>
+                        <br>
+                        <button type="submit">Add Answer</button>
+                    </form>
+                </div>
+            </section>
+        </div>
+>>>>>>> Stashed changes
         <br><br>
     </section>
 
@@ -635,6 +664,7 @@
                     <li><a href="#">Business</a></li>
                 </ul>
             </div>
+<<<<<<< Updated upstream
         </div>
     </footer>
 </div>
@@ -699,5 +729,10 @@
         </div>
     </div>
 </footer>
+=======
+        </div>
+    </footer>
+</div>
+>>>>>>> Stashed changes
 </body>
 >>>>>>> fae57ad5111d859385f020eb3e9a3355a5e3946e
