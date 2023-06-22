@@ -28,10 +28,10 @@ public class QuestionSpecification {
         };
     }
 
-    public Specification<Question> getQuestionsInLast12Hours(){
+    public Specification<Question> getQuestionsInLastDays(int days){
         return (root, query, criteriaBuilder) -> {
-            LocalDateTime last5hrsQuestions = LocalDateTime.now().minusHours(12);
-            return criteriaBuilder.greaterThan(root.get("updatedAt"),last5hrsQuestions);
+            LocalDateTime lastHrsQuestions = LocalDateTime.now().minusDays(days);
+            return criteriaBuilder.greaterThan(root.get("createdAt"),lastHrsQuestions);
         };
     }
 }

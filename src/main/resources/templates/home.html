@@ -397,7 +397,7 @@
     </ul>
     <form action="/" id="searchContainer">
         <img th:src="@{/images/search-26234.png}" />
-        <input type="search" placeholder="Search..."/>
+        <input type="search" placeholder="Search..." name="search"/>
         <button type="submit"></button>
     </form>
     <div class="user-buttons" sec:authorize="isAnonymous()">
@@ -458,23 +458,14 @@
                     <a href="/questions/ask">Ask Question</a>
                 </div>
             </header>
-            <div>
                 <div id="filters-container">
-                    <a href="#">
-                        <span>Interesting</span>
-                    </a>
-                    <a href="#">
-                        <span>Hot</span>
-                    </a>
-                    <a href="#">
-                        <span>Week</span>
-                    </a>
-                    <a href="#">
-                        <span>Month</span>
-                    </a>
+                    <form action="/home">
+                        <span><button value="votes" name="sort">Interesting</button></span>
+                        <span><button value="week" name="sort">Week</button></span>
+                        <span><button value="month" name="sort">Month</button></span>
+                    </form>
                 </div>
             </div>
-        </div>
         <div id="questions-container" th:each="question : ${questions.questions}">
             <div id="question-container">
                 <div id="question-detail-container">
