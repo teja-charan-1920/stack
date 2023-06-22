@@ -17,6 +17,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -67,7 +70,7 @@ public class QuestionService {
 
         question.setTitle(questionDto.getTitle());
         question.setDescription(questionDto.getDescription());
-        question.setUser(userRepository.findById(1l).get());
+        question.setUser(getUser());
         return question;
     }
 
@@ -77,11 +80,11 @@ public class QuestionService {
         questionDto.setAnswers(new HashSet<>(answerRepository.findAll(answerSpecification.findByQuestionIdAndSortByVotes(id, sortBy))));
         questionDto.setSortBy(sortBy);
         questionDto.setRelatedQue(getRelatedQuestions(question));
-        return  setVotedUpAndDown(questionDto);
+        return setVotedUpAndDown(questionDto);
     }
 
     public QuestionDto setVotedUpAndDown(QuestionDto questionDto) {
-        User user = userRepository.findById(1l).get();
+        User user = getUser();
         Question question = getQuestionById(questionDto.getId());
 
         if (question.getVotedUpByUsers().contains(user)) {
@@ -144,7 +147,7 @@ public class QuestionService {
     }
 
     public void votedUp(Long id) {
-        User user = userRepository.findById(1L).orElse(null);
+        User user = getUser();
         Question question = getQuestionById(id);
         User questionOwner = question.getUser();
 
@@ -161,7 +164,7 @@ public class QuestionService {
     }
 
     public void votedDown(Long id) {
-        User user = userRepository.findById(1L).orElse(null);
+        User user = getUser();
         Question question = getQuestionById(id);
         User questionOwner = question.getUser();
 
@@ -181,13 +184,13 @@ public class QuestionService {
         PageDto pageDto = new PageDto();
         pageDto.setTags(tagRepository.findAll());
         Pageable pageable = PageRequest.of(0, 25, Sort.by(Sort.Direction.ASC, "createdAt"));
-        if(sort.equals("week")){
+        if (sort.equals("week")) {
             Specification<Question> specification = questionSpecification.getQuestionsInLastDays(7);
-            pageDto.setQuestions(questionRepository.findAll(specification,pageable).getContent());
+            pageDto.setQuestions(questionRepository.findAll(specification, pageable).getContent());
             return pageDto;
         } else if (sort.equals("month")) {
             Specification<Question> specification = questionSpecification.getQuestionsInLastDays(30);
-            pageDto.setQuestions(questionRepository.findAll(specification,pageable).getContent());
+            pageDto.setQuestions(questionRepository.findAll(specification, pageable).getContent());
             return pageDto;
         }
         pageable = PageRequest.of(0, 25, Sort.by(Sort.Direction.DESC, "votes"));
@@ -202,13 +205,24 @@ public class QuestionService {
         questionRepository.save(question);
     }
 
-    public Set<Question> getRelatedQuestions(Question question){
+    public Set<Question> getRelatedQuestions(Question question) {
         Set<Question> related = new HashSet<>();
 
-        for(Tag tag:question.getTags()){
+        for (Tag tag : question.getTags()) {
             related.addAll(tag.getQuestions());
         }
         related.remove(question);
         return related;
+    }
+
+    public User getUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null) {
+            return null;
+        }
+        Object principal = authentication.getPrincipal();
+        UserDetails userDetails = (UserDetails) principal;
+        String username = userDetails.getUsername();
+        return userRepository.findByEmail(username).orElse(null);
     }
 }
