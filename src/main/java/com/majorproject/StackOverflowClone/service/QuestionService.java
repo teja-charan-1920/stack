@@ -59,7 +59,6 @@ public class QuestionService {
             tagRepository.save(tag);
         }
         question.setTags(setOfTags);
-        System.out.println(1);
         return questionRepository.save(question).getQuestionId();
     }
 
