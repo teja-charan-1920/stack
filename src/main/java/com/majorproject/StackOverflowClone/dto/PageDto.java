@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Map;
 
 @Setter
 @Getter
@@ -17,5 +18,6 @@ public class PageDto {
     private int pageSize;
     private List<Question> questions;
     private List<Tag> tags;
-    private int allQuestions;
+    private Long allQuestions;
+    private Map<String, Integer> relatedTags;
 }

@@ -435,7 +435,6 @@
         display: flex;
         justify-content: flex-start;
    }
-
     </style>
 </head>
 <body>
@@ -551,7 +550,6 @@
                             }
 
                         }
-
                 </script>
                 <div id="filter-container">
                     <form action="/">
@@ -609,7 +607,7 @@
                             <span>votes</span>
                         </div>
                         <div>
-                            <span th:text="${#sets.size(question.answers)}"></span>
+                            <span th:text="${#lists.size(question.answers)}"></span>
                             <span>answers</span>
                         </div>
                         <div th:if="${question.views == null}">
@@ -628,10 +626,10 @@
                             </a>
                         </h3>
                         <div id="question-desciption" th:if="${#strings.length(question.description)>100}">
-                            <span th:utext="${#strings.substring(question.description, 0, 100)}"></span>
+                            <p th:text="${#strings.substring(question.description, 0, 100)}"></p>
                         </div>
                         <div id="question-desciption" th:if="${#strings.length(question.description)<100}">
-                            <span th:utext="${question.description}"></span>
+                            <p th:text="${question.description}"></p>
                         </div>
                         <div>
                             <div id="tags-container">
@@ -647,11 +645,9 @@
                                         <a href="user link">
                                             <span th:text="${question.user.username}"></span>
                                         </a>
-                                        <strong><span title="reputation score"
-                                                      th:text="${question.user.reputation}"></span></strong>
+                                        <strong><span title="reputation score" th:text="${question.user.reputation}"></span></strong>
                                         <span>asked on </span>
-                                        <span title="uploaded time"
-                                              th:text="${#temporals.format(question.createdAt,'MMM dd, yyyy')}"></span>
+                                        <span title="uploaded time" th:text="${#temporals.format(question.createdAt,'MMM dd, yyyy')}"></span>
                                     </div>
                                 </a>
                             </div>
@@ -662,8 +658,7 @@
             </div>
             <div class="pagination-container">
                 <div class="prevForm">
-                    <form th:if="${questions.page > 1}"
-                          th:action="@{/(page=${questions.page - 1})}" method="get">
+                    <form th:if="${questions.page > 1}">
                         <input type="hidden" name="page" th:value="${questions.page - 1}"/>
                         <input type="hidden" name="search" th:if="${not #strings.isEmpty(questions.search)}"
                                th:value="${questions.search}"/>
@@ -673,9 +668,8 @@
                         <button type="submit" class="nextButton">&laquo;Previous</button>
                     </form>
                 </div>
-                <div class="nextForm">
-                    <form th:if="${questions.page < questions.totalPages}"
-                          th:action="@{/(page=${questions.page + 1})}" method="get">
+                <div  class="nextForm">
+                    <form th:if="${questions.page < questions.totalPages}">
                         <input type="hidden" name="page" th:value="${questions.page + 1}"/>
                         <input type="hidden" name="search" th:if="${not #strings.isEmpty(questions.search)}"
                                th:value="${questions.search}"/>
@@ -694,10 +688,12 @@
             </div>
             <div id="related-tags-container">
                 <div id="related-tags-heading">Related Tags</div>
-                <div id="related-tags-links" th:each="tag, iterStat : ${questions.tags}"
+                <div id="related-tags-links" th:each="tag, iterStat : ${questions.relatedTags}"
                      th:if="${iterStat.count} &lt;= 10">
-                    <a th:href="@{/questions/tagged/{tag}(tag = ${tag.name})}">
-                        <span th:text="${tag.name}"></span>
+                    <a th:href="@{/questions/tagged/{tag}(tag = ${tag.key})}">
+                        <span th:text="${tag.key}"></span>
+                        <span> x </span>
+                        <span th:text="${tag.value}"></span>
                     </a>
                 </div>
             </div>

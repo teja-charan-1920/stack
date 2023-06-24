@@ -116,7 +116,7 @@
                                 </a>
                             </div>
                             <div class="question-detail">
-                                <p th:text="${question.description}"></p>
+                                <p th:utext="${question.description}"></p>
                                 <br>
                                 <div class="tag-container" th:each="tag:${question.tags}">
                                     <a th:href="@{/questions/tagged/{tag}(tag = ${tag.name})}">
@@ -133,7 +133,7 @@
 
                         <div id="totalAns">
                             <code th:if="${question.answers != null }"><span
-                                    th:text="${#sets.size(question.answers)}"></span> answers</code>
+                                    th:text="${#lists.size(question.answers)}"></span> answers</code>
                             <form th:action="@{/questions/{id}(id=${question.id})}">
                                 <select type="" name="sort" onchange="this.form.submit()">
                                     <option value="votes" th:selected="${question.sortBy == 'votes'}">Highest
@@ -178,8 +178,8 @@
                                     <div id="commentss" th:each="comment : ${answer.comments}">
                                         <hr>
                                         <p th:text="${comment.comment}"></p>
-                                        <span>time</span>
-                                        <span>name</span>
+                                        <span th:text="${#temporals.format(comment.createdAt, 'MMM dd, yyyy')}"></span>
+                                        <span th:if="${comment.user != null}" th:text="${comment.user.username}"></span>
                                     </div>
                                     <div id="create-comment-container">
                                         <hr>
@@ -206,7 +206,8 @@
                     <hr>
                     <div id="linksContainer">
                         <header>Related Questions</header>
-                        <div id="relatedLinks" th:each="question:${question.relatedQue}">
+                        <div id="relatedLinks" th:each="question, iterStat:${question.relatedQue}"
+                             th:if="${iterStat.count} &lt;= 10">
                             <ol>
                                 <li class="side-links"><a th:href="@{/questions/{id}(id=${question.questionId})}">
                                     <code class="side-links-votes" th:text="${question.votes}"></code>

@@ -250,9 +250,9 @@ button {
             <li><a href="https://stackoverflow.co/advertising/">Products</a></li>
             <li><a href="https://stackoverflow.co/teams/">For Teams</a></li>
         </ul>
-        <form action="#" id="searchContainer">
+        <form action="/" id="searchContainer">
             <img th:src="@{/images/search-26234.png}" alt="Logo" title="logo"/>
-            <input type="search" placeholder="Search..."/>
+            <input type="search" placeholder="Search..." name="search"/>
             <button type="submit"></button>
         </form>
         <div id="left-side-bar-btn">
@@ -312,7 +312,7 @@ button {
                 <li>Collaborate and share knowledge with a private group for FREE</li>
                 <li>Get Stack Overflow for Teams free for up to 50 users</li>
             </ul>
-            <p>Already have an account? <a href="#">Log in</a></p>
+            <p>Already have an account? <a href="/login">Log in</a></p>
         </div>
         <div class="right-section">
             <h2>Sign Up</h2>
@@ -328,11 +328,15 @@ button {
                 <div class="form-group">
                     <label for="password">Password:</label>
                     <input type="password" id="password" name="password"  required>
-                    <!--          pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" title="Passwords must contain at least eight characters, including at least 1 letter and 1 number."-->
                 </div>
                 <button type="submit">Sign Up</button>
             </form>
+            <br/>
+            <form th:action="@{/oauth2/authorization/google}" method="POST">
+                <button type="submit">Sign Up With Google</button>
+            </form>
         </div>
     </div>
+</main>
 </body>
 </html>

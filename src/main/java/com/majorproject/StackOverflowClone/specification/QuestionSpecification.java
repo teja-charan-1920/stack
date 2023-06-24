@@ -2,13 +2,11 @@ package com.majorproject.StackOverflowClone.specification;
 
 import com.majorproject.StackOverflowClone.model.Question;
 import com.majorproject.StackOverflowClone.model.Tag;
-import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
-import jakarta.persistence.criteria.Subquery;
+import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 public class QuestionSpecification {
     public Specification<Question> filterPostsOnKeyword(String keyword) {
@@ -32,6 +30,21 @@ public class QuestionSpecification {
         return (root, query, criteriaBuilder) -> {
             LocalDateTime lastHrsQuestions = LocalDateTime.now().minusDays(days);
             return criteriaBuilder.greaterThan(root.get("createdAt"), lastHrsQuestions);
+        };
+    }
+
+    public Specification<Question> getQuestionsWithTag(String tag) {
+        return (root, query, criteriaBuilder) -> {
+            Join<Question, Tag> tagJoin = root.join("tags", JoinType.INNER);
+            Path<String> tagPath = tagJoin.get("name");
+            return criteriaBuilder.equal(tagPath, tag);
+        };
+    }
+
+    public Specification<Question> getQuestionsWithTags(Set<Tag> tags) {
+        return (root, query, criteriaBuilder) -> {
+            Join<Question, Tag> tagJoin = root.join("tags", JoinType.INNER);
+            return tagJoin.in(tags);
         };
     }
 }
