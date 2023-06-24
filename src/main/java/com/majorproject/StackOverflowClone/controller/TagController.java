@@ -23,8 +23,12 @@ public class TagController {
     }
 
     @GetMapping("/questions/tagged/{tag}")
-    public String tagQuestions(@PathVariable("tag") String name, Model model) {
-        model.addAttribute("questions", tagService.getQuestionsByTag(name));
+    public String tagQuestions(@PathVariable("tag") String name,
+                               @RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                               @RequestParam(name = "size",required = false,defaultValue = "15")  int pageSize,
+                               @RequestParam(name = "sort", defaultValue = "votes", required = false) String sort,
+                               Model model) {
+        model.addAttribute("questions", tagService.getQuestionsByTag(name,page,pageSize,sort));
         return "allQue";
     }
 }

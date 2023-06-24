@@ -23,7 +23,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static java.lang.Boolean.FALSE;
@@ -38,6 +40,8 @@ public class QuestionService {
     AnswerRepository answerRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    TagService tagService;
 
     private AnswerSpecification answerSpecification = new AnswerSpecification();
     private QuestionSpecification questionSpecification = new QuestionSpecification();
@@ -78,7 +82,7 @@ public class QuestionService {
     public QuestionDto getQuestion(Long id, String sortBy) {
         Question question = getQuestionById(id);
         QuestionDto questionDto = convertDaoToDto(question);
-        questionDto.setAnswers(new HashSet<>(answerRepository.findAll(answerSpecification.findByQuestionIdAndSortByVotes(id, sortBy))));
+        questionDto.setAnswers(answerRepository.findAll(answerSpecification.findByQuestionIdAndSortByVotes(id, sortBy)));
         questionDto.setSortBy(sortBy);
         questionDto.setRelatedQue(getRelatedQuestions(question));
         questionDto.setUsername(question.getUser().getUsername());
@@ -101,8 +105,8 @@ public class QuestionService {
         QuestionDto questionDto = new QuestionDto();
 
         questionDto.setId(question.getQuestionId());
-        questionDto.setTags(question.getTags());
-        questionDto.setAnswers(question.getAnswers());
+        questionDto.setTags(new ArrayList<>(question.getTags()));
+        questionDto.setAnswers(new ArrayList<>(question.getAnswers()));
         questionDto.setTitle(question.getTitle());
         questionDto.setDescription(question.getDescription());
         questionDto.setCreatedAt(question.getCreatedAt());
@@ -142,9 +146,10 @@ public class QuestionService {
         pageDto.setTotalPages(totalPages);
         pageDto.setQuestions(questionPage.getContent());
         pageDto.setTags(tagRepository.findAll());
+        pageDto.setRelatedTags(tagService.getRelatedTags(null));
         pageDto.setSortBy(sort);
         pageDto.setSearch(search);
-        pageDto.setAllQuestions(questionRepository.findAll().size());
+        pageDto.setAllQuestions(questionPage.getTotalElements());
         return pageDto;
     }
 
@@ -185,7 +190,7 @@ public class QuestionService {
     public PageDto getQuestionsForHomePage(String sort) {
         PageDto pageDto = new PageDto();
         pageDto.setTags(tagRepository.findAll());
-        Pageable pageable = PageRequest.of(0, 25, Sort.by(Sort.Direction.ASC, "createdAt"));
+        Pageable pageable = PageRequest.of(0, 40, Sort.by(Sort.Direction.ASC, "updatedAt"));
         if (sort.equals("week")) {
             Specification<Question> specification = questionSpecification.getQuestionsInLastDays(7);
             pageDto.setQuestions(questionRepository.findAll(specification, pageable).getContent());
@@ -195,9 +200,10 @@ public class QuestionService {
             pageDto.setQuestions(questionRepository.findAll(specification, pageable).getContent());
             return pageDto;
         }
-        pageable = PageRequest.of(0, 25, Sort.by(Sort.Direction.DESC, "votes"));
+        pageable = PageRequest.of(0, 40, Sort.by(Sort.Direction.DESC, "votes"));
         Specification<Question> specification = questionSpecification.getQuestionsInLastDays(15);
         pageDto.setQuestions(questionRepository.findAll(specification, pageable).getContent());
+        pageDto.setRelatedTags(tagService.getRelatedTags(null));
         return pageDto;
     }
 
@@ -207,14 +213,11 @@ public class QuestionService {
         questionRepository.save(question);
     }
 
-    public Set<Question> getRelatedQuestions(Question question) {
-        Set<Question> related = new HashSet<>();
-
-        for (Tag tag : question.getTags()) {
-            related.addAll(tag.getQuestions());
-        }
-        related.remove(question);
-        return related;
+    public List<Question> getRelatedQuestions(Question question) {
+        Specification<Question> specification = questionSpecification.getQuestionsWithTags(question.getTags());
+        List<Question> questions = questionRepository.findAll(specification,Sort.by(Sort.Direction.DESC,"votes"));
+        questions.remove(question);
+        return questions;
     }
 
     public User getUser() {
