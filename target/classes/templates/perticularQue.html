@@ -121,9 +121,6 @@
                                     </button>
                                 </form>
                                 <br>
-                                <a href="#">
-                                    <img th:src="@{/images/icons8-history-32.png}">
-                                </a>
                             </div>
                             <div class="question-detail">
                                 <p th:utext="${question.description}"></p>
@@ -183,14 +180,14 @@
                                         </button>
                                     </form>
                                     <br>
-                                    <a href="#">
+                                    <a th:href="@{/posts/{id}/timeline(id=${answer.answerId})}">
                                         <img th:src="@{/images/icons8-history-32.png}">
                                     </a>
                                 </div>
                                 <div class="answer-comment-container">
                                     <p th:utext="${answer.answer}"></p>
                                     <div class="edit">
-                                        <a th:href="@{/answerEdit/{questionId}/{answerId}(questionId= ${question.id},answerId= ${answer.answerId})}">Edit</a>
+                                        <a th:href="@{/question/{questionId}/answer/{answerId}(questionId= ${question.id},answerId= ${answer.answerId})}">Edit</a>
                                     </div>
                                     <div id="commentss" th:each="comment : ${answer.comments}">
                                         <hr>
@@ -213,7 +210,6 @@
                                                 var commentForm = button.nextElementSibling;
                                                 commentForm.classList.toggle("show");
                                             }
-
                                         </script>
                                     </div>
                                 </div>

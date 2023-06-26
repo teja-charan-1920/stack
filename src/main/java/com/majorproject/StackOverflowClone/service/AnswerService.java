@@ -1,15 +1,15 @@
 package com.majorproject.StackOverflowClone.service;
 
 import com.majorproject.StackOverflowClone.model.Answer;
-import com.majorproject.StackOverflowClone.model.User;
 import com.majorproject.StackOverflowClone.model.Comment;
-import com.majorproject.StackOverflowClone.repository.AnswerRepository;
-import com.majorproject.StackOverflowClone.repository.CommentRepository;
-import com.majorproject.StackOverflowClone.repository.QuestionRepository;
-import com.majorproject.StackOverflowClone.repository.UserRepository;
+import com.majorproject.StackOverflowClone.model.History;
+import com.majorproject.StackOverflowClone.model.User;
+import com.majorproject.StackOverflowClone.repository.*;
 import com.majorproject.StackOverflowClone.security.oauth.CustomUser;
+import com.majorproject.StackOverflowClone.specification.HistorySpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +21,9 @@ import java.util.List;
 
 @Service
 public class AnswerService {
+    public static final String ANSWERED = "Answered";
+    public static final String COMMENT = "Comment Added";
+    public static final String EDITED = "Edited";
     @Autowired
     AnswerRepository answerRepository;
     @Autowired
@@ -29,6 +32,8 @@ public class AnswerService {
     QuestionRepository questionRepository;
     @Autowired
     CommentRepository commentRepository;
+    @Autowired
+    HistoryRepository historyRepository;
 
     public Answer getAnswerById(Long answerId) {
         return answerRepository.findById(answerId).orElse(null);
@@ -85,18 +90,20 @@ public class AnswerService {
         answer.setUser(user);
         answer.setQuestion(questionRepository.findById(questionId).get());
         answerRepository.save(answer);
+        saveHistory(answer, ANSWERED, null);
     }
 
     public void addComment(Long answerId, String data) {
         User user = getUser();
+        Answer answer = answerRepository.findById(answerId).orElse(null);
 
         Comment comment = new Comment();
         comment.setComment(data);
         comment.setUser(user);
         commentRepository.save(comment);
-        Answer answer = answerRepository.findById(answerId).orElse(null);
         answer.getComments().add(comment);
         answerRepository.save(answer);
+        saveHistory(answer, COMMENT, data);
     }
 
     public User getUser() {
@@ -105,11 +112,11 @@ public class AnswerService {
             return null;
         }
         Object principal = authentication.getPrincipal();
-        if(principal instanceof UserDetails userDetails) {
+        if (principal instanceof UserDetails userDetails) {
             String username = userDetails.getUsername();
             return userRepository.findByEmail(username).orElse(null);
         }
-        if(principal instanceof OAuth2User) {
+        if (principal instanceof OAuth2User) {
             CustomUser oAuth2User = new CustomUser((OAuth2User) principal);
             String email = oAuth2User.getEmail();
             return userRepository.findByEmail(email).orElse(null);
@@ -117,9 +124,25 @@ public class AnswerService {
         return null;
     }
 
-    public void editAnswer(Long answerId, String answer) {
+    public void editAnswer(Long answerId, String answer, String comment) {
         Answer editedAnswer = answerRepository.findById(answerId).get();
         editedAnswer.setAnswer(answer);
         answerRepository.save(editedAnswer);
+        saveHistory(editedAnswer, EDITED, comment);
+    }
+
+    public void saveHistory(Answer answer, String action, String comment) {
+        History history = new History();
+        history.setAction(action);
+        history.setUser(getUser());
+        history.setAnswer(answer);
+        history.setComment(comment);
+        historyRepository.save(history);
+    }
+
+    public List<History> getHistoryByAnswerId(Long id) {
+        HistorySpecification historySpecification = new HistorySpecification();
+        Specification<History> specification = historySpecification.getHistorySpecification(id);
+        return historyRepository.findAll(specification);
     }
 }

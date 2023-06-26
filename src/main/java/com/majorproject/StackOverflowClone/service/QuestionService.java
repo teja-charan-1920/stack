@@ -193,6 +193,7 @@ public class QuestionService {
     public PageDto getQuestionsForHomePage(String sort) {
         PageDto pageDto = new PageDto();
         pageDto.setTags(tagRepository.findAll());
+        pageDto.setRelatedTags(tagService.getRelatedTags(null));
         Pageable pageable = PageRequest.of(0, 40, Sort.by(Sort.Direction.ASC, "updatedAt"));
         if (sort.equals("week")) {
             Specification<Question> specification = questionSpecification.getQuestionsInLastDays(7);
@@ -206,7 +207,6 @@ public class QuestionService {
         pageable = PageRequest.of(0, 40, Sort.by(Sort.Direction.DESC, "votes"));
         Specification<Question> specification = questionSpecification.getQuestionsInLastDays(15);
         pageDto.setQuestions(questionRepository.findAll(specification, pageable).getContent());
-        pageDto.setRelatedTags(tagService.getRelatedTags(null));
         return pageDto;
     }
 

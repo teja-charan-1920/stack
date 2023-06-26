@@ -1,8 +1,15 @@
 package com.majorproject.StackOverflowClone.service;
 
+import com.majorproject.StackOverflowClone.dto.PageDto;
 import com.majorproject.StackOverflowClone.model.User;
 import com.majorproject.StackOverflowClone.repository.UserRepository;
+import com.majorproject.StackOverflowClone.specification.UserSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -45,5 +52,26 @@ public class UserService {
 
     public User getByEmail(String email) {
         return userRepository.findByEmail(email).orElse(null);
+    }
+
+    public PageDto getAllUsers(String search, String sortBy, int page) {
+        Pageable pageable = PageRequest.of(page - 1, 36, Sort.by(Sort.Direction.DESC, sortBy));
+        if (sortBy.equals("username"))
+            pageable = PageRequest.of(page - 1, 36, Sort.by(Sort.Direction.ASC, sortBy));
+        Specification<User> specification = new UserSpecification().getAllUserSpecification(search);
+        Page<User> userPage = null;
+        if (search == null) {
+            userPage = userRepository.findAll(pageable);
+        } else {
+            userPage = userRepository.findAll(specification, pageable);
+        }
+
+        PageDto pageDto = new PageDto();
+        pageDto.setPage(page);
+        pageDto.setSearch(search);
+        pageDto.setUsers(userPage.getContent());
+        pageDto.setSortBy(sortBy);
+        pageDto.setTotalPages(userPage.getTotalPages());
+        return pageDto;
     }
 }

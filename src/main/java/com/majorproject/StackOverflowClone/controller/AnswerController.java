@@ -3,19 +3,18 @@ package com.majorproject.StackOverflowClone.controller;
 import com.majorproject.StackOverflowClone.model.Answer;
 import com.majorproject.StackOverflowClone.model.User;
 import com.majorproject.StackOverflowClone.service.AnswerService;
-import com.majorproject.StackOverflowClone.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class AnswerController {
     @Autowired
     AnswerService answerService;
-    @Autowired
-    UserService userService;
 
     @PostMapping("/questions/{questionId}/answer/{answerId}/voteUp")
     public String answerVotedUp(@PathVariable Long answerId,
@@ -40,29 +39,44 @@ public class AnswerController {
     }
 
     @PostMapping("/questions/{questionId}/addAnswer")
-    public String addAnswer(@RequestParam String answer,
-                            @PathVariable Long questionId,
-                            @RequestParam(value = "answerId",required = false) Long answerId) {
-        if(answerId != null){
-            answerService.editAnswer(answerId,answer);
-        } else {
-            answerService.addAnswer(questionId, answer);
-        }
+    public String addAnswer(@PathVariable Long questionId,
+                            @RequestParam String answer) {
+        answerService.addAnswer(questionId, answer);
         return "redirect:/questions/" + questionId;
     }
 
+    @PostMapping("/questions/{questionId}/answer/{answerId}/edit")
+    public String editAnswer(@PathVariable Long answerId,
+                             @PathVariable Long questionId,
+                             @RequestParam String answer,
+                             @RequestParam String comment,
+                             Model model) {
+        answerService.editAnswer(answerId, answer, comment);
+        return "redirect:/questions/" + questionId;
+    }
+
+
     @PostMapping("/questions/{questionId}/answer/{answerId}/comment")
     public String addComment(@RequestParam String comment,
-                             @PathVariable Long questionId, @PathVariable Long answerId) {
+                             @PathVariable Long questionId,
+                             @PathVariable Long answerId) {
         answerService.addComment(answerId, comment);
         return "redirect:/questions/" + questionId;
     }
 
-    @GetMapping("/answerEdit/{questionId}/{answerId}")
-    public String editAnswer(@PathVariable Long questionId, @PathVariable("answerId") Long answerId, Model model){
-        model.addAttribute("editAnswer",answerService.getAnswerById(answerId).getAnswer());
-        model.addAttribute("answerId",answerId);
-        model.addAttribute("questionId",questionId);
+    @GetMapping("/question/{questionId}/answer/{answerId}")
+    public String editAnswer(@PathVariable Long questionId, @PathVariable("answerId") Long answerId, Model model) {
+        model.addAttribute("editAnswer", answerService.getAnswerById(answerId).getAnswer());
+        model.addAttribute("answerId", answerId);
+        model.addAttribute("questionId", questionId);
         return "editAnswer";
+    }
+
+    @GetMapping("/posts/{id}/timeline")
+    public String getHistory(@PathVariable Long id,
+                             Model model) {
+        model.addAttribute("question", answerService.getAnswerById(id).getQuestion());
+        model.addAttribute("histories", answerService.getHistoryByAnswerId(id));
+        return "history";
     }
 }

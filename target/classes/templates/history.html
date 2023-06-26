@@ -6,6 +6,10 @@
     <title>History</title>
     <link rel="icon" th:href="@{/images/stackoverflowfavicon.png}" type="image/x-icon">
     <style>
+    body,html {
+           margin: 0px 0px 0px -7.5px;
+           padding: 0px;
+        }
         a {
             text-decoration: none;
         }
@@ -281,6 +285,7 @@
   color: #0077cc;
 }
 
+
     </style>
 </head>
 <body>
@@ -353,11 +358,11 @@
     <section id="history-container">
         <header id="history-header">
             <p id="timeline">Timeline for
-                <a id="content" th:href="@{/questions/{id}(id=${})}" th:text="${}"></a>
+                <a id="content" th:href="@{/questions/{id}(id=${question.questionId})}" th:text="${question.title}"></a>
             </p>
         </header>
         <div id="total-events">
-            <span>16</span>
+            <span th:text="${#lists.size(histories)}"></span>
             <span> events</span>
         </div>
         <table id="histories">
@@ -370,11 +375,11 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>Value 1</td>
-                <td>Value 2</td>
-                <td>#-child</td>
-                <td>Value 4Value 4Value 4</td>
+            <tr th:each="history : ${histories}">
+                <td th:text="${#temporals.format(history.createdAt, 'MMM dd, yyyy ''at''  HH:mm')}"></td>
+                <td th:text="${history.action}"></td>
+                <td><a th:href="@{/users/{id}(id=${history.user.userId})}" th:text="${history.user.username}"></a></td>
+                <td th:text="${history.comment}"></td>
             </tr>
             </tbody>
         </table>

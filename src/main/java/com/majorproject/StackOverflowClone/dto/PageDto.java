@@ -2,6 +2,7 @@ package com.majorproject.StackOverflowClone.dto;
 
 import com.majorproject.StackOverflowClone.model.Question;
 import com.majorproject.StackOverflowClone.model.Tag;
+import com.majorproject.StackOverflowClone.model.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,6 +19,7 @@ public class PageDto {
     private int pageSize;
     private List<Question> questions;
     private List<Tag> tags;
+    private List<User> users;
     private Long allQuestions;
     private Map<String, Integer> relatedTags;
 }

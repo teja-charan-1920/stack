@@ -184,7 +184,10 @@
             width: 560px;
             height: 300px;
         }
-
+        #editSummary {
+            width:500px;
+            height: 28px;
+        }
 
        /* Footer styles */
        .footer {
@@ -296,11 +299,13 @@
     </div>
   </aside>
   <section id="edit-answer-container">
-    <form th:action="@{/questions/{questionId}/addAnswer(questionId=${questionId})}" method="post">
+    <form th:action="@{/questions/{questionId}/answer/{answerId}/edit(questionId=${questionId},answerId=${answerId})}" method="post">
       <label for="addAnswer"><h2>Edit Answer</h2></label>
-      <textarea placeholder="add answer" id="addAnswer" name="answer" th:utext="${editAnswer}"></textarea>
+      <textarea placeholder="add answer" id="addAnswer" name="answer" th:utext="${editAnswer}" required></textarea>
       <br>
-      <input type="hidden" name="answerId" th:value="${answerId}">
+      <label for="editSummary"><h2>Edit summary</h2> </label>
+      <input id="editSummary" name="comment" placeholder="briefly explain your changes" required>
+      <br><br>
       <button type="submit">Add Answer</button>
     </form>
   </section>

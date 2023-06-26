@@ -4,7 +4,11 @@ import com.majorproject.StackOverflowClone.model.User;
 import com.majorproject.StackOverflowClone.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class UserController {
@@ -28,8 +32,12 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public String users() {
+    public String users(@RequestParam(name = "search", required = false) String search,
+                        @RequestParam(name = "sort", defaultValue = "reputation", required = false) String sortBy,
+                        @RequestParam(name = "page", defaultValue = "1", required = false) int page,
+                        Model model) {
+        model.addAttribute("users", userService.getAllUsers(search, sortBy, page));
         return "user";
     }
-    
+
 }

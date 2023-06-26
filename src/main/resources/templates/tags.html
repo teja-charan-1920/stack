@@ -6,6 +6,10 @@
     <title>All Tags</title>
     <link rel="icon" th:href="@{/images/stackoverflowfavicon.png}" type="image/x-icon">
     <style>
+    body,html {
+           margin: 0px 0px 0px -7.5px;
+           padding: 0px;
+        }
         a {
             text-decoration: none;
         }
@@ -284,6 +288,18 @@
 .footer-column ul li a:hover {
   color: #0077cc;
 }
+#pagination{
+        margin: 50px 0px 30px 0px;
+        display:flex;
+        flex-direction: column;
+    }
+   .nextForm {
+        display: flex;
+        justify-content: flex-end;   }
+   .prevForm {
+        display: flex;
+        justify-content: flex-start;
+   }
 
     </style>
 </head>
@@ -393,35 +409,38 @@
                 </a>
 
                 <div id="total-question-count">
-                    <span>Created At</span>
-                    <span id="totalquecount" th:text="${tag.createdAt}"></span>
+                    <span>Created </span>
+                    <span id="totalquecount"
+                          th:text="${#temporals.format(tag.createdAt, 'MMM dd ''at''  HH:mm')}"></span>
                 </div>
             </div>
         </div>
+
+        <div id="pagination">
+            <form class="prevForm" th:if="${tags.page > 1}"
+                  th:action="@{/tags(page=${tags.page - 1})}" method="get">
+                <input type="hidden" name="page" th:value="${tags.page - 1}"/>
+                <input type="hidden" name="search" th:if="${not #strings.isEmpty(tags.search)}"
+                       th:value="${tags.search}"/>
+                <input type="hidden" name="sort"
+                       th:if="${not #strings.isEmpty(tags.sortBy) and tags.sortBy != 'createdAt'}"
+                       th:value="${tags.sortBy}"/>
+                <button type="submit" class="nextButton">&laquo;Previous</button>
+            </form>
+
+            <form class="nextForm" th:if="${tags.page < tags.totalPages}"
+                  th:action="@{/tags(page=${tags.page + 1})}" method="get">
+                <input type="hidden" name="page" th:value="${tags.page + 1}"/>
+                <input type="hidden" name="search" th:if="${not #strings.isEmpty(tags.search)}"
+                       th:value="${tags.search}"/>
+                <input type="hidden" name="sort"
+                       th:if="${not #strings.isEmpty(tags.sortBy) and tags.sortBy != 'createdAt'}"
+                       th:value="${tags.sortBy}"/>
+                <button type="submit" class="nextButton">Next&raquo;</button>
+            </form>
+        </div>
     </section>
 </div>
-
-<form class="prevForm" th:if="${tags.page > 1}"
-      th:action="@{/tags(page=${tags.page - 1})}" method="get">
-    <input type="hidden" name="page" th:value="${tags.page - 1}"/>
-    <input type="hidden" name="search" th:if="${not #strings.isEmpty(tags.search)}"
-           th:value="${tags.search}"/>
-    <input type="hidden" name="sort"
-           th:if="${not #strings.isEmpty(tags.sortBy) and tags.sortBy != 'createdAt'}"
-           th:value="${tags.sortBy}"/>
-    <button type="submit" class="nextButton">&laquo;Previous</button>
-</form>
-
-<form class="nextForm" th:if="${tags.page < tags.totalPages}"
-      th:action="@{/tags(page=${tags.page + 1})}" method="get">
-    <input type="hidden" name="page" th:value="${tags.page + 1}"/>
-    <input type="hidden" name="search" th:if="${not #strings.isEmpty(tags.search)}"
-           th:value="${tags.search}"/>
-    <input type="hidden" name="sort"
-           th:if="${not #strings.isEmpty(tags.sortBy) and tags.sortBy != 'createdAt'}"
-           th:value="${tags.sortBy}"/>
-    <button type="submit" class="nextButton">Next&raquo;</button>
-</form>
 
 <footer class="footer">
     <div class="footer-inner">
