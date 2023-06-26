@@ -3,13 +3,11 @@ package com.majorproject.StackOverflowClone.dto;
 import com.majorproject.StackOverflowClone.model.Answer;
 import com.majorproject.StackOverflowClone.model.Question;
 import com.majorproject.StackOverflowClone.model.Tag;
-import com.majorproject.StackOverflowClone.model.User;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter

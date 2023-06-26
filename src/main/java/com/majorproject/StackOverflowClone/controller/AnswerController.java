@@ -41,8 +41,13 @@ public class AnswerController {
 
     @PostMapping("/questions/{questionId}/addAnswer")
     public String addAnswer(@RequestParam String answer,
-                            @PathVariable Long questionId) {
-        answerService.addAnswer(questionId, answer);
+                            @PathVariable Long questionId,
+                            @RequestParam(value = "answerId",required = false) Long answerId) {
+        if(answerId != null){
+            answerService.editAnswer(answerId,answer);
+        } else {
+            answerService.addAnswer(questionId, answer);
+        }
         return "redirect:/questions/" + questionId;
     }
 
@@ -51,5 +56,13 @@ public class AnswerController {
                              @PathVariable Long questionId, @PathVariable Long answerId) {
         answerService.addComment(answerId, comment);
         return "redirect:/questions/" + questionId;
+    }
+
+    @GetMapping("/answerEdit/{questionId}/{answerId}")
+    public String editAnswer(@PathVariable Long questionId, @PathVariable("answerId") Long answerId, Model model){
+        model.addAttribute("editAnswer",answerService.getAnswerById(answerId).getAnswer());
+        model.addAttribute("answerId",answerId);
+        model.addAttribute("questionId",questionId);
+        return "editAnswer";
     }
 }

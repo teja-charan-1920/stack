@@ -20,27 +20,29 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.csrf(AbstractHttpConfigurer::disable)
-                .cors(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorization -> authorization
-                        .requestMatchers("/questions/ask").authenticated()
-                        .requestMatchers("/css/**", "/images/**","/oauth2/**", "/tinymce/**", "/home", "/questions/{id}", "/", "/questionView/{id}", "/tags", "/questions/tagged/{tag}", "/login", "/signup", "/users")
-                        .permitAll()
-                        .anyRequest()
-                        .authenticated())
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .loginProcessingUrl("/authenticateTheUser")
-                        .permitAll())
-                .oauth2Login(oauth -> oauth
-                        .loginPage("/login")
-                        .userInfoEndpoint(customizer ->
-                                customizer.userService(oAuth2UserService))
-                        .successHandler(oAuth2LoginSuccessHandler))
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login")
-                        .permitAll());
+        httpSecurity.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(configurer ->
+                        configurer
+                                .requestMatchers("/oauth2/**").permitAll()
+                                .requestMatchers("/questions/ask").authenticated()
+                                .requestMatchers("/css/**", "/images/**","/tinymce/**","/home","/questions/{id}","/","/questionView/{id}","/tags","/questions/tagged/{tag}","/login","/signup","/users")
+                                .permitAll()
+                                .anyRequest()
+                                .authenticated())
+                        .formLogin(form ->
+                        form
+                                .loginPage("/login")
+                                .loginProcessingUrl("/authenticateTheUser")
+                                .permitAll()
+                                .defaultSuccessUrl("/home"))
+                        .oauth2Login(c -> c
+                                .loginPage("/login")
+                                .userInfoEndpoint(customizer ->
+                                        customizer.userService(oAuth2UserService))
+                                .successHandler(oAuth2LoginSuccessHandler))
+                        .logout(logout -> logout
+                                .logoutUrl("/logout")
+                                .logoutSuccessUrl("/login")
+                                .permitAll());
         return httpSecurity.build();
     }
 }

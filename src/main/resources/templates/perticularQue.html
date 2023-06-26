@@ -7,6 +7,16 @@
     <link rel="icon" th:href="@{/images/stackoverflowfavicon.png}" type="image/x-icon">
     <link rel="stylesheet" th:href="@{/css/question.css}">
     <script th:src="@{/tinymce/tinymce.min.js}"></script>
+    <style>
+        .edit{
+            margin-top:20px;
+        }
+        .edit a {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: small;
+            color: hsl(210, 1%, 44%);
+        }
+    </style>
 </head>
 <body>
 <main id="aboveNavBar"></main>
@@ -123,6 +133,9 @@
                                         <span th:text="${tag.name}"></span>
                                     </a>
                                 </div>
+                                <div class="edit">
+                                    <a th:href="@{/questionEdit/{id}(id= ${question.id})}">Edit</a>
+                                </div>
                                 <div id="askedBy">
                                     <code th:text="${#temporals.format(question.createdAt,'MMM dd, yyyy')}"></code>
                                     <br>
@@ -142,6 +155,7 @@
                                     <option value="updatedAt" th:selected="${question.sortBy == 'updatedAt'}">Date
                                         Modified(newest first)
                                     </option>
+
                                     <option value="createdAt" th:selected="${question.sortBy == 'createdAt'}">Date
                                         Created(oldest first)
                                     </option>
@@ -175,6 +189,9 @@
                                 </div>
                                 <div class="answer-comment-container">
                                     <p th:utext="${answer.answer}"></p>
+                                    <div class="edit">
+                                        <a th:href="@{/answerEdit/{questionId}/{answerId}(questionId= ${question.id},answerId= ${answer.answerId})}">Edit</a>
+                                    </div>
                                     <div id="commentss" th:each="comment : ${answer.comments}">
                                         <hr>
                                         <p th:text="${comment.comment}"></p>
@@ -186,7 +203,7 @@
                                         <div id="create-comment" onclick="toggleCommentForm(this)">
                                             Add a comment
                                         </div>
-                                        <form th:action="@{/questions/{questionId}/answer/{answerId}/comment(questionId=${question.id}, answerId=${answer.answerId})}"
+                                        <form th:action="@{/questions/{questionId}/answer/{answerId}/comment(questionId=${question.id},answerId=${answer.answerId})}"
                                               class="create-comment-form" method="post">
                                             <textarea name="comment" id="comment-box" required></textarea>
                                             <button type="submit">Add comment</button>
@@ -223,6 +240,7 @@
                     <form th:action="@{/questions/{questionId}/addAnswer(questionId=${question.id})}" method="post">
                         <textarea placeholder="add answer" id="addAnswer" name="answer"></textarea>
                         <br>
+                        <input type="hidden" name="answerId" th:value="${answerId}">
                         <button type="submit">Add Answer</button>
                     </form>
                 </div>

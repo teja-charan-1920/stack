@@ -45,8 +45,8 @@ public class QuestionService {
     @Autowired
     TagService tagService;
 
-    private AnswerSpecification answerSpecification = new AnswerSpecification();
-    private QuestionSpecification questionSpecification = new QuestionSpecification();
+    private final AnswerSpecification answerSpecification = new AnswerSpecification();
+    private final QuestionSpecification questionSpecification = new QuestionSpecification();
 
     public Question getQuestionById(Long id) {
         return questionRepository.findById(id).orElse(null);
@@ -115,6 +115,7 @@ public class QuestionService {
         questionDto.setUpdatedAt(question.getUpdatedAt());
         questionDto.setVotes(question.getVotes());
         questionDto.setViews(question.getViews());
+        questionDto.setTotalTags(getTotalTagsInString(question.getTags()));
 
         return questionDto;
     }
@@ -217,7 +218,7 @@ public class QuestionService {
 
     public List<Question> getRelatedQuestions(Question question) {
         Specification<Question> specification = questionSpecification.getQuestionsWithTags(question.getTags());
-        List<Question> questions = questionRepository.findAll(specification,Sort.by(Sort.Direction.DESC,"votes"));
+        List<Question> questions = questionRepository.findAll(specification, Sort.by(Sort.Direction.DESC, "votes"));
         questions.remove(question);
         return questions;
     }
@@ -228,15 +229,45 @@ public class QuestionService {
             return null;
         }
         Object principal = authentication.getPrincipal();
-        if(principal instanceof UserDetails userDetails) {
+        if (principal instanceof UserDetails userDetails) {
             String username = userDetails.getUsername();
             return userRepository.findByEmail(username).orElse(null);
         }
-        if(principal instanceof OAuth2User) {
+        if (principal instanceof OAuth2User) {
             CustomUser oAuth2User = new CustomUser((OAuth2User) principal);
             String email = oAuth2User.getEmail();
             return userRepository.findByEmail(email).orElse(null);
         }
         return null;
+    }
+
+    public QuestionDto getQuestionToEdit(Long id) {
+        Question question =getQuestionById(id);
+        question.setTitle(question.getTitle());
+        question.setDescription(question.getDescription());
+
+        return convertDaoToDto(question);
+    }
+
+    private String getTotalTagsInString(Set<Tag> tags) {
+        String totalTags="";
+        for(Tag tag : tags){
+            totalTags+=tag.getName()+",";
+        }
+        return totalTags;
+    }
+
+    public Long addEditQuestion(QuestionDto questionDto) {
+        Set<Tag> setOfTags = saveTags(questionDto.getTotalTags().split(","));
+        Question question = getQuestionById(questionDto.getId());
+        question.setDescription(questionDto.getDescription());
+        question.setTitle(questionDto.getTitle());
+        for (Tag tag : setOfTags) {
+            tag.getQuestions().add(question);
+            tagRepository.save(tag);
+        }
+        question.setTags(setOfTags);
+        tagRepository.deleteUnusedTags();
+        return questionRepository.save(question).getQuestionId();
     }
 }

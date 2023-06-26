@@ -116,4 +116,10 @@ public class AnswerService {
         }
         return null;
     }
+
+    public void editAnswer(Long answerId, String answer) {
+        Answer editedAnswer = answerRepository.findById(answerId).get();
+        editedAnswer.setAnswer(answer);
+        answerRepository.save(editedAnswer);
+    }
 }
