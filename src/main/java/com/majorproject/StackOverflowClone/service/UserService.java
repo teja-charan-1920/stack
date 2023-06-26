@@ -1,6 +1,5 @@
 package com.majorproject.StackOverflowClone.service;
 
-import com.majorproject.StackOverflowClone.model.AuthenticationProvider;
 import com.majorproject.StackOverflowClone.model.User;
 import com.majorproject.StackOverflowClone.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

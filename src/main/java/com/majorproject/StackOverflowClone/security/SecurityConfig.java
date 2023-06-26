@@ -17,7 +17,7 @@ public class SecurityConfig {
 
     @Autowired
     private CustomOAuth2UserService oAuth2UserService;
-    
+
     @Autowired
     private OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
