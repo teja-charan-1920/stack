@@ -13,7 +13,6 @@ public class UserController {
 
     @GetMapping("/login")
     public String login() {
-        System.out.println("hii ");
         return "login";
     }
 
@@ -32,9 +31,5 @@ public class UserController {
     public String users() {
         return "user";
     }
-
-//    @GetMapping("/oauth2/authorization/google")
-//    public String redirectToGoogleAuthorization() {
-//        return "redirect:/login/oauth2/code/google";
-//    }
+    
 }

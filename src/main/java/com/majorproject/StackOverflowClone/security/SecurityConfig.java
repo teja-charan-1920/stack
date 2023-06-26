@@ -1,23 +1,20 @@
 package com.majorproject.StackOverflowClone.security;
 
-import com.majorproject.StackOverflowClone.service.CustomOAuth2UserService;
 import com.majorproject.StackOverflowClone.security.oauth.OAuth2LoginSuccessHandler;
+import com.majorproject.StackOverflowClone.service.CustomUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
     @Autowired
-    private CustomOAuth2UserService oAuth2UserService;
-
+    private CustomUserService oAuth2UserService;
     @Autowired
     private OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
@@ -48,6 +45,4 @@ public class SecurityConfig {
                                 .permitAll());
         return httpSecurity.build();
     }
-
-
 }

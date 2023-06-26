@@ -7,12 +7,14 @@ import com.majorproject.StackOverflowClone.repository.AnswerRepository;
 import com.majorproject.StackOverflowClone.repository.CommentRepository;
 import com.majorproject.StackOverflowClone.repository.QuestionRepository;
 import com.majorproject.StackOverflowClone.repository.UserRepository;
+import com.majorproject.StackOverflowClone.security.oauth.CustomUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -90,9 +92,9 @@ public class AnswerService {
 
         Comment comment = new Comment();
         comment.setComment(data);
-//        comment.setUser(user);
+        comment.setUser(user);
         commentRepository.save(comment);
-        Answer answer = answerRepository.findById(answerId).get();
+        Answer answer = answerRepository.findById(answerId).orElse(null);
         answer.getComments().add(comment);
         answerRepository.save(answer);
     }
@@ -103,7 +105,15 @@ public class AnswerService {
             return null;
         }
         Object principal = authentication.getPrincipal();
-        String username = ((UserDetails) principal).getUsername();
-        return userRepository.findByEmail(username).orElse(null);
+        if(principal instanceof UserDetails userDetails) {
+            String username = userDetails.getUsername();
+            return userRepository.findByEmail(username).orElse(null);
+        }
+        if(principal instanceof OAuth2User) {
+            CustomUser oAuth2User = new CustomUser((OAuth2User) principal);
+            String email = oAuth2User.getEmail();
+            return userRepository.findByEmail(email).orElse(null);
+        }
+        return null;
     }
 }

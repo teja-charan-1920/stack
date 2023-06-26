@@ -1,6 +1,6 @@
 package com.majorproject.StackOverflowClone.security;
 
-import com.majorproject.StackOverflowClone.service.UserInfoUserDetailsService;
+import com.majorproject.StackOverflowClone.service.CustomUserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -12,14 +12,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class BeanConfig {
     @Bean
+    public UserDetailsService userDetailsService() {
+        return new CustomUserService();
+    }
+
+    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return new UserInfoUserDetailsService();
-    }
-
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
@@ -28,5 +28,4 @@ public class BeanConfig {
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;
     }
-
 }

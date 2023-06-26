@@ -35,15 +35,15 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public User getByEmail(String email) {
-        return userRepository.findByEmail(email).orElse(null);
-    }
-
-    public void addUserThroughOAuth(String email,String username){
+    public void addUserThroughOAuth(String email, String name) {
         User user = new User();
-        user.setUsername(username);
+        user.setUsername(name);
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(UUID.randomUUID().toString()));
         userRepository.save(user);
+    }
+
+    public User getByEmail(String email) {
+        return userRepository.findByEmail(email).orElse(null);
     }
 }

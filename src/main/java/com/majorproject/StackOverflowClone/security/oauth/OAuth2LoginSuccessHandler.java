@@ -19,8 +19,8 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     private UserService userService;
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        CustomOAuth2User oAuth2User = new CustomOAuth2User((OAuth2User) authentication.getPrincipal());
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
+        CustomUser oAuth2User = new CustomUser((OAuth2User) authentication.getPrincipal());
         String email = oAuth2User.getEmail();
         User user = userService.getByEmail(email);
         if (user == null) {
@@ -28,5 +28,4 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         }
         super.onAuthenticationSuccess(request, response, authentication);
     }
-
 }

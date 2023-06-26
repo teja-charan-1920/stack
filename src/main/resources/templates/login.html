@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timeline for answer to <span th:text="que">(que)</span></title>
+    <title>Login</title>
     <link rel="icon" th:href="@{/images/stackoverflowfavicon.png}" type="image/x-icon">
     <style>
         a {
@@ -174,6 +174,7 @@ h1 {
 
 .form-group {
   margin-bottom: 20px;
+  margin-right: 20px;
 }
 
 label {
@@ -241,9 +242,9 @@ button {
             <li><a href="https://stackoverflow.co/advertising/">Products</a></li>
             <li><a href="https://stackoverflow.co/teams/">For Teams</a></li>
         </ul>
-        <form action="#" id="searchContainer">
+        <form action="/" id="searchContainer">
             <img th:src="@{/images/search-26234.png}" alt="Logo" title="logo"/>
-            <input type="search" placeholder="Search..."/>
+            <input type="search" placeholder="Search..." name="search"/>
             <button type="submit"></button>
         </form>
         <div id="left-side-bar-btn">
@@ -307,12 +308,12 @@ button {
                 </div>
                 <button type="submit">Log in</button>
             </form>
-            <div class="forgot-password">
-                <a href="#">Forgot password?</a>
-            </div>
+            <br/>
             <form th:action="@{/oauth2/authorization/google}" method="POST">
-                <button type="submit">Google</button>
+                <button type="submit">Sign In With Google</button>
             </form>
+            <br />
+            <p style="text-align:center">New User? <a href="/signup">Sign Up</a></p>
         </div>
     </div>
 </main>

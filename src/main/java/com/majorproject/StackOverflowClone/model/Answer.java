@@ -1,5 +1,6 @@
 package com.majorproject.StackOverflowClone.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,6 +29,7 @@ public class Answer {
     private LocalDateTime createdAt;
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -48,7 +50,11 @@ public class Answer {
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private Set<User> votedDownByUsers;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "answer_id", referencedColumnName = "answer_id")
     private Set<Comment> comments;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "answer_id", referencedColumnName = "answer_id")
+    private Set<History> history;
 }

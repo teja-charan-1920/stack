@@ -1,6 +1,7 @@
 package com.majorproject.StackOverflowClone.controller;
 
 import com.majorproject.StackOverflowClone.dto.QuestionDto;
+import com.majorproject.StackOverflowClone.model.User;
 import com.majorproject.StackOverflowClone.service.QuestionService;
 import com.majorproject.StackOverflowClone.service.TagService;
 import com.majorproject.StackOverflowClone.service.UserService;
@@ -53,6 +54,7 @@ public class QuestionController {
     public String getQuestion(@RequestParam(name = "sort", defaultValue = "votes", required = false) String sortBy,
                               @PathVariable Long id,
                               Model model) {
+        model.addAttribute("user",questionService.getUser());
         model.addAttribute("question", questionService.getQuestion(id, sortBy));
         return "perticularQue";
     }
@@ -71,6 +73,12 @@ public class QuestionController {
     public String addView(@PathVariable Long id) {
         questionService.setViewForQuestion(id);
         return "redirect:/questions/" + id;
+    }
+
+    @GetMapping("/user/{id}")
+    @ResponseBody
+    public User getUser(@PathVariable Long id){
+       return userService.getUserById(id);
     }
 }
 

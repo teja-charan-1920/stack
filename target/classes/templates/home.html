@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stack Overflow - Where Developers Learn, Share, & Build Careers</title>
+    <title>Stack Overflow</title>
     <link rel="icon" th:href="@{/images/stackoverflowfavicon.png}" type="image/x-icon">
     <style>
         body {
@@ -490,9 +490,9 @@
                             <div id="asker-info">
                                 <a href="user link">
                                     <span th:text="${question.user.username}"></span>
-                                </a>
+                                </a><strong>
                                 <span title="reputation score"
-                                      th:text="${question.user.reputation}"></span>
+                                      th:text="${question.user.reputation}"></span></strong>
 
                                 <div th:with="timestamp1=${question.updatedAt}" id="timestamp">
                                     <span>Updated</span>
@@ -552,11 +552,13 @@
             <div onclick="filteringOptions()" id="custom-filters-link">create a custom filter</div>
         </div>
         <div id="related-tags-container">
-            <div id="related-tags-heading">Related Tags</div>
-            <div id="related-tags-links" th:each="tag, iterStat : ${questions.tags}"
+            <div id="related-tags-heading">Top Tags</div>
+            <div id="related-tags-links" th:each="tag, iterStat : ${questions.relatedTags}"
                  th:if="${iterStat.count} &lt;= 10">
-                <a th:href="@{/questions/tagged/{tag}(tag=${tag.name})}">
-                    <header th:text="${tag.name}"></header>
+                <a th:href="@{/questions/tagged/{tag}(tag=${tag.key})}">
+                    <span th:text="${tag.key}"></span>
+                    <span> x </span>
+                    <span th:text="${tag.value}"></span>
                 </a>
             </div>
         </div>
