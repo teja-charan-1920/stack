@@ -41,12 +41,19 @@ public class QuestionController {
 
     @PostMapping("/questions/ask")
     public String addQuestion(@ModelAttribute QuestionDto questionDto) {
-        questionService.addQuestion(questionDto);
+        Long id;
+        if (questionDto.getId() != null) {
+            id = questionService.addEditQuestion(questionDto);
+        } else {
+            id = questionService.addQuestion(questionDto);
+        }
+
         return "redirect:/questions/ask";
     }
 
     @GetMapping("/questions/ask")
-    public String getQuestionPage() {
+    public String getQuestionPage(Model model) {
+        model.addAttribute("questionDTO", new QuestionDto());
         return "ask_que_form";
     }
 
@@ -54,7 +61,7 @@ public class QuestionController {
     public String getQuestion(@RequestParam(name = "sort", defaultValue = "votes", required = false) String sortBy,
                               @PathVariable Long id,
                               Model model) {
-        model.addAttribute("user",questionService.getUser());
+        model.addAttribute("user", questionService.getUser());
         model.addAttribute("question", questionService.getQuestion(id, sortBy));
         return "perticularQue";
     }
@@ -77,8 +84,14 @@ public class QuestionController {
 
     @GetMapping("/user/{id}")
     @ResponseBody
-    public User getUser(@PathVariable Long id){
-       return userService.getUserById(id);
+    public User getUser(@PathVariable Long id) {
+        return userService.getUserById(id);
+    }
+
+    @GetMapping("/questionEdit/{id}")
+    public String editQuestion(@PathVariable Long id, Model model) {
+        model.addAttribute("questionDTO", questionService.getQuestionToEdit(id));
+        return "ask_que_form";
     }
 }
 

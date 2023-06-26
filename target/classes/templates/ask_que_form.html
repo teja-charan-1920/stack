@@ -341,12 +341,12 @@
                     <li>Review your question and post it to the site.</li>
                 </ul>
             </div>
-            <form th:action="@{/questions/ask}" method="post">
+            <form th:action="@{/questions/ask}" method="post" th:object="${questionDTO}">
                 <div id="titleBox">
                     <input id="title" name="title" required type="text" maxlength="300"
                            placeholder="e.g. Is there an R function for finding the index of an element in a vector?"
                            class="s-input js-post-title-field ask-title-field" value="" data-min-length="15"
-                           data-max-length="150">
+                           data-max-length="150" th:value="${questionDTO.title}">
                     <br><br>
                     <label for="title">
                         <b>Title</b>
@@ -360,7 +360,7 @@
                         <br>
                     </label>
                     <br>
-                    <textarea id="description" name="description"></textarea>
+                    <textarea id="description" name="description" th:utext="${questionDTO.description}"></textarea>
                 </div>
                 <div id="tagBox">
                     <label for="tag">
@@ -368,10 +368,11 @@
                         <br>
                         <p>Add up to 5 tags to describe what your question is about.</p>
                     </label>
-                    <input id="tag" type="text" name="totalTags" placeholder="e.g. (django, mongodb, javascript)"
+                    <input id="tag" type="text" name="totalTags" th:value="${questionDTO.totalTags}" placeholder="e.g. (django, mongodb, javascript)"
                            required>
                 </div>
                 <br><br>
+                <input type="hidden" name="id" th:value="${id}">
                 <button id="submitBtn" type="submit">Post your question</button>
             </form>
             <br>

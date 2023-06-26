@@ -115,6 +115,7 @@ public class QuestionService {
         questionDto.setUpdatedAt(question.getUpdatedAt());
         questionDto.setVotes(question.getVotes());
         questionDto.setViews(question.getViews());
+        questionDto.setTotalTags(getTotalTagsInString(question.getTags()));
 
         return questionDto;
     }
@@ -238,5 +239,35 @@ public class QuestionService {
             return userRepository.findByEmail(email).orElse(null);
         }
         return null;
+    }
+
+    public QuestionDto getQuestionToEdit(Long id) {
+        Question question =getQuestionById(id);
+        question.setTitle(question.getTitle());
+        question.setDescription(question.getDescription());
+
+        return convertDaoToDto(question);
+    }
+
+    private String getTotalTagsInString(Set<Tag> tags) {
+        String totalTags="";
+        for(Tag tag : tags){
+            totalTags+=tag.getName()+",";
+        }
+        return totalTags;
+    }
+
+    public Long addEditQuestion(QuestionDto questionDto) {
+        Set<Tag> setOfTags = saveTags(questionDto.getTotalTags().split(","));
+        Question question = getQuestionById(questionDto.getId());
+        question.setDescription(questionDto.getDescription());
+        question.setTitle(questionDto.getTitle());
+        for (Tag tag : setOfTags) {
+            tag.getQuestions().add(question);
+            tagRepository.save(tag);
+        }
+        question.setTags(setOfTags);
+        tagRepository.deleteUnusedTags();
+        return questionRepository.save(question).getQuestionId();
     }
 }
