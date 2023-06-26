@@ -1,7 +1,7 @@
 package com.majorproject.StackOverflowClone.security;
 
 import com.majorproject.StackOverflowClone.security.oauth.OAuth2LoginSuccessHandler;
-import com.majorproject.StackOverflowClone.service.CustomOAuth2UserService;
+import com.majorproject.StackOverflowClone.service.CustomUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
     @Autowired
-    private CustomOAuth2UserService oAuth2UserService;
+    private CustomUserService oAuth2UserService;
     @Autowired
     private OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
@@ -32,7 +32,7 @@ public class SecurityConfig {
                         .loginPage("/login")
                         .loginProcessingUrl("/authenticateTheUser")
                         .permitAll())
-                .oauth2Login(c -> c
+                .oauth2Login(oauth -> oauth
                         .loginPage("/login")
                         .userInfoEndpoint(customizer ->
                                 customizer.userService(oAuth2UserService))

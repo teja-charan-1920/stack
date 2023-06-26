@@ -1,6 +1,7 @@
 package com.majorproject.StackOverflowClone.controller;
 
 import com.majorproject.StackOverflowClone.dto.QuestionDto;
+import com.majorproject.StackOverflowClone.model.User;
 import com.majorproject.StackOverflowClone.service.QuestionService;
 import com.majorproject.StackOverflowClone.service.TagService;
 import com.majorproject.StackOverflowClone.service.UserService;
@@ -72,6 +73,12 @@ public class QuestionController {
     public String addView(@PathVariable Long id) {
         questionService.setViewForQuestion(id);
         return "redirect:/questions/" + id;
+    }
+
+    @GetMapping("/user/{id}")
+    @ResponseBody
+    public User getUser(@PathVariable Long id){
+       return userService.getUserById(id);
     }
 }
 

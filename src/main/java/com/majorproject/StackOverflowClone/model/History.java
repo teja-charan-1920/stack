@@ -20,7 +20,10 @@ public class History {
     private LocalDateTime createdAt;
     private String action;
     private String comment;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+    @ManyToOne
+    @JoinColumn(name = "answer_id")
+    private Answer answer;
 }

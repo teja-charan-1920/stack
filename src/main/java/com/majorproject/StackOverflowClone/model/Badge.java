@@ -1,5 +1,6 @@
 package com.majorproject.StackOverflowClone.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,6 +17,7 @@ public class Badge {
     @Column(name = "badge_id")
     private Long badgeId;
     private String badge;
+    @JsonIgnore
     @ManyToMany(mappedBy = "badges")
     private Set<User> users;
 }
