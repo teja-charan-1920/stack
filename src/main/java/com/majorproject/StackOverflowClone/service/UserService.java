@@ -38,6 +38,9 @@ public class UserService {
     }
 
     public void addUser(User user) {
+        if(getByEmail(user.getEmail()) != null) {
+            throw new RuntimeException();
+        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
