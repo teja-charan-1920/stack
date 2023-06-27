@@ -25,10 +25,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static java.lang.Boolean.FALSE;
 
@@ -58,6 +55,9 @@ public class QuestionService {
     }
 
     public Long addQuestion(QuestionDto questionDto) {
+        if (questionRepository.findByTitle(questionDto.getTitle()) != null) {
+            throw new RuntimeException();
+        }
         if (questionDto.getTotalTags() == null) {
             return questionRepository.save(convertDtoToDao(questionDto)).getQuestionId();
         }
@@ -86,6 +86,8 @@ public class QuestionService {
         QuestionDto questionDto = convertDaoToDto(question);
         questionDto.setAnswers(answerRepository.findAll(answerSpecification.findByQuestionIdAndSortByVotes(id, sortBy)));
         questionDto.setSortBy(sortBy);
+        questionDto.setCheckQuestionEditor(checkQuestionEditor(id));
+        questionDto.setEmail(getUser().getEmail());
         questionDto.setRelatedQue(getRelatedQuestions(question));
         questionDto.setUsername(question.getUser().getUsername());
         return setVotedUpAndDown(questionDto);
@@ -242,7 +244,7 @@ public class QuestionService {
     }
 
     public QuestionDto getQuestionToEdit(Long id) {
-        Question question =getQuestionById(id);
+        Question question = getQuestionById(id);
         question.setTitle(question.getTitle());
         question.setDescription(question.getDescription());
 
@@ -250,9 +252,9 @@ public class QuestionService {
     }
 
     private String getTotalTagsInString(Set<Tag> tags) {
-        String totalTags="";
-        for(Tag tag : tags){
-            totalTags+=tag.getName()+",";
+        String totalTags = "";
+        for (Tag tag : tags) {
+            totalTags += tag.getName() + ",";
         }
         return totalTags;
     }
@@ -269,5 +271,16 @@ public class QuestionService {
         question.setTags(setOfTags);
         tagRepository.deleteUnusedTags();
         return questionRepository.save(question).getQuestionId();
+    }
+
+    public boolean checkQuestionEditor(long id) {
+        try {
+            Question question = questionRepository.findById(id).orElse(null);
+            if (question == null)
+                return true;
+            return Objects.requireNonNull(userRepository.findByEmail(getUser().getEmail()).orElse(null)).getQuestions().contains(question);
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

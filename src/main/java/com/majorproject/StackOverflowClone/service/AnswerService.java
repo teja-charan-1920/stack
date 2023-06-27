@@ -18,6 +18,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class AnswerService {
@@ -144,5 +145,16 @@ public class AnswerService {
         HistorySpecification historySpecification = new HistorySpecification();
         Specification<History> specification = historySpecification.getHistorySpecification(id);
         return historyRepository.findAll(specification);
+    }
+
+    public boolean checkAnswerEditor(long id) {
+        try {
+            Answer answer = answerRepository.findById(id).orElse(null);
+            if (answer == null)
+                return true;
+            return Objects.requireNonNull(userRepository.findByEmail(getUser().getEmail()).orElse(null)).getAnswers().contains(answer);
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
