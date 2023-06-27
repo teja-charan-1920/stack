@@ -4,6 +4,7 @@ import com.majorproject.StackOverflowClone.model.Answer;
 import com.majorproject.StackOverflowClone.model.User;
 import com.majorproject.StackOverflowClone.service.AnswerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,6 +65,7 @@ public class AnswerController {
         return "redirect:/questions/" + questionId;
     }
 
+    @PreAuthorize("@answerService.checkAnswerEditor(#answerId)")
     @GetMapping("/question/{questionId}/answer/{answerId}")
     public String editAnswer(@PathVariable Long questionId, @PathVariable("answerId") Long answerId, Model model) {
         model.addAttribute("editAnswer", answerService.getAnswerById(answerId).getAnswer());

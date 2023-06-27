@@ -6,6 +6,7 @@ import com.majorproject.StackOverflowClone.service.QuestionService;
 import com.majorproject.StackOverflowClone.service.TagService;
 import com.majorproject.StackOverflowClone.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -40,20 +41,31 @@ public class QuestionController {
     }
 
     @PostMapping("/questions/ask")
-    public String addQuestion(@ModelAttribute QuestionDto questionDto) {
-        Long id;
-        if (questionDto.getId() != null) {
-            id = questionService.addEditQuestion(questionDto);
-        } else {
-            id = questionService.addQuestion(questionDto);
+    public String addQuestion(@ModelAttribute QuestionDto questionDto, Model model) {
+        long id=0;
+        try {
+               id = questionService.addQuestion(questionDto);
+        } catch (Exception e) {
+            model.addAttribute("exists", "Question already exists");
+            return "ask_que_form";
         }
-
         return "redirect:/questions/" + id;
     }
 
     @GetMapping("/questions/ask")
     public String getQuestionPage(Model model) {
-        model.addAttribute("questionDTO", new QuestionDto());
+        return "ask_que_form";
+    }
+
+    @PostMapping("/questions/{id}/edit")
+    public String editQuestion(@ModelAttribute QuestionDto questionDto, Model model) {
+        long id = questionService.addEditQuestion(questionDto);
+        return "redirect:/questions/" + id;
+    }
+    @PreAuthorize("@questionService.checkQuestionEditor(#id)")
+    @GetMapping("/questions/{id}/edit")
+    public String getEditQuestion(@PathVariable Long id, Model model){
+        model.addAttribute("question",questionService.convertDaoToDto(questionService.getQuestionById(id)));
         return "ask_que_form";
     }
 
@@ -86,12 +98,6 @@ public class QuestionController {
     @ResponseBody
     public User getUser(@PathVariable Long id) {
         return userService.getUserById(id);
-    }
-
-    @GetMapping("/questionEdit/{id}")
-    public String editQuestion(@PathVariable Long id, Model model) {
-        model.addAttribute("questionDTO", questionService.getQuestionToEdit(id));
-        return "ask_que_form";
     }
 }
 

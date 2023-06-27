@@ -239,6 +239,7 @@
 }
 
 
+
     </style>
 </head>
 <body>
@@ -256,6 +257,7 @@
                     popup.style.display = "none";
                 }
             }
+
 
         </script>
         <a th:href="@{/home}">
@@ -279,7 +281,6 @@
                                                  alt="Logo" title="logo"></button>
         </div>
     </nav>
-
     <div id="containers">
         <aside id="left-side-bar">
             <div id="left-side-bar-container">
@@ -323,7 +324,7 @@
 
     <section id="que-container">
         <p id="ask-public-que">Ask a public question</p>
-        <div>
+
             <div class="suggestions">
                 <h2 class="fs-title fw-normal mb8">Writing a good question</h2>
                 <p class="fs-body2 mb0">
@@ -345,12 +346,17 @@
                     <li>Review your question and post it to the site.</li>
                 </ul>
             </div>
-            <form th:action="@{/questions/ask}" method="post" th:object="${questionDTO}">
+        <br/>
+        <span th:if="${exists}">
+                <i style="color : red; font-size:large;" th:text="${exists}"></i>
+            </span>
+            <form  th:if="${question != null}" th:action="@{/questions/{id}/edit(id=${question.id})}" method="post">
                 <div id="titleBox">
+                    <div>
                     <input id="title" name="title" required type="text" maxlength="300"
                            placeholder="e.g. Is there an R function for finding the index of an element in a vector?"
                            class="s-input js-post-title-field ask-title-field" value="" data-min-length="15"
-                           data-max-length="150" th:value="${questionDTO.title}">
+                           data-max-length="150" th:value="${question.title}">
                     <br><br>
                     <label for="title">
                         <b>Title</b>
@@ -364,7 +370,7 @@
                         <br>
                     </label>
                     <br>
-                    <textarea id="description" name="description" th:utext="${questionDTO.description}"></textarea>
+                    <textarea id="description" name="description" th:utext="${question.description}"></textarea>
                 </div>
                 <div id="tagBox">
                     <label for="tag">
@@ -372,11 +378,45 @@
                         <br>
                         <p>Add up to 5 tags to describe what your question is about.</p>
                     </label>
-                    <input id="tag" type="text" name="totalTags" th:value="${questionDTO.totalTags}" placeholder="e.g. (django, mongodb, javascript)"
+                    <input id="tag" type="text" name="totalTags" th:value="${question.totalTags}"
+                           placeholder="e.g. (django, mongodb, javascript)"
                            required>
                 </div>
                 <br><br>
-                <input type="hidden" name="id" th:value="${id}">
+                <button id="submitBtn" type="submit">Post your question</button>
+            </form>
+            <form th:action="@{/questions/ask}" method="post" th:if="${question == null}">
+                <div id="titleBox">
+                    <input id="title" name="title" required type="text" maxlength="300"
+                           placeholder="e.g. Is there an R function for finding the index of an element in a vector?"
+                           class="s-input js-post-title-field ask-title-field" value="" data-min-length="15"
+                           data-max-length="150">
+                    <br><br>
+                    <label for="title">
+                        <b>Title</b>
+                        <p>Be specific and imagine you’re asking a question to another person.</p>
+                    </label>
+                </div>
+                <br>
+                <div id="problemBox">
+                    <label for="description">
+                        <b>What are the detail of your problem</b>
+                        <br>
+                    </label>
+                    <br>
+                    <textarea id="description" name="description"></textarea>
+                </div>
+                <div id="tagBox">
+                    <label for="tag">
+                        <b>Tags</b>
+                        <br>
+                        <p>Add up to 5 tags to describe what your question is about.</p>
+                    </label>
+                    <input id="tag" type="text" name="totalTags"
+                           placeholder="e.g. (django, mongodb, javascript)"
+                           required>
+                </div>
+                <br><br>
                 <button id="submitBtn" type="submit">Post your question</button>
             </form>
             <br>
@@ -428,7 +468,7 @@
         </div>
     </footer>
 </main>
-    <script>
+<script>
     tinymce.init({
         selector: 'textarea#description',
 width: 800,
@@ -442,6 +482,7 @@ toolbar: 'undo redo | styleselect | bold italic underline | alignleft alignright
 menubar: 'favs file edit view format tools table',
 content_style: 'body { font-family: Helvetica, Arial, sans-serif; font-size: 16px; }'
 });
+
 </script>
 </body>
 </html>
