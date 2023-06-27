@@ -48,7 +48,7 @@ public class QuestionController {
             id = questionService.addQuestion(questionDto);
         }
 
-        return "redirect:/questions/ask";
+        return "redirect:/questions/" + id;
     }
 
     @GetMapping("/questions/ask")
