@@ -319,6 +319,9 @@ button {
             <p>Already have an account? <a href="/login">Log in</a></p>
         </div>
         <div class="right-section">
+            <span th:if="${exists}" >
+                <i style="color : red;" th:text="${exists}"></i>
+            </span>
             <h2>Sign Up</h2>
             <form th:action="@{/signup}" method="POST">
                 <div class="form-group">

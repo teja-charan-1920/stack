@@ -26,8 +26,13 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public String addUser(@ModelAttribute User user) {
-        userService.addUser(user);
+    public String addUser(@ModelAttribute User user, Model model) {
+        try{
+            userService.addUser(user);
+        } catch (Exception e) {
+            model.addAttribute("exists", "An account for that email already exists");
+            return "signup";
+        }
         return "login";
     }
 
