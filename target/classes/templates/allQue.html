@@ -210,7 +210,7 @@
             display: inline;
         }
         .flex--item, #filters-container form span button{
-            font-family:  Verdana, Geneva, Tahoma, sans-serif;
+            font-family: fantasy;
             display: inline;
             width: fit-content;
             padding: 7px;
@@ -224,7 +224,7 @@
         }
         .flex--item button {
             cursor: pointer;
-            font-family:  Verdana, Geneva, Tahoma, sans-serif;
+            font-family: fantasy;
             font-size: medium;
             border: none;
             background-color: transparent;
@@ -299,15 +299,18 @@
         #question-detail-container {
             width: 650px;
         }
-        #question-detail-container h3{
+      #question-detail-container h3 {
+            margin: 0px;
+            padding: 0px;
+        }
+        #question-detail-container h3 a span {
             font-family: sans-serif;
             font-weight: lighter;
+            color: hsl(206, 100%, 40%);
             margin: 0px 0px 10px 0px;
         }
-        #question-desciption {
-            font-family: serif;
-            font-size: 15px;
-            font-weight: lighter;
+        #question-detail-container h3 a span:hover {
+            color: hsl(206, 60%, 50%);
         }
         #tags-container {
             margin: 10px;
@@ -350,7 +353,7 @@
             border: 0.5px solid hsl(210, 8%, 90%);
         }
         #custom-filters-link {
-            color: #0077cc;
+            color: hsl(206, 100%, 40%);
             border: 0.5px solid hsl(210, 8%, 90%);
             margin-top: -1px;
             padding: 25px 0px 25px 24px;
@@ -360,14 +363,14 @@
             font-weight: 100px;
         }
         #custom-filters-link:hover {
-            color: #9cccec;
+            color: hsl(206, 35%, 35%);
         }
         #related-tags-container {
             margin: 40px 0px 0px 0px;
 
         }
         #related-tags-heading {
-            padding: 12px 0px 12px 24px;
+           padding: 12px 0px 40px 24px;
             color: hsl(210, 8%, 35%);
             font-family: Arial, Helvetica, sans-serif;
             font-size: 18px;
@@ -540,7 +543,7 @@
                     <form>
                         <span><button value="createdAt" name="sort">Newest</button></span>
                         <span><button value="updatedAt" name="sort">Active</button></span>
-                        <span><button value="votes" name="sort">Votes</button></span>
+                        <span><button value="votes" name="sort">Unanswered</button></span>
                         <input type="hidden" name="search" th:if="${not #strings.isEmpty(questions.search)}"
                                th:value="${questions.search}"/>
                     </form>
